@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load menu_tags %}
+
+{% block "content" %}
+    <div class="content_top">
+        <ul class="breadcrumb">
+            {% show_breadcrumb %}
+        </ul>
+    </div>
+    {% block "inner-content" %}
+        <h1>{% trans "This page is under construction" %}</h1>
+    {% endblock %}
+{% endblock %}

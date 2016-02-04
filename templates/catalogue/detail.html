@@ -1,0 +1,115 @@
+{% extends "simple.html" %}
+
+{% load static i18n %}
+{% load menu_tags %}
+{% load purchase_info_tags currency_filters %}
+
+{% block "inner-content" %}
+{% purchase_info_for_product request product as session %}
+{% with available=session.availability.is_available_to_buy %}
+<div class="section group">
+    <div class="cont-desc span_1_of_2">
+        <div class="product-details">
+            <div class="grid images_3_of_2">
+                <div id="container">
+                    <div id="products_example">
+                        <div id="products">
+                            <div class="slides_container">
+                                <a href="#" target="_blank"><img src="{% static "images/productslide-1.jpg" %}" alt=" " /></a>
+                                <a href="#" target="_blank"><img src="{% static "images/productslide-2.jpg" %}" alt=" " /></a>
+                            </div>
+                            <ul class="pagination">
+                                <li><a href="#"><img src="{% static "images/thumbnailslide-1.jpg" %}" alt=" " /></a></li>
+                                <li><a href="#"><img src="{% static "images/thumbnailslide-2.jpg" %}" alt=" " /></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="desc span_3_of_2">
+            <h2>{{ product.title }}</h2>
+            <p>{{ product.description|truncatewords:20 }}</p>
+            {% if available %}
+            <div class="price">
+                <p><span>
+                {% if session.price.is_tax_known %}
+                    {{ session.price.incl_tax|currency:session.price.currency }}
+                {% else %}
+                    {{ session.price.excl_tax|currency:session.price.currency }}
+                {% endif %}
+                </span></p>
+                <div class="button"><span><a href="#">{% trans "Add to Cart" %}</a></span></div>
+                <div class="clear"></div>
+            </div>
+            {% comment %}
+            <div class="available">
+            <p>Available Options :</p>
+            <ul>
+                <li>Color:
+                    <select>
+                    <option>Silver</option>
+                    <option>Black</option>
+                    <option>Dark Black</option>
+                    <option>Red</option>
+                </select></li>
+                <li>Size:<select>
+                    <option>Large</option>
+                    <option>Medium</option>
+                    <option>small</option>
+                    <option>Large</option>
+                    <option>small</option>
+                </select></li>
+                <li>Quality:<select>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select></li>
+            </ul>
+            </div>
+            {% endcomment %}
+            {% else %}
+            <div class="price">{% trans "Not available" %}</div>
+            {% endif %}
+        </div>
+        <div class="clear"></div>
+        <div class="product_desc">
+            <div id="horizontalTab">
+                <div class="product-desc">
+                    <h2>{% trans "Product details" %}</h2>
+                    <p>{{ product.description|safe }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="content_bottom">
+            <div class="heading">
+                <h3>{% trans "Related products" %}</h3>
+            </div>
+            <div class="see">
+                <p><a href="#">{% trans "See all products" %}</a></p>
+            </div>
+            <div class="clear"></div>
+            <div class="section group">
+                <div class="grid_1_of_4 images_1_of_4">
+                    <a href="#"><img src="{% static "images/new-pic1.jpg" %}" alt=""></a>
+                    <div class="price" style="border:none">
+                        <div class="add-cart" style="float:none">
+                            <h4><a href="#">{% trans "Add to cart" %}</a></h4>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="rightsidebar span_3_of_1">
+        <h2>{% trans "Categories" %}</h2>
+        <ul>
+            {% show_menu_below_id 0 1 1 %}
+        </ul>
+    </div>
+</div>
+{% endwith %}
+{% endblock %}

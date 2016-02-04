@@ -1,0 +1,5 @@
+*.pyc
+/db.sqlite3
+/petshop/static/.html
+/petshop/static/build
+/petshop/static/node_modules/

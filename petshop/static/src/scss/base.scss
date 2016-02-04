@@ -1,0 +1,27 @@
+@import "vendor/global";
+@import "vendor/easy-responsive-tabs";
+@import "vendor/style";
+
+
+ul.breadcrumb {
+    margin: 0;
+    list-style-type: none;
+    > li {
+        display: inline;
+        > a {
+            color: #2a5c86;
+            font-family: "Roboto";
+            &:hover {
+                color: #dd0f0e;
+            }
+            &:active,
+            &:focus {
+                font-weight: bold;
+            }
+        }
+        > span.active {
+            color: #dd0f0e;
+            font-weight: bold;
+        }
+    }
+}

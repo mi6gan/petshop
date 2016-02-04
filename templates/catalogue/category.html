@@ -1,0 +1,37 @@
+{% extends "simple.html" %}
+
+{% load i18n static %}
+{% load purchase_info_tags currency_filters %}
+
+{% block "inner-content" %}
+    {% for product in products %}
+    {% purchase_info_for_product request product as session %}
+    {% with available=session.availability.is_available_to_buy %}
+    {% if forloop.counter0|divisibleby:4 %}{% if not forloop.first %}</div>{% endif %}<div class="section group">{% endif %}
+        <div class="grid_1_of_4 images_1_of_4">
+            <a href="{{ product.get_absolute_url }}"><img src="{% static "images/new-pic1.jpg" %}" alt="" /></a>
+            <h2>{{ product.title|truncatechars:15 }}</h2>
+            <div class="price-details">
+            {% if available %}
+                <div class="price-number">
+                    <p><span class="rupees">
+                    {% if session.price.is_tax_known %}
+                        {{ session.price.incl_tax|currency:session.price.currency }}
+                    {% else %}
+                        {{ session.price.excl_tax|currency:session.price.currency }}
+                    {% endif %}
+                    </span></p>
+                </div>
+                <div class="add-cart">                                
+                    <h4><a href="#">Add to Cart</a></h4>
+                </div>
+            {% else %}
+                <div class="add-cart">{% trans "Not available" %}</div>
+            {% endif %}
+            <div class="clear"></div>
+           </div>
+        </div>
+    {% endwith %}
+    {% endfor %}
+        </div>
+{% endblock %}
