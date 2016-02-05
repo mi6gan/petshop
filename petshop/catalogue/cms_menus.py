@@ -17,12 +17,17 @@ class CatalogueMenu(CMSAttachMenu):
         Category = get_model('catalogue', 'Category')
         ProductCategory = get_model('catalogue', 'ProductCategory')
         nodes = []
-        for category in Category.objects.filter(depth=1):
+        for category in Category.objects.all():
+            if category.depth > 1:
+                parent_id = category.get_parent().pk
+            else:
+                parent_id = None
             nodes.append(
                 NavigationNode(
                     title=category.name,
                     url=category.get_absolute_url(),
-                    id=category.pk
+                    id=category.pk,
+                    parent_id=parent_id
                 )
             )
             for product_category in (
@@ -33,7 +38,8 @@ class CatalogueMenu(CMSAttachMenu):
                         title=product.title,
                         url=product.get_absolute_url(),
                         id=product_category.pk,
-                        parent_id=category.pk
+                        parent_id=category.pk,
+                        visible=False
                     )
                 )
         return nodes

@@ -32,7 +32,7 @@
 .slide h1{ 
 	   font-size:2.5em; 
 	   font-weight:bold;
-	   color:#CD1F25; 
+	   color:$brand-primary; 
 	   text-transform:uppercase;
  }
  .slide h1 span{
@@ -44,7 +44,7 @@
  	font-family: 'Roboto', sans-serif;
  }
   .slide h2 span{ 
-  	color:#CD1F25;
+  	color:$brand-primary;
   	font-size:2em; 
  }
  .slide p {
@@ -88,7 +88,7 @@
 .button {
 	margin-top:20px;
 	display: inline-block;
-	background:#CD1F25;
+	background:$brand-primary;
 	color: #FFF;
 	text-decoration: none;
 	border-radius:5px;
@@ -100,7 +100,7 @@
 }
 .button:hover {
 	text-shadow: 0px 1px 1px #000;
-	background:#CD1F25;
+	background:$brand-primary;
 	 -webkit-transform:scale(1.05);
     -moz-transform:scale(1.05);
     -ms-transform:scale(1.05);

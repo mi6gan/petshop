@@ -6,10 +6,12 @@
 {% block "content" %}
     <div class="content_top">
         <ul class="breadcrumb">
-            {% show_breadcrumb %}
+            {% show_breadcrumb 0 'menu/breadcrumb.html' 0 %}
         </ul>
     </div>
     {% block "inner-content" %}
-        <h1>{% trans "This page is under construction" %}</h1>
+        <div class="content">
+            <h1 class="text-danger">{% trans "This page is under construction" %}</h1>
+        </div>
     {% endblock %}
 {% endblock %}

@@ -48,7 +48,8 @@ class Command(FakeModelCommand):
                             num_in_stock=100,
                             price_excl_tax=random.randrange(10, 10000))))
             if not product.categories.exists():
-                category = Category.objects.all().order_by('?').first()
+                category = Category.objects.filter(
+                        numchild=0).order_by('?').first()
                 if category:
                     product_categories.append(ProductCategory(
                                 category=category, product=product))

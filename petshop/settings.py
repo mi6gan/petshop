@@ -32,9 +32,6 @@ SECRET_KEY = '*10-%4-&2yyv52st%jm19=60yk&fztk3%9%8gi_uag8+#2(@w6'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*', 'pets.mi6gan.space', 'pet-zakupki.ru']
-
-
 # Application definition
 
 from oscar import get_core_apps
@@ -124,17 +121,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'petshop.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
 LOCALE_PATHS = (
     os.path.join(BASE_DIR, 'conf', 'locale'),
 )
@@ -210,3 +196,31 @@ CMS_TEMPLATES = (
 LANGUAGES = (
     ('ru', gettext('Russian')),
 )
+
+THUMBNAIL_ALIASES = {
+    '': {
+        'product_tiny': {
+            'size': (48, 48) 
+        },
+        'product_small': {
+            'size': (125, 125) 
+        },
+        'product_medium': {
+            'size': (250, 250) 
+        },
+        'product_large': {
+            'size': (480, 0) 
+        }
+    },
+    'petshop.SiteSettings.logo': {
+        'thumb': {
+            'size': (0, 96),
+            'PRESERVER_EXTENSIONS': ('png',),
+        },
+    },
+    'petshop.SiteSettings.favicon': {
+        'thumb': {
+            'size': (32, 32)
+        }
+    }
+}

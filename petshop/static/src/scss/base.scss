@@ -1,3 +1,6 @@
+@import "variables";
+@import "vendor/reset";
+@import "typo";
 @import "vendor/global";
 @import "vendor/easy-responsive-tabs";
 @import "vendor/style";
@@ -12,7 +15,7 @@ ul.breadcrumb {
             color: #2a5c86;
             font-family: "Roboto";
             &:hover {
-                color: #dd0f0e;
+                color: $brand-primary;
             }
             &:active,
             &:focus {
@@ -20,8 +23,24 @@ ul.breadcrumb {
             }
         }
         > span.active {
-            color: #dd0f0e;
+            color: $brand-primary;
             font-weight: bold;
         }
     }
+}
+.categories {
+    > ul > li {
+        ul {
+            margin-left: 15px;
+            li {
+                > a {
+                    text-transform: none;
+                    background: none;
+                }
+            }
+        }
+    }
+}
+body > .wrap {
+    min-height: 580px;
 }

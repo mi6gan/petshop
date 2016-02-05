@@ -1,0 +1,153 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-02-04 21:08+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: petshop/catalogue/cms_menus.py:14
+msgid "Catalogue"
+msgstr "Каталог"
+
+#: petshop/core/commands.py:31
+#, python-format
+msgid "Deleted %s %s(s)"
+msgstr "Удалено %s %s(ов)"
+
+#: petshop/core/commands.py:64
+#, python-format
+msgid "Created %s %s(s)"
+msgstr "Создано %s %s(ов)"
+
+#: petshop/management/commands/fakecategories.py:13
+msgid "Clothes and footwear"
+msgstr "Одежда и обувь"
+
+#: petshop/management/commands/fakecategories.py:14
+msgid "Dog toys"
+msgstr "Игрушки для собак"
+
+#: petshop/management/commands/fakecategories.py:15
+msgid "Collars and leads"
+msgstr "Ошейники и поводки"
+
+#: petshop/management/commands/fakecategories.py:16
+msgid "Houses, kennels and mats"
+msgstr "Домики, конуры и подстилки"
+
+#: petshop/management/commands/fakecategories.py:17
+msgid "Dog carriage equipment"
+msgstr "Приспособления для переноса собак"
+
+#: petshop/models.py:11 petshop/models.py:12
+msgid "Site settings"
+msgstr "Настройки сайта"
+
+#: petshop/models.py:18
+msgid "logo"
+msgstr "лого"
+
+#: petshop/models.py:21
+msgid "favicon"
+msgstr "иконка (favicon)"
+
+#: petshop/settings.py:191
+msgid "Primary partner"
+msgstr "Главный партнер"
+
+#: petshop/settings.py:196
+msgid "Pet product"
+msgstr "Товар для питомца"
+
+#: petshop/settings.py:207
+msgid "Simple page"
+msgstr "Простая страница"
+
+#: petshop/settings.py:208
+msgid "Main page"
+msgstr "Главная страница"
+
+#: petshop/settings.py:211
+msgid "Russian"
+msgstr "Русский"
+
+#: templates/base.html:20
+msgid "Need help?"
+msgstr "Нужна помощь?"
+
+#: templates/base.html:20
+msgid "call us"
+msgstr "позвоните нам"
+
+#: templates/base.html:24
+msgid "Register"
+msgstr "Регистрация"
+
+#: templates/base.html:25
+msgid "Login"
+msgstr "Войти"
+
+#: templates/base.html:26
+msgid "Delivery"
+msgstr "Доставка"
+
+#: templates/base.html:27
+msgid "Checkout"
+msgstr "Покупка"
+
+#: templates/base.html:28
+msgid "My Account"
+msgstr "Мой Аккаунт"
+
+#: templates/base.html:38
+msgid "Basket"
+msgstr "Корзина"
+
+#: templates/base.html:38
+msgid "item(s)"
+msgstr "предметы"
+
+#: templates/base.html:40
+msgid "you have no items in your basket"
+msgstr "в вашей корзине нет предметов"
+
+#: templates/catalogue/category.html:26 templates/catalogue/detail.html:42
+#: templates/catalogue/detail.html.py:100
+msgid "Add to basket"
+msgstr "В корзину"
+
+#: templates/catalogue/category.html:29 templates/catalogue/detail.html:75
+msgid "Not available"
+msgstr "Нет в наличии"
+
+#: templates/catalogue/detail.html:82
+msgid "Product details"
+msgstr "Подробнее о товаре"
+
+#: templates/catalogue/detail.html:89
+msgid "Related products"
+msgstr "Связанные товары"
+
+#: templates/catalogue/detail.html:92
+msgid "See all products"
+msgstr "Посмотреть все товары"
+
+#: templates/catalogue/detail.html:109 templates/main.html:10
+msgid "Categories"
+msgstr "Категории"
+
+#: templates/simple.html:14
+msgid "This page is under construction"
+msgstr "Данная страница находится в разработке"

@@ -15,12 +15,10 @@
                     <div id="products_example">
                         <div id="products">
                             <div class="slides_container">
-                                <a href="#" target="_blank"><img src="{% static "images/productslide-1.jpg" %}" alt=" " /></a>
-                                <a href="#" target="_blank"><img src="{% static "images/productslide-2.jpg" %}" alt=" " /></a>
+                                <a href="#" target="_blank"><img src="{{ product.large_thumb }}" alt=" " /></a>
                             </div>
                             <ul class="pagination">
-                                <li><a href="#"><img src="{% static "images/thumbnailslide-1.jpg" %}" alt=" " /></a></li>
-                                <li><a href="#"><img src="{% static "images/thumbnailslide-2.jpg" %}" alt=" " /></a></li>
+                                <li><a href="#"><img src="{{ product.small_thumb }}" alt=" " /></a></li>
                             </ul>
                         </div>
                     </div>
@@ -39,7 +37,7 @@
                     {{ session.price.excl_tax|currency:session.price.currency }}
                 {% endif %}
                 </span></p>
-                <div class="button"><span><a href="#">{% trans "Add to Cart" %}</a></span></div>
+                <div class="button"><span><a href="#">{% trans "Add to basket" %}</a></span></div>
                 <div class="clear"></div>
             </div>
             {% comment %}
@@ -96,7 +94,25 @@
                     <a href="#"><img src="{% static "images/new-pic1.jpg" %}" alt=""></a>
                     <div class="price" style="border:none">
                         <div class="add-cart" style="float:none">
-                            <h4><a href="#">{% trans "Add to cart" %}</a></h4>
+                            <h4><a href="#">{% trans "Add to basket" %}</a></h4>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <div class="grid_1_of_4 images_1_of_4">
+                    <a href="#"><img src="{% static "images/new-pic1.jpg" %}" alt=""></a>
+                    <div class="price" style="border:none">
+                        <div class="add-cart" style="float:none">
+                            <h4><a href="#">{% trans "Add to basket" %}</a></h4>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <div class="grid_1_of_4 images_1_of_4">
+                    <a href="#"><img src="{% static "images/new-pic1.jpg" %}" alt=""></a>
+                    <div class="price" style="border:none">
+                        <div class="add-cart" style="float:none">
+                            <h4><a href="#">{% trans "Add to basket" %}</a></h4>
                         </div>
                         <div class="clear"></div>
                     </div>
@@ -107,7 +123,7 @@
     <div class="rightsidebar span_3_of_1">
         <h2>{% trans "Categories" %}</h2>
         <ul>
-            {% show_menu_below_id 0 1 1 %}
+            {% show_menu 1 100 %}
         </ul>
     </div>
 </div>
