@@ -35,5 +35,5 @@ rcssmin==1.0.6
 rjsmin==1.0.12
 six==1.10.0
 sorl-thumbnail==12.2
-unicodecsv-0.14.1
+unicodecsv==0.14.1
 Unidecode==0.4.19
