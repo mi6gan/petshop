@@ -2,6 +2,7 @@
   "name": "petshop",
   "version": "0.0.1",
   "dependencies": {
+    "bootstrap-sass": "~3.3.5",
     "grunt-cli": "~0.1.13",
     "grunt": "~0.4.5",
     "grunt-sass": "~0.18.0",

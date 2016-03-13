@@ -60,7 +60,8 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'petshop',
 ] + get_core_apps([
-    'petshop.catalogue'])
+    'petshop.catalogue',
+    'petshop.basket'])
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.cache.UpdateCacheMiddleware',
@@ -84,11 +85,14 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'petshop.urls'
 
+from oscar import OSCAR_MAIN_TEMPLATE_DIR
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(BASE_DIR, 'templates'),
+            OSCAR_MAIN_TEMPLATE_DIR
         ],
         'OPTIONS': {
             'context_processors': [
@@ -188,6 +192,7 @@ DEFAULT_PRODUCT_CLASS = {
 OSCAR_EAGER_ALERTS = False
 OSCAR_CURRENCY_FORMAT = u"# руб."
 OSCAR_DEFAULT_CURRENCY = "RUR"
+OSCAR_EAGER_ALERTS = False
 
 # CMS custom settings
 

@@ -1,0 +1,43 @@
+{% load purchase_info_tags currency_filters %}
+{% load i18n static %}
+
+{% block product %}
+{% purchase_info_for_product request product as session %}
+{% with available=session.availability.is_available_to_buy %}
+<a href="{{ product.get_absolute_url }}"><img src="{{ product.medium_thumb }}" alt="" /></a>
+{% with wrapped_title=product.title|wordwrap:15 %}
+<h2 title="{{ product.title }}">
+    {% spaceless %}
+    {% for line in wrapped_title.splitlines|slice:':3' %}
+        {% if forloop.counter > 2 and forloop.last %}
+            ...
+        {% else %} 
+            {{ line|slice:':15' }}
+        {% endif %}
+        {% if forloop.last or forloop.counter < 2 %}
+            <br/>
+        {% endif %}
+    {% endfor %}
+{% endspaceless %}</h2>
+{% endwith %}
+<div class="price-details">
+    {% if available %}
+        <div class="price-number">
+            <p><span class="rupees">{% spaceless %}
+            {% if session.price.is_tax_known %}
+                {{ session.price.incl_tax|currency:session.price.currency }}
+            {% else %}
+                {{ session.price.excl_tax|currency:session.price.currency }}
+            {% endif %}
+            {% endspaceless %}</span></p>
+    </div>
+    <div class="add-cart">                                
+        <h4><a href="#">{% trans "Add to basket" %}</a></h4>
+    </div>
+    {% else %}
+        <div class="add-cart">{% trans "Not available" %}</div>
+    {% endif %}
+<div class="clear"></div>
+</div>
+{% endwith %}
+{% endblock %}

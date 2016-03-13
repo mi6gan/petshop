@@ -5,12 +5,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <link rel="icon" href="{{ request.site.settings.favicon.thumb.url }}">
-<link href="{% static "css/base.css" %}" rel="stylesheet" type="text/css" media="all"/>
 <link href='https://fonts.googleapis.com/css?family=Roboto:400,700,400italic,700italic&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+{% get_base_media as base_media %}{% render_block 'css' %}{% extend_media_block 'css' base_media %}
 {% render_block 'css' %}
 <script type="text/javascript" src="{% url 'javascript_catalog' %}"></script>
-{% render_base_js %}
-{% render_block 'js' %}
 </head>
 <body>{% cms_toolbar %}
   <div class="wrap">
@@ -83,11 +81,13 @@
              </div>
              <div class="clear"></div>
         </div>
+        <p>&nbsp;</p>
+        {% include "partials/alert_messages.html" %}
         {% block "top-content" %}{% endblock %}
    </div>
  <div class="main">
     <div class="content">
-        {% block "content" %}{% endblock %}
+        {% block content %}{% endblock %}
     </div>
  </div>
 </div>
@@ -155,5 +155,7 @@
         });
     </script>
     <a href="#" id="toTop"><span id="toTopHover"> </span></a>
+    {% render_block 'js' %}
+    {% extend_media_block 'js' base_media %}
 <body>
 </html>

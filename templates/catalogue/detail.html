@@ -29,45 +29,7 @@
             <h2>{{ product.title }}</h2>
             <p>{{ product.description|truncatewords:20 }}</p>
             {% if available %}
-            <div class="price">
-                <p><span>
-                {% if session.price.is_tax_known %}
-                    {{ session.price.incl_tax|currency:session.price.currency }}
-                {% else %}
-                    {{ session.price.excl_tax|currency:session.price.currency }}
-                {% endif %}
-                </span></p>
-                <div class="button"><span><a href="#">{% trans "Add to basket" %}</a></span></div>
-                <div class="clear"></div>
-            </div>
-            {% comment %}
-            <div class="available">
-            <p>Available Options :</p>
-            <ul>
-                <li>Color:
-                    <select>
-                    <option>Silver</option>
-                    <option>Black</option>
-                    <option>Dark Black</option>
-                    <option>Red</option>
-                </select></li>
-                <li>Size:<select>
-                    <option>Large</option>
-                    <option>Medium</option>
-                    <option>small</option>
-                    <option>Large</option>
-                    <option>small</option>
-                </select></li>
-                <li>Quality:<select>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </select></li>
-            </ul>
-            </div>
-            {% endcomment %}
+            {% include "catalogue/partials/add_to_basket_form.html" %}
             {% else %}
             <div class="price">{% trans "Not available" %}</div>
             {% endif %}

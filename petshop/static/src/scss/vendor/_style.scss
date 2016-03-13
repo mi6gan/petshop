@@ -584,13 +584,16 @@ body {
 	line-height: 1.6em;
 	font-family: verdana, arial, helvetica, helve, sans-serif;
 }
-.price p {
+.price {
+    line-height: 2.5;
+}
+.price .value {
 	font-size: 0.8125em;
 	padding:20px 0;
 	color: #666;
 	vertical-align: top;
 }
-.price p span {
+.price .value span {
 	font-size:3em;
 	font-family: 'Roboto', sans-serif;
 	color:$brand-primary;;
@@ -712,7 +715,8 @@ body {
 	margin-top: 1%;
 	line-height: 2em;
 }
-.product-tags .button a {
+.product-tags .button a,
+.product-tags .button button {
 	font-size:1em;
 	padding:10px 15px;
 	font-family: 'Roboto', sans-serif;
@@ -725,7 +729,8 @@ body {
 	-o-transition: all 0.4s ease-in-out;
 	transition: all 0.4s ease-in-out;
 }
-.span_3_of_2 .button a:hover, .product-tags .button a:hover {
+.span_3_of_2 .button a:hover, .product-tags .button a:hover,
+.span_3_of_2 .button button:hover, .product-tags .button button:hover {
 	text-shadow: 0px 0px 1px #000;
     background: #292929;
 }
@@ -822,6 +827,9 @@ body {
 	text-shadow: 0px 0px 1px #000;
     background: #292929;
 }
+.button button {
+    cursor: pointer;
+}
 .span_3_of_1 li a {
 	font-size:1em;
 	padding:8px 0 8px 20px;
@@ -840,7 +848,8 @@ body {
 	margin-top:15px;
 	line-height:3em;
 }
-.span_3_of_2 .button a {
+.span_3_of_2 .button a,
+.span_3_of_2 .button button {
 	padding: 12px 20px;
 	font-size: 1em;
 	font-weight: bold;
@@ -857,7 +866,8 @@ body {
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 }
-.span_3_of_2 .button a:hover {
+.span_3_of_2 .button a:hover,
+.span_3_of_2 .button button:hover {
 	border: 1px solid #303030;
 	background: #525252;
 	text-decoration: none;

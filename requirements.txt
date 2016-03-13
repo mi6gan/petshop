@@ -21,6 +21,7 @@ djangocms-cascade==0.7.1
 djangocms-text-ckeditor==2.8.1
 easy-thumbnails==2.3
 fake-factory==0.5.3
+gunicorn
 html5lib==0.9999999
 jsonfield==1.0.3
 mock==1.0.1
@@ -34,5 +35,5 @@ rcssmin==1.0.6
 rjsmin==1.0.12
 six==1.10.0
 sorl-thumbnail==12.2
+unicodecsv-0.14.1
 Unidecode==0.4.19
-gunicorn

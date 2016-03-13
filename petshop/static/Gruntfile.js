@@ -4,11 +4,16 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     sass: {
       options: {
-          sourceMap: true
+          sourceMap: true,
+          includePaths: ['node_modules/bootstrap-sass/assets/stylesheets']
       },
       base: {
         src: 'src/scss/base.scss',
         dest: 'build/css/base.css'
+      },
+      bootstrap: {
+        src: 'src/scss/bootstrap.scss',
+        dest: 'build/vendor/css/bootstrap.css'
       },
     },
     copy: {
@@ -40,7 +45,7 @@ module.exports = function(grunt) {
     watch: {
         sass: {
             files: ['src/scss/**'],
-            tasks: ['sass:base']
+            tasks: ['sass:base', 'sass:bootstrap']
         },
     	fonts: {
 		    files: ['src/fonts/**'],
