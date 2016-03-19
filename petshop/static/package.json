@@ -8,6 +8,8 @@
     "grunt-sass": "~0.18.0",
     "grunt-contrib-copy": "~0.8.2",
     "grunt-contrib-watch": "~0.6.1",
-    "jquery": "~2.1.4"
+    "jquery": "~2.1.4",
+    "font-awesome": "~4.5.0",
+    "jquery.inputmask": "~3.2.5"
   }
 }

@@ -7,7 +7,7 @@
 <link rel="icon" href="{{ request.site.settings.favicon.thumb.url }}">
 <link href='https://fonts.googleapis.com/css?family=Roboto:400,700,400italic,700italic&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
 {% get_base_media as base_media %}{% render_block 'css' %}{% extend_media_block 'css' base_media %}
-{% render_block 'css' %}
+{% render_block 'basejs' %}{% extend_media_block 'js' base_media 'basejs' %}
 <script type="text/javascript" src="{% url 'javascript_catalog' %}"></script>
 </head>
 <body>{% cms_toolbar %}
@@ -32,39 +32,11 @@
             <div class="logo">
                 <a href="{% url "pages-root" %}"><img src="{{ request.site.settings.logo.thumb.url }}" title="{{ request.site.name }}" alt="{{ request.site.name }}" /></a>
             </div>
-              <div class="cart">
-                  <p><span>{% trans "Basket" %}:</span><div id="dd" class="wrapper-dropdown-2"> 0 {% trans "item(s)" %} - $0.00
-                         <ul class="dropdown">
-                             <li>{% trans "you have no items in your basket" %}</li>
-                    </ul></div></p>
-              </div>
-              <script type="text/javascript">
-                function DropDown(el) {
-                    this.dd = el;
-                    this.initEvents();
-                }
-                DropDown.prototype = {
-                    initEvents : function() {
-                        var obj = this;
-
-                        obj.dd.on('click', function(event){
-                            $(this).toggleClass('active');
-                            event.stopPropagation();
-                        });    
-                    }
-                }
-
-                $(function() {
-
-                    var dd = new DropDown( $('#dd') );
-
-                    $(document).click(function() {
-                        // all dropdowns
-                        $('.wrapper-dropdown-2').removeClass('active');
-                    });
-
-                });
-            </script>
+            <div id="miniBasket" class="cart">
+                {% if not hide_mini_basket %}
+                    {% render_mini_basket %}
+                {% endif %}
+            </div>
             <div class="clear"></div>
         </div>
         <div class="header_bottom">
@@ -156,6 +128,5 @@
     </script>
     <a href="#" id="toTop"><span id="toTopHover"> </span></a>
     {% render_block 'js' %}
-    {% extend_media_block 'js' base_media %}
-<body>
+</body>
 </html>

@@ -1,0 +1,24 @@
+{% extends "simple.html" %}
+
+{% load i18n %}
+{% load sekizai_tags %}
+
+{% block "title" %}{% trans "Your order" %}{% endblock %}
+
+{% block "inner-content" %}
+{{ formset.media }}
+{% for js in formset.media.render_js %}
+{% addtoblock 'js' %}{{ js }}{% endaddtoblock %}
+{% endfor %}
+
+{% if checkout_form %}
+{% for js in checkout_form.media.render_js %}
+{% addtoblock 'js' %}{{ js }}{% endaddtoblock %}
+{% endfor %}
+{% endif %}
+
+<div id="basketSummary" class="summary">
+    {% include "basket/partials/summary.html" %}
+</div>
+
+{% endblock %}

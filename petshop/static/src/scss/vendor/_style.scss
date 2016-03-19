@@ -168,6 +168,7 @@ body {
 }
 .menu li a:hover,.menu li.selected a, .menu li.ancestor a{
 	background:$brand-primary;
+    text-decoration: none;
 }
 .menu li:first-child  a{
 	border-radius:6px 0 0 6px;
@@ -850,7 +851,7 @@ body {
 }
 .span_3_of_2 .button a,
 .span_3_of_2 .button button {
-	padding: 12px 20px;
+	padding: 0px 20px;
 	font-size: 1em;
 	font-weight: bold;
 	font-family: Arial, "Helvetica Neue", "Helvetica", Tahoma, Verdana, sans-serif;
@@ -1356,6 +1357,9 @@ body {
 	}
 	.menu li a{
 		padding:16px 10px;
+        &:hover {
+            text-decoration: none;
+        }
 	}
 	.header_bottom_left{
 		float:none;

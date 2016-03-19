@@ -31,9 +31,15 @@
             {% endif %}
             {% endspaceless %}</span></p>
     </div>
-    <div class="add-cart">                                
-        <h4><a href="#">{% trans "Add to basket" %}</a></h4>
-    </div>
+    {% if not product.children.exists %}
+        <div class="add-cart">                                
+            <h4><a data-target="#miniBasket" data-url="{% url "basket:ajax_add" product.pk %}" href="#">{% trans "Add to basket" %}</a></h4>
+        </div>
+    {% else %}
+        <div class="add-cart">                                
+            <h4><a href="{{ product.get_absolute_url }}">{% trans "More details..." %}</a></h4>
+        </div>
+    {% endif %}
     {% else %}
         <div class="add-cart">{% trans "Not available" %}</div>
     {% endif %}

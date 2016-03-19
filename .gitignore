@@ -4,3 +4,5 @@
 /petshop/static/build
 /petshop/static/node_modules/
 /media
+/static
+.*.swp

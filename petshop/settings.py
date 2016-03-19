@@ -61,6 +61,9 @@ INSTALLED_APPS = [
     'petshop',
 ] + get_core_apps([
     'petshop.catalogue',
+    'petshop.checkout',
+    'petshop.payment',
+    'petshop.shipping',
     'petshop.basket'])
 
 MIDDLEWARE_CLASSES = (
@@ -193,6 +196,7 @@ OSCAR_EAGER_ALERTS = False
 OSCAR_CURRENCY_FORMAT = u"# руб."
 OSCAR_DEFAULT_CURRENCY = "RUR"
 OSCAR_EAGER_ALERTS = False
+OSCAR_ALLOW_ANON_CHECKOUT = True
 
 # CMS custom settings
 

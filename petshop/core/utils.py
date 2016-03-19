@@ -1,10 +1,63 @@
-from decimal import Decimal as D
 from django.conf import settings
+from django.contrib.sites.shortcuts import get_current_site 
+from django.core.mail import send_mail
+from django.core.urlresolvers import reverse, reverse_lazy, NoReverseMatch
+from django.template.context import RequestContext
+from django.utils.translation import ugettext_lazy as _
+from django.utils.module_loading import import_string
+from django.utils import timezone
 
 from oscar.core.loading import get_model
 from oscar.core.utils import slugify
 
+import json
+import logging
+import random
+import requests
 import unicodecsv as csv
+from hashlib import md5
+from decimal import Decimal as D
+
+
+def yandex_money_checksum(**kwargs):
+    check_str = ';'.join(str(kwargs.get(k, '')) for k in (
+        'action', 'orderSumAmount', 'orderSumCurrencyPaycash',
+        'orderSumBankPaycash', 'shopId', 'invoiceId', 'customerNumber',
+        'shopPassword'))
+    checksum = md5(check_str).hexdigest().upper()
+    return checksum
+
+def send_email_to(request, commtype_code, ctx, rcpnts):
+    if not 'site' in ctx:
+        site=get_current_site(request)
+        ctx.update(site=site)
+    CommunicationEventType = get_model("customer", "CommunicationEventType")
+    try:
+        event_type = CommunicationEventType.objects.get(
+                    code=commtype_code)
+    except CommunicationEventType.DoesNotExist:
+        messages = CommunicationEventType.objects.get_and_render(
+                    commtype_code, ctx)
+    else:
+        messages = event_type.get_messages(ctx)
+        rcpnts = set(rcpnts)
+        rcpnts.update(staff.email for staff in event_type.staff.all())
+    send_mail(messages.get('subject'), messages.get('body'),
+              settings.SERVER_EMAIL, list(rcpnts),
+              html_message=messages.get('html'))
+
+
+def send_email_to_managers(request, commtype_code, ctx):
+    site = get_current_site(request)
+    ctx.update({'site': site})
+    managers_emails = set(m[1] for m in settings.MANAGERS)
+    send_email_to(request, commtype_code, ctx, managers_emails)
+
+def send_email_to_admins(request, commtype_code, ctx):
+    site = get_current_site(request)
+    ctx.update({'site': site})
+    admins_emails = set(a[1] for a in settings.ADMINS)
+    send_email_to(request, commtype_code, ctx, admins_emails)
 
 
 def load_products_from_csv(data_file):

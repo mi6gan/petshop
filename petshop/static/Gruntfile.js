@@ -11,10 +11,18 @@ module.exports = function(grunt) {
         src: 'src/scss/base.scss',
         dest: 'build/css/base.css'
       },
+      components: {
+        src: 'src/scss/mini.basket.scss',
+        dest: 'build/css/mini.basket.css'
+      },
       bootstrap: {
         src: 'src/scss/bootstrap.scss',
         dest: 'build/vendor/css/bootstrap.css'
       },
+      fontawesome: {
+                src: 'node_modules/font-awesome/scss/font-awesome.scss',
+                dest: 'build/vendor/font-awesome/css/font-awesome.css'
+      }
     },
     copy: {
     images: {
@@ -31,6 +39,12 @@ module.exports = function(grunt) {
             src: ['*'],
             dest: 'build/fonts'}]
     },
+    fontawesome: {
+        files: [{
+            expand: true,
+            cwd: 'node_modules/font-awesome/fonts',
+            src: ['**'], dest: 'build/vendor/font-awesome/fonts'}]
+    },
     jquery: {
         src: 'node_modules/jquery/dist/jquery.min.js',
         dest: 'build/vendor/js/jquery.min.js'
@@ -41,11 +55,31 @@ module.exports = function(grunt) {
             cwd: 'src/js',
             src: ['**'], dest: 'build/js'}]
     },
+    vendorjs: {
+        files: [{
+            expand: true,
+            cwd: 'src/vendor/js',
+            src: ['**'], dest: 'build/vendor/js'}]
+    },
+    bootstrapjs: {
+        files: [{
+            expand: true,
+            cwd: 'node_modules/bootstrap-sass/assets/javascripts/bootstrap',
+            src: ['button.js', 'collapse.js', 'dropdown.js', 'transition.js', 'popover.js', 'tooltip.js', 'alert.js'],
+            dest: 'build/vendor/js/bootstrap'}]
+      },
+    inputmask: {
+        files: [{
+            expand: true,
+            cwd: 'node_modules/jquery.inputmask/dist/inputmask/',
+            src: ['inputmask.js', 'inputmask.phone.extensions.js', 'jquery.inputmask.js'],
+            dest: 'build/vendor/js/inputmask'}]
+    },
     },
     watch: {
         sass: {
             files: ['src/scss/**'],
-            tasks: ['sass:base', 'sass:bootstrap']
+            tasks: ['sass:base', 'sass:components', 'sass:bootstrap']
         },
     	fonts: {
 		    files: ['src/fonts/**'],
@@ -54,6 +88,10 @@ module.exports = function(grunt) {
     	images: {
 		    files: ['src/img/**'],
 		    tasks: ['copy:images']
+	    },
+    	js: {
+		    files: ['src/js/**'],
+		    tasks: ['copy:js']
 	    },
     }
   });

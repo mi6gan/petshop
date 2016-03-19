@@ -1,0 +1,78 @@
+{% load currency_filters %}
+{% load thumbnail %}
+{% load i18n %}
+{% load sekizai_tags %}
+{% load purchase_info_tags %}
+
+{% for js in formset.media.render_js %}
+{% addtoblock 'js' %}{{ js }}{% endaddtoblock %}
+{% endfor %}
+
+{% for css in formset.media.render_css %}
+{% addtoblock 'css' %}{{ css }}{% endaddtoblock %}
+{% endfor %}
+
+<div class="row">
+    <div class="col-xs-12 text-center">
+        <p>&nbsp;</p>
+        {% if formset|length %}
+            <div class="dropdown">
+                <h5>
+                    <a data-target="#miniBasketForm" data-toggle="collapse" role="button">
+                        <span class="fa fa-shopping-cart"></span> {% trans 'Basket' %}: {{ basket.total_excl_tax|currency:basket.currency }}
+                        <span class="fa fa-caret-down"></span>
+                    </a>
+                </h5>
+            </div>
+            <form id="miniBasketForm" class="collapse fade out" data-type="ajax" method="POST" action="{% url 'basket:process' %}">
+            <div class="well">
+            {% csrf_token %}
+            
+            <div style="display:none;">
+                {{ formset.management_form }}
+            </div>
+            {% for form in formset %}
+            {% with line=form.instance product=form.instance.product %}
+            {% purchase_info_for_line request line as session %}
+            <br>
+            <div class="row">
+                <div class="col-xs-2 text-center">
+                    <img src="{{ product.tiny_thumb }}" alt="{{ product.get_title }}">
+                </div>
+                <div class="col-xs-4 text-center">
+                    <b>{{ line.description }}</b>
+                </div>
+                <div class="col-xs-4 text-center">
+                    {% purchase_info_for_product request form.instance.product as saved %}
+                    {% if line.is_tax_known %}
+                        {{ line.quantity }} x {{ saved.price.incl_tax|currency:saved.price.currency }}
+                    {% else %}
+                        {{ line.quantity }} x {{ saved.price.incl_tax|currency:saved.price.currency }}
+                    {% endif %}
+                </div>
+                <div class="col-xs-2">
+                        {% for field in form.hidden_fields %}
+                            {{ field }}
+                        {% endfor %}
+                        {% for field in form.visible_fields %}
+                            {{ field }}
+                        {% endfor %}
+                </div>
+            </div>
+            {% endwith %}
+            {% empty %}
+            {% endfor %}
+            <div class="row">
+                <div class="col-xs-12 text-right">
+                    <br/>
+                    <a href="{% url 'basket:summary' %}"><b>{% trans 'Purchase the order' %} &gt;</b></a>
+                </div>
+            </div>
+            </div>
+            </form>
+        {% else %}
+            <p>&nbsp;</p>
+            <h5><span class="fa fa-shopping-cart"></span> {% trans "Your basket is empty" %}</h5>
+        {% endif %}
+    </div>
+</div>

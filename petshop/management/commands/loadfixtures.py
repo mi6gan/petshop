@@ -2,6 +2,8 @@ from django.core.management.base import BaseCommand
 from django.core.management.commands.loaddata import Command as LoadDataCommand
 from django.db import DEFAULT_DB_ALIAS
 
+from petshop.payment.providers import providers_pool
+
 
 class Command(BaseCommand):
 
@@ -31,4 +33,6 @@ class Command(BaseCommand):
         fixture_labels = ['sites', 'cms', 'menus',
                           'easy_thumbnails', 'filer',
                           'auth', 'petshop']
+        providers_pool.preload_providers()
+        providers_pool.preload_types()
         loaddata.handle(*fixture_labels, **loaddata_options)
