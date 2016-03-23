@@ -3,7 +3,7 @@ from petshop.settings import *
 DATABASES = {
 
     'default': {
-            'HOST': 'postgres_prod',
+            'HOST': 'postgres',
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
             'NAME': 'petshop',
             'USER': 'petshop',
