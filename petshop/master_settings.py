@@ -5,8 +5,8 @@ DATABASES = {
     'default': {
             'HOST': 'postgres',
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'petshop',
-            'USER': 'petshop',
+            'NAME': 'pets',
+            'USER': 'pets',
             'PASSWORD': 'qweasd123'
         }
 }
