@@ -82,11 +82,11 @@ def load_products_photos(root_path, image_width, clear):
 
     yield 'Walking through file paths tree', ''
     yield '-'*40, 'INFO'
+    image_paths = []
+    images = []
     while next_paths:
         paths = list(next_paths)
-        image_paths = []
         next_paths = []
-        images = []
         dirname_to_partner_code = {}
         for path in paths:
             yield ('parsing "%s"' % unquote(path.name)), 'INFO'
@@ -104,7 +104,7 @@ def load_products_photos(root_path, image_width, clear):
                 yield ('\t unrecognized content'
                        ' type "%s", skipping' % path.contenttype), 'NOTICE'
 
-    yield '\nFound %s image files to load' % len(image_paths), ''
+    yield '\nfound %s image files to load' % len(image_paths), ''
     yield '-'*40, 'INFO'
     for path in image_paths:
         yield ('trying to load "%s"' % unquote(path.name)), 'INFO'
