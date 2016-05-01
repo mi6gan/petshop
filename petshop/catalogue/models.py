@@ -19,7 +19,10 @@ class Product(AbstractProduct):
 
     def primary_thumb(self, alias_name):
         if self.images.exists():
-            return self.thumb(self.primary_image(), alias_name)
+            image = self.primary_image()
+        else:
+            image = None
+        return self.thumb(image, alias_name)
 
     def tiny_thumb(self):
         return self.primary_thumb('product_tiny')
