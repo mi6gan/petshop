@@ -20,6 +20,7 @@ djangocms-admin-style==1.0.9
 djangocms-cascade==0.7.1
 djangocms-text-ckeditor==2.8.1
 easy-thumbnails==2.3
+easywebdav==1.2.0
 fake-factory==0.5.3
 gunicorn
 html5lib==0.9999999

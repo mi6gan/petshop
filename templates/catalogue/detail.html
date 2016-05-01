@@ -17,8 +17,10 @@
                             <div class="slides_container">
                                 <a href="#" target="_blank"><img src="{{ product.large_thumb }}" alt=" " /></a>
                             </div>
-                            <ul class="pagination">
-                                <li><a href="#"><img src="{{ product.small_thumb }}" alt=" " /></a></li>
+                            <ul class="pagination list-inline">
+                                {% for thumb in product.small_thumbs %}
+                                    <li><a href="#"><img src="{{ thumb }}" alt=" " /></a></li>
+                                {% endfor %}
                             </ul>
                         </div>
                     </div>

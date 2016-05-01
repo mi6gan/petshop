@@ -5,20 +5,16 @@
 {% purchase_info_for_product request product as session %}
 {% with available=session.availability.is_available_to_buy %}
 <a href="{{ product.get_absolute_url }}"><img src="{{ product.medium_thumb }}" alt="" /></a>
-{% with wrapped_title=product.title|wordwrap:15 %}
-<h2 title="{{ product.title }}">
+{% with wrapped_title=product.title|wordwrap:20 %}
+<h5 class="catalogue-product-title" title="{{ product.title }}">
     {% spaceless %}
-    {% for line in wrapped_title.splitlines|slice:':3' %}
-        {% if forloop.counter > 2 and forloop.last %}
-            ...
-        {% else %} 
-            {{ line|slice:':15' }}
-        {% endif %}
-        {% if forloop.last or forloop.counter < 2 %}
-            <br/>
-        {% endif %}
-    {% endfor %}
-{% endspaceless %}</h2>
+    {{ wrapped_title|linebreaksbr }}
+    {% with lines=wrapped_title.splitlines %}
+        {% for i in '123456' %}
+            {% if forloop.counter > lines|length %}<br>{% endif %}
+        {% endfor %}
+    {% endwith %}
+{% endspaceless %}</h5>
 {% endwith %}
 <div class="price-details">
     {% if available %}

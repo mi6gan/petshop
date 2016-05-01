@@ -30,11 +30,13 @@ class Command(BaseCommand):
 
     def handle(self, verbosity, *args, **kwargs):
         clear = kwargs.get('clear', False)
+        photos = kwargs.get('photos', False)
         if clear:
             Category = get_model('catalogue', 'Category')
             Product = get_model('catalogue', 'Product')
             Category.objects.all().delete()
             Product.objects.all().delete()
-        data_file = kwargs.get('data_file')
-        for instance in load_products_from_csv(data_file):
-            self._model_message(instance, False, verbosity)
+        data_file = kwargs.get('data_file', False)
+        if data_file: 
+            for instance in load_products_from_csv(data_file):
+                self._model_message(instance, False, verbosity)

@@ -12,6 +12,7 @@ basket_urls = get_class('basket.app', 'application').urls
 customer_urls = get_class('customer.app', 'application').urls
 checkout_urls = get_class('checkout.app', 'application').urls
 promotion_urls = get_class('promotions.app', 'application').urls
+dashboard_urls = get_class('dashboard.app', 'application').urls
 
 urlpatterns = [
         url(r'^admin/', include(admin.site.urls)),
@@ -20,6 +21,7 @@ urlpatterns = [
         url(r'^checkout/', include(checkout_urls)),
         url(r'^customer/', include(customer_urls)),
         url(r'^promotion/', include(promotion_urls)),
+        url(r'^dashboard/', include(dashboard_urls)),
         url(r'^jsi18n/$', javascript_catalog, name='javascript_catalog'),
         url(r'^', include('cms.urls'), name='pages-root'),
 ]

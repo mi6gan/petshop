@@ -1,8 +1,10 @@
 from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site 
+from django.core.files.base import ContentFile
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse, reverse_lazy, NoReverseMatch
 from django.template.context import RequestContext
+from django.utils.encoding import smart_text
 from django.utils.translation import ugettext_lazy as _
 from django.utils.module_loading import import_string
 from django.utils import timezone
@@ -12,11 +14,16 @@ from oscar.core.utils import slugify
 
 import json
 import logging
+import os
 import random
 import requests
 import unicodecsv as csv
 from hashlib import md5
 from decimal import Decimal as D
+import easywebdav
+from PIL import Image
+from io import BytesIO
+from urllib import quote, unquote
 
 
 def yandex_money_checksum(**kwargs):
@@ -59,6 +66,104 @@ def send_email_to_admins(request, commtype_code, ctx):
     admins_emails = set(a[1] for a in settings.ADMINS)
     send_email_to(request, commtype_code, ctx, admins_emails)
 
+def load_products_photos(root_path, image_width, clear):
+    Product = get_model('catalogue', 'Product')
+    ProductImage = get_model('catalogue', 'ProductImage')
+    StockRecord = get_model('partner', 'StockRecord')
+    Partner = get_model('partner', 'Partner')
+    webdav = easywebdav.connect(
+        settings.WEBDAV_HOST,
+        username=settings.WEBDAV_USERNAME,
+        password=settings.WEBDAV_PASSWORD,
+        protocol=settings.WEBDAV_PROTOCOL)
+    parsed_products = set()
+    next_paths = [easywebdav.client.File(quote(root_path), 0, None, None, '')]
+    paths_for_partner = {}
+
+    yield 'Walking through file paths tree', ''
+    yield '-'*40, 'INFO'
+    while next_paths:
+        paths = list(next_paths)
+        image_paths = []
+        next_paths = []
+        images = []
+        dirname_to_partner_code = {}
+        for path in paths:
+            yield ('parsing "%s"' % unquote(path.name)), 'INFO'
+            if path.name.endswith('/'):
+                cur_paths = webdav.ls(path.name)
+                if not cur_paths:
+                    yield ('\tis empty dir, skipping'), 'NOTICE'
+                else:
+                    next_paths += filter(
+                            lambda p: p.name != path.name, cur_paths)
+            elif path.contenttype.startswith('image/'):
+                image_paths.append(path)
+                yield ('\tis image, adding to image paths'), 'INFO'
+            else:
+                yield ('\t unrecognized content'
+                       ' type "%s", skipping' % path.contenttype), 'NOTICE'
+
+    yield '\nFound %s image files to load' % len(image_paths), ''
+    yield '-'*40, 'INFO'
+    for path in image_paths:
+        yield ('trying to load "%s"' % unquote(path.name)), 'INFO'
+        dirname = os.path.dirname(path.name)
+        partner_code = dirname_to_partner_code.get(dirname, False)
+        if not partner_code:
+            for part in dirname.split('/'):
+                code = slugify(part)
+                if Partner.objects.filter(
+                    code__iexact=code).exists():
+                        dirname_to_partner_code[dirname] = code
+                        partner_code = code
+                        break
+        if not partner_code:
+            yield ('\tno valid partner for image in path, skipping'), 'ERROR'
+            continue
+        sku = os.path.basename(path.name).split('.')[0].strip()
+        sku = slugify(sku)
+        srecord = StockRecord.objects.filter(
+            partner_sku__iexact=sku,
+            partner__code__iexact=partner_code).first()
+        if srecord:
+            image_file = BytesIO()
+            webdav.download(path.name, image_file)
+            image_file.seek(0)
+            product = srecord.product
+            if clear and product not in parsed_products:
+                ProductImage.objects.filter(product=product).delete()
+            else:
+                parsed_products.add(product)
+            try:
+                pil_image = Image.open(image_file)
+            except IOError:
+                yield ('\tskipping, corrupt image file', 'NOTICE')
+            else:
+                size = (image_width, (
+                            image_width*pil_image.size[1]
+                        )/pil_image.size[0])
+                if (size[0] >= pil_image.size[0]) or (
+                        size[1] >= pil_image.size[1]):
+                    pil_image = pil_image.resize(size, Image.BICUBIC)
+                    mage_file = BytesIO()
+                    pil_image.save(image_file, format='JPEG')
+                image_file.seek(0)
+                image=ProductImage.objects.get_or_create(
+                            product=product, display_order = 0)[0]
+                image.original.save(path.name.split('/')[-1],
+                                    ContentFile(image_file.read()))
+                image.save()
+                images.append(image)
+                yield ('\tattached image "%s" to "%s"' % (
+                    unquote(os.path.basename(path.name)),
+                    product)), 'SUCCESS'
+        else:
+                yield ('\tproduct with sku "%s" for partner'
+                       ' "%s" is not found' % (
+                           sku, partner_code)), 'ERROR'
+        yield '\n', 'INFO'
+    yield 'uploaded %s product images' % len(images), ''
 
 def load_products_from_csv(data_file):
     if hasattr(data_file, 'open'):
@@ -87,6 +192,8 @@ def load_products_from_csv(data_file):
                     c.strip() for c in row[0:9])
             title = title
             slug = slugify(u'%s_%s' % (title, upc))
+            partner_sku = slugify(partner_sku)
+            partner_code = slugify(partner_code)
             upc = '%s%s' % ('0'*(10-len(str(upc))), upc)
             product = Product.objects.filter(upc=upc).first()
             child = None
@@ -119,9 +226,12 @@ def load_products_from_csv(data_file):
                         'product_class': product_class})
             partner, __ = Partner.objects.update_or_create(
                     code=partner_code, defaults={'name': partner_code})
-            if not partner_sku:
-                partner_sku = '%s_%s_%s' % (
-                        partner_code, upc, partner.stockrecords.count())
+            if not partner_sku or partner.stockrecords.filter(
+                    partner_sku=partner_sku):
+                partner_sku = ('%s_' % partner_sku) if partner_sku else ''
+                partner_sku = '%s%s_%s_%s' % (
+                        partner_sku, partner_code, upc,
+                        partner.stockrecords.count())
             stockrecord, __ = StockRecord.objects.get_or_create(
                         product=product, partner=partner,
                         defaults={

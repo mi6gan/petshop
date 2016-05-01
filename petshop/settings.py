@@ -211,16 +211,20 @@ LANGUAGES = (
 THUMBNAIL_ALIASES = {
     '': {
         'product_tiny': {
-            'size': (48, 48) 
+            'size': (48, 48),
+            'background': (255, 255, 255)
         },
         'product_small': {
-            'size': (125, 125) 
+            'size': (125, 125),
+            'background': (255, 255, 255)
         },
         'product_medium': {
-            'size': (250, 250) 
+            'size': (250, 250),
+            'background': (255, 255, 255)
         },
         'product_large': {
-            'size': (480, 0) 
+            'size': (480, 0),
+            'background': (255, 255, 255)
         }
     },
     'petshop.SiteSettings.logo': {
@@ -235,3 +239,8 @@ THUMBNAIL_ALIASES = {
         }
     }
 }
+
+try:
+    from protected_settings import *
+except ImportError: 
+    from protected_settings_sample import *
