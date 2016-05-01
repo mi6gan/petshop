@@ -3,6 +3,7 @@
 /petshop/static/.html
 /petshop/static/build
 /petshop/static/node_modules/
+/petshop/protected_settings.py
 /media
 /static
 .*.swp
