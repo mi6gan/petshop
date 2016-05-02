@@ -6,7 +6,7 @@
 {% with available=session.availability.is_available_to_buy %}
 <a href="{{ product.get_absolute_url }}"><img src="{{ product.medium_thumb }}" alt="" /></a>
 {% with wrapped_title=product.title|wordwrap:20 %}
-<h5 class="catalogue-product-title" title="{{ product.title }}">
+<h5 class="text-center" title="{{ product.title }}">
     {% spaceless %}
     {{ wrapped_title|linebreaksbr }}
     {% with lines=wrapped_title.splitlines %}

@@ -1,0 +1,47 @@
+{% extends "simple.html" %}
+
+{% load menu_tags product_tags i18n %}
+
+{% block "inner-content" %}
+<div class="row">
+    <div class="col-md-3">
+        <p>&nbsp;</p>
+        <div class="categories">
+        <h3>{% trans "Categories" %}</h3>
+        <ul>
+            {% show_menu 1 2 0 2 "menu/menu.html" "catalogue" %}
+        </ul>
+        </div>
+    </div>
+
+    <div class="col-md-9">
+    {% if paginator.num_pages > 1 %}
+    <ul class="content-pagenation">
+        {% for page in paginator.page_range %}
+        <li{% if page = page_obj.number %} class="active"{% endif %}><a href="?page={{ page }}">{{ page }}</a></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <div class="row product-list">
+    {% for product in products %}
+    {% if forloop.counter0|divisibleby:3 %}{% if not forloop.first %}</div>{% endif %}<div class="section group">{% endif %}
+        <div class="col-xs-4">
+            <div class="product-list-details">
+                {% render_product product %}
+            </div>
+       </div>
+    {% endfor %}
+    </div>
+
+    {% if paginator.num_pages > 1 %}
+    <ul class="content-pagenation">
+        {% for page in paginator.page_range %}
+        <li{% if page = page_obj.number %} class="active"{% endif %}><a href="?page={{ page }}">{{ page }}</a></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    </div>
+</div>
+{% endblock %}

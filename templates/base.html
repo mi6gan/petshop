@@ -7,6 +7,9 @@
 <link rel="icon" href="{{ request.site.settings.favicon.thumb.url }}">
 <link href='https://fonts.googleapis.com/css?family=Roboto:400,700,400italic,700italic&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
 {% get_base_media as base_media %}{% render_block 'css' %}{% extend_media_block 'css' base_media %}
+{% block mainstyles %}{% endblock %}
+{% block styles %}{% endblock %}
+{% block extrastyles %}{% endblock %}
 {% render_block 'basejs' %}{% extend_media_block 'js' base_media 'basejs' %}
 <script type="text/javascript" src="{% url 'javascript_catalog' %}"></script>
 </head>
@@ -32,11 +35,13 @@
             <div class="logo">
                 <a href="{% url "pages-root" %}"><img src="{{ request.site.settings.logo.thumb.url }}" title="{{ request.site.name }}" alt="{{ request.site.name }}" /></a>
             </div>
+            {% block "mini-basket" %}
             <div id="miniBasket" class="cart">
                 {% if not hide_mini_basket %}
                     {% render_mini_basket %}
                 {% endif %}
             </div>
+            {% endblock %}
             <div class="clear"></div>
         </div>
         <div class="header_bottom">
@@ -59,6 +64,7 @@
    </div>
  <div class="main">
     <div class="content">
+        {% block dashboard_nav %}{% endblock %}
         {% block content %}{% endblock %}
     </div>
  </div>
@@ -127,6 +133,14 @@
         });
     </script>
     <a href="#" id="toTop"><span id="toTopHover"> </span></a>
+    <script src="{% static "oscar/js/oscar/ui.js" %}" type="text/javascript" charset="utf-8"></script>
     {% render_block 'js' %}
+    {% block scripts %}{% endblock %}
+    {% block extrascripts %}{% endblock %}
+    <script type="text/javascript">
+            $(function() {
+                {% block onbodyload %}{% endblock %}
+            });
+    </script>
 </body>
 </html>

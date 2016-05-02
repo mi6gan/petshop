@@ -76,8 +76,27 @@ body > .wrap {
         }
     }
 }
-.catalogue-product-title {
-    display: block;
-    height:6em;
-    overflow: hidden;
+.product-list {
+    .product-list-details {
+        @include box-shadow(0 0 3px #969696);
+        padding: 6%;
+        margin: 6% 0;
+        h5 {
+            display: block;
+            overflow: hidden;
+            height: 6em;
+        }
+    }
+    &.recommended-list {
+        .product-list-details {
+            padding: 10%;
+        }
+    }
+}
+#product_recommended {
+    .form-inline {
+        .form-control {
+            width: 100%;
+        }
+    }
 }

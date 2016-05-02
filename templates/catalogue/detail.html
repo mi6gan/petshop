@@ -2,7 +2,7 @@
 
 {% load static i18n %}
 {% load menu_tags %}
-{% load purchase_info_tags currency_filters %}
+{% load purchase_info_tags currency_filters product_tags %}
 
 {% block "inner-content" %}
 {% purchase_info_for_product request product as session %}
@@ -37,6 +37,7 @@
             {% endif %}
         </div>
         <div class="clear"></div>
+        {% if product.description %}
         <div class="product_desc">
             <div id="horizontalTab">
                 <div class="product-desc">
@@ -45,49 +46,30 @@
                 </div>
             </div>
         </div>
+        {% endif %}
+        {% if product.recommended_products.exists %}
         <div class="content_bottom">
             <div class="heading">
-                <h3>{% trans "Related products" %}</h3>
-            </div>
-            <div class="see">
-                <p><a href="#">{% trans "See all products" %}</a></p>
+                <h3>{% trans "Recommended products" %}</h3>
             </div>
             <div class="clear"></div>
-            <div class="section group">
-                <div class="grid_1_of_4 images_1_of_4">
-                    <a href="#"><img src="{% static "images/new-pic1.jpg" %}" alt=""></a>
-                    <div class="price" style="border:none">
-                        <div class="add-cart" style="float:none">
-                            <h4><a href="#">{% trans "Add to basket" %}</a></h4>
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                </div>
-                <div class="grid_1_of_4 images_1_of_4">
-                    <a href="#"><img src="{% static "images/new-pic1.jpg" %}" alt=""></a>
-                    <div class="price" style="border:none">
-                        <div class="add-cart" style="float:none">
-                            <h4><a href="#">{% trans "Add to basket" %}</a></h4>
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                </div>
-                <div class="grid_1_of_4 images_1_of_4">
-                    <a href="#"><img src="{% static "images/new-pic1.jpg" %}" alt=""></a>
-                    <div class="price" style="border:none">
-                        <div class="add-cart" style="float:none">
-                            <h4><a href="#">{% trans "Add to basket" %}</a></h4>
-                        </div>
-                        <div class="clear"></div>
-                    </div>
+        {% for recommended in product.recommended_products.all %}
+            {% if forloop.counter0|divisibleby:2 %}{% if not forloop.first %}</div>{% endif %}<div class="row product-list recommended-list">{% endif %}
+            <div class="col-xs-6">
+                <p>&nbsp;</p>
+                <div class="product-list-details">
+                    {% render_product recommended %}
                 </div>
             </div>
+         {% endfor %}
+        </div>
+        {% endif %}
         </div>
     </div>
     <div class="rightsidebar span_3_of_1">
         <h2>{% trans "Categories" %}</h2>
         <ul>
-            {% show_menu 1 100 %}
+            {% show_menu 1 2 0 0 'menu/menu.html' 'catalogue' %}
         </ul>
     </div>
 </div>
