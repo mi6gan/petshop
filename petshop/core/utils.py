@@ -124,7 +124,7 @@ def load_products_photos(root_path, image_width, clear):
         sku = os.path.basename(path.name).split('.')[0].strip()
         sku = slugify(sku)
         srecord = StockRecord.objects.filter(
-            partner_sku__iregex=(r'^0*%s$' % sku),
+            partner_sku__iregex=(r'^0*%s$' % sku.lstrip('0')),
             partner__code__iexact=partner_code).first()
         if srecord:
             image_file = BytesIO()
