@@ -124,7 +124,7 @@ def load_products_photos(root_path, image_width, clear):
         sku = os.path.basename(path.name).split('.')[0].strip()
         sku = slugify(sku)
         srecord = StockRecord.objects.filter(
-            partner_sku__iexact=sku,
+            partner_sku__iregex=(r'0*%s' % sku),
             partner__code__iexact=partner_code).first()
         if srecord:
             image_file = BytesIO()
@@ -132,7 +132,10 @@ def load_products_photos(root_path, image_width, clear):
             image_file.seek(0)
             product = srecord.product
             if clear and product not in parsed_products:
-                ProductImage.objects.filter(product=product).delete()
+                for product_image in ProductImage.objects.filter(
+                        product=product):
+                    product_image.original.delete()
+                    product_image.delete()
             else:
                 parsed_products.add(product)
             try:
