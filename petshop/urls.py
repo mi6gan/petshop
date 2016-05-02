@@ -10,9 +10,7 @@ from django.views.i18n import javascript_catalog
 from oscar.core.loading import get_class
 from oscar.views.decorators import login_forbidden
 
-catalogue_urls = get_class('catalogue.app', 'application').urls
 basket_urls = get_class('basket.app', 'application').urls
-customer_urls = get_class('customer.app', 'application').urls
 checkout_urls = get_class('checkout.app', 'application').urls
 promotion_urls = get_class('promotions.app', 'application').urls
 dashboard_urls = get_class('dashboard.app', 'application').urls
@@ -21,10 +19,8 @@ set_password_form = get_class('customer.forms', 'SetPasswordForm')
 
 urlpatterns = [
         url(r'^admin/', include(admin.site.urls)),
-        url(r'^catalogue/', include(catalogue_urls)),
         url(r'^basket/', include(basket_urls)),
         url(r'^checkout/', include(checkout_urls)),
-        url(r'^customer/', include(customer_urls)),
         url(r'^promotion/', include(promotion_urls)),
         url(r'^dashboard/', include(dashboard_urls)),
         url(r'^password-reset/$',

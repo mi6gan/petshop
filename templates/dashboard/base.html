@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block 'oscar-head' %}
+{% block mainstyles %}{% endblock %}
+{% block styles %}{% endblock %}
+{% block extrastyles %}{% endblock %}
+{% endblock %}
+
+{% block 'oscar-tail' %}
+<script src="{% static "oscar/js/oscar/ui.js" %}" type="text/javascript" charset="utf-8"></script>
+{% block scripts %}{% endblock %}
+{% block extrascripts %}{% endblock %}
+<script type="text/javascript">
+    $(function() {
+        {% block onbodyload %}{% endblock %}
+    });
+</script>
+{% endblock %}

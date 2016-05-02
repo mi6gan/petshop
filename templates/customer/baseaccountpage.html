@@ -1,0 +1,20 @@
+{% extends "simple.html" %}
+
+{% load i18n menu_tags %}
+
+{% block "title" %}{% trans 'Account' %}{% endblock %}
+
+{% block "inner-content" %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <p>&nbsp;</p>
+                <ul class="nav nav-pills">
+                {% show_menu_below_id 'customer' 0 100 100 100 'menu/bootstrap-nav.html' %}
+                </ul>
+                <p>&nbsp;</p>
+            </div>
+        </div>
+    </div>
+    {% block tabcontent %}{% endblock tabcontent %}
+{% endblock %}

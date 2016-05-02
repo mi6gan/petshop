@@ -3,7 +3,7 @@ from django.core.urlresolvers import reverse
 
 from cms.menu_bases import CMSAttachMenu
 from cms.utils.page_resolver import get_page_queryset
-from menus.base import Menu, NavigationNode, Modifier
+from menus.base import NavigationNode, Modifier
 
 from menus.base import NavigationNode
 from menus.menu_pool import menu_pool
@@ -11,34 +11,23 @@ from menus.menu_pool import menu_pool
 from oscar.core.loading import get_model
 
 
-class CatalogueMenu(Menu):
-
-    namespace = 'catalogue'
+class CatalogueMenu(CMSAttachMenu):
+    name = _("Catalogue")
 
     def get_nodes(self, request):
         Category = get_model('catalogue', 'Category')
         ProductCategory = get_model('catalogue', 'ProductCategory')
-        catalogue_id = 'index'
-        nodes = [
-            NavigationNode(
-                title=_('Catalogue'),
-                url=reverse('catalogue:index'),
-                id=catalogue_id,
-                parent_namespace='catalogue',
-                parent_id=None
-            )
-        ]
+        nodes = []
         for category in Category.objects.all():
             if category.depth > 1:
                 parent_id = category.get_parent().pk
             else:
-                parent_id = catalogue_id
+                parent_id = None
             nodes.append(
                 NavigationNode(
                     title=category.name,
                     url=category.get_absolute_url(),
                     id=category.pk,
-                    parent_namespace='catalogue',
                     parent_id=parent_id
                 )
             )
@@ -51,7 +40,6 @@ class CatalogueMenu(Menu):
                         url=product.get_absolute_url(),
                         id=product_category.pk,
                         parent_id=category.pk,
-                        parent_namespace='catalogue',
                         visible=False
                     )
                 )

@@ -62,6 +62,7 @@ INSTALLED_APPS = [
 ] + get_core_apps([
     'petshop.catalogue',
     'petshop.checkout',
+    'petshop.customer',
     'petshop.payment',
     'petshop.shipping',
     'petshop.basket'])
@@ -196,8 +197,14 @@ OSCAR_EAGER_ALERTS = False
 OSCAR_CURRENCY_FORMAT = u"# руб."
 OSCAR_DEFAULT_CURRENCY = "RUR"
 OSCAR_EAGER_ALERTS = False
-OSCAR_ALLOW_ANON_CHECKOUT = True
+OSCAR_ALLOW_ANON_CHECKOUT = False
 OSCAR_PRODUCTS_PER_PAGE = 18
+
+LOGIN_REDIRECT_URL = 'customer:profile-view'
+OSCAR_ACCOUNTS_REDIRECT_URL = LOGIN_REDIRECT_URL
+
+from django.core.urlresolvers import reverse_lazy
+OSCAR_HOMEPAGE = reverse_lazy('pages-root')
 
 # CMS custom settings
 
