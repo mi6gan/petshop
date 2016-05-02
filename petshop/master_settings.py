@@ -35,3 +35,9 @@ EMAIL_USE_TLS = True
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'petshop', 'static', 'build'),
 )
+
+CMS_CACHE_DURATIONS = {
+    'content': 0,
+    'menus': 0,
+    'permissions': 0
+}
