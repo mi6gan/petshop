@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-04 21:08+0000\n"
+"POT-Creation-Date: 2016-05-03 11:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,9 +17,64 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: petshop/catalogue/cms_menus.py:14
+#: petshop/basket/forms.py:61 petshop/basket/forms.py:97
+msgid "Remove from basket"
+msgstr ""
+
+#: petshop/catalogue/cms_apps.py:16 petshop/catalogue/cms_menus.py:15
 msgid "Catalogue"
 msgstr "Каталог"
+
+#: petshop/checkout/forms.py:53
+msgid "No address required"
+msgstr ""
+
+#: petshop/checkout/forms.py:54
+msgid "Moscow"
+msgstr ""
+
+#: petshop/checkout/forms.py:69
+msgid "Address"
+msgstr ""
+
+#: petshop/checkout/forms.py:70
+msgid "City"
+msgstr ""
+
+#: petshop/checkout/forms.py:75
+msgid "Email"
+msgstr ""
+
+#: petshop/checkout/forms.py:150 petshop/core/forms.py:37
+msgid "This field can't be empty"
+msgstr ""
+
+#: petshop/checkout/views.py:171
+#, python-format
+msgid ""
+"'%(title)s' is no longer available to buy (%(reason)s). Please adjust your "
+"basket to continue"
+msgstr ""
+
+#: petshop/checkout/views.py:182
+msgid "You need to add some items to your basket to checkout"
+msgstr ""
+
+#: petshop/checkout/views.py:193
+msgid "Current order is not placed yet"
+msgstr ""
+
+#: petshop/checkout/views.py:201
+msgid "Payment source is not selected yet"
+msgstr ""
+
+#: petshop/checkout/views.py:383
+msgid "Invalid order number"
+msgstr ""
+
+#: petshop/checkout/views.py:390
+msgid "This payment type is not supported"
+msgstr ""
 
 #: petshop/core/commands.py:31
 #, python-format
@@ -30,6 +85,36 @@ msgstr "Удалено %s %s(ов)"
 #, python-format
 msgid "Created %s %s(s)"
 msgstr "Создано %s %s(ов)"
+
+#: petshop/customer/cms_apps.py:16
+msgid "Customer profile"
+msgstr ""
+
+#: petshop/customer/cms_menus.py:11
+msgid "Customer"
+msgstr ""
+
+#: petshop/customer/cms_menus.py:15
+msgid "Order History"
+msgstr ""
+
+#: petshop/customer/cms_menus.py:16
+msgid "Address Book"
+msgstr ""
+
+#: petshop/customer/cms_menus.py:17
+msgid "Email History"
+msgstr ""
+
+#: petshop/customer/cms_menus.py:18
+#, fuzzy
+#| msgid "Product details"
+msgid "Product Alerts"
+msgstr "Подробнее о товаре"
+
+#: petshop/customer/cms_menus.py:19
+msgid "Notifications"
+msgstr ""
 
 #: petshop/management/commands/fakecategories.py:13
 msgid "Clothes and footwear"
@@ -63,31 +148,93 @@ msgstr "лого"
 msgid "favicon"
 msgstr "иконка (favicon)"
 
-#: petshop/settings.py:191
+#: petshop/payment/forms.py:72
+msgid "port for test mode"
+msgstr ""
+
+#: petshop/payment/forms.py:74
+msgid "schema for test mode"
+msgstr ""
+
+#: petshop/payment/forms.py:79
+msgid "Inner testing"
+msgstr ""
+
+#: petshop/payment/forms.py:81
+msgid "Yandex.Kassa testing"
+msgstr ""
+
+#: petshop/payment/forms.py:83 petshop/payment/providers.py:54
+msgid "Yandex.Kassa"
+msgstr ""
+
+#: petshop/payment/forms.py:85
+msgid "Mode"
+msgstr ""
+
+#: petshop/payment/models.py:32
+msgid "provider"
+msgstr ""
+
+#: petshop/payment/models.py:33
+msgid "providers"
+msgstr ""
+
+#: petshop/payment/models.py:39
+#, fuzzy
+#| msgid "favicon"
+msgid "icon"
+msgstr "иконка (favicon)"
+
+#: petshop/payment/providers.py:66
+msgid "Payment via a wallet in Yandex.Money"
+msgstr ""
+
+#: petshop/payment/providers.py:67
+msgid "Payment via a bankcard"
+msgstr ""
+
+#: petshop/payment/providers.py:69
+msgid "Cash via the terminal"
+msgstr ""
+
+#: petshop/settings.py:192
 msgid "Primary partner"
 msgstr "Главный партнер"
 
-#: petshop/settings.py:196
+#: petshop/settings.py:197
 msgid "Pet product"
 msgstr "Товар для питомца"
 
-#: petshop/settings.py:207
+#: petshop/settings.py:217
 msgid "Simple page"
 msgstr "Простая страница"
 
-#: petshop/settings.py:208
+#: petshop/settings.py:218
 msgid "Main page"
 msgstr "Главная страница"
 
-#: petshop/settings.py:211
+#: petshop/settings.py:221
 msgid "Russian"
 msgstr "Русский"
 
-#: templates/base.html:20
+#: petshop/shipping/methods.py:28
+msgid "Free delivery by Russian Post"
+msgstr ""
+
+#: petshop/shipping/methods.py:33
+msgid "Delivery by courier in Moscow"
+msgstr ""
+
+#: petshop/shipping/methods.py:45
+msgid "Delivery by DHL in Russia"
+msgstr ""
+
+#: templates/base.html:19
 msgid "Need help?"
 msgstr "Нужна помощь?"
 
-#: templates/base.html:20
+#: templates/base.html:19
 msgid "call us"
 msgstr "позвоните нам"
 
@@ -99,55 +246,303 @@ msgstr "Регистрация"
 msgid "Login"
 msgstr "Войти"
 
-#: templates/base.html:26
-msgid "Delivery"
-msgstr "Доставка"
-
 #: templates/base.html:27
-msgid "Checkout"
-msgstr "Покупка"
+msgid "Account profile"
+msgstr "Мой профиль"
 
 #: templates/base.html:28
-msgid "My Account"
-msgstr "Мой Аккаунт"
+msgid "Logout"
+msgstr ""
 
-#: templates/base.html:38
+#: templates/basket/mini_basket.html:22
 msgid "Basket"
 msgstr "Корзина"
 
-#: templates/base.html:38
-msgid "item(s)"
-msgstr "предметы"
+#: templates/basket/mini_basket.html:70
+msgid "Purchase the order"
+msgstr "Оформить заказ"
 
-#: templates/base.html:40
-msgid "you have no items in your basket"
+#: templates/basket/mini_basket.html:77
+#: templates/basket/partials/summary.html:9
+msgid "Your basket is empty"
+msgstr "Ваша корзина пуста"
+
+#: templates/basket/partials/basket_content.html:8
+#, fuzzy
+#| msgid "you have no items in your basket"
+msgid "Important messages about items in your basket"
 msgstr "в вашей корзине нет предметов"
 
-#: templates/catalogue/category.html:26 templates/catalogue/detail.html:42
-#: templates/catalogue/detail.html.py:100
-msgid "Add to basket"
+#: templates/basket/partials/basket_content.html:16
+msgid "You could be missing out on offers!"
+msgstr ""
+
+#: templates/basket/partials/basket_content.html:18
+#, python-format
+msgid ""
+"\n"
+"                <div class=\"warning\">%(message)s to qualify for the <a "
+"href=\"%(url)s\">%(offer_name)s</a> special offer</div>\n"
+"            "
+msgstr ""
+
+#: templates/basket/partials/basket_content.html:29
+msgid "Items to buy now"
+msgstr ""
+
+#: templates/basket/partials/basket_content.html:30
+#: templates/basket/partials/summary.html:28
+msgid "Quantity"
+msgstr ""
+
+#: templates/basket/partials/basket_content.html:31
+#: templates/basket/partials/basket_content.html:171
+#: templates/basket/partials/summary.html:29
+msgid "Price"
+msgstr ""
+
+#: templates/basket/partials/basket_content.html:32
+msgid "Total"
+msgstr ""
+
+#: templates/basket/partials/basket_content.html:64
+msgid "Updating..."
+msgstr ""
+
+#: templates/basket/partials/basket_content.html:64
+msgid "Update"
+msgstr ""
+
+#: templates/basket/partials/basket_content.html:69
+#: templates/basket/partials/basket_content.html:192
+#: templates/catalogue/partials/add_to_wishlist.html:41
+msgid "Remove"
+msgstr ""
+
+#: templates/basket/partials/basket_content.html:71
+msgid "Save for later"
+msgstr ""
+
+#: templates/basket/partials/basket_content.html:117
+msgid "Voucher/promo code"
+msgstr ""
+
+#: templates/basket/partials/basket_content.html:119
+msgid "I have a voucher code..."
+msgstr ""
+
+#: templates/basket/partials/basket_content.html:125
+#: templates/catalogue/partials/add_to_basket_form.html:20
+#: templates/catalogue/partials/add_to_wishlist.html:31
+msgid "Adding..."
+msgstr ""
+
+#: templates/basket/partials/basket_content.html:125
+msgid "Add voucher"
+msgstr ""
+
+#: templates/basket/partials/basket_content.html:126
+#: templates/partials/form.html:12
+msgid "or"
+msgstr ""
+
+#: templates/basket/partials/basket_content.html:126
+#: templates/partials/form.html:12
+msgid "cancel"
+msgstr ""
+
+#: templates/basket/partials/basket_content.html:136
+msgid "Totals"
+msgstr ""
+
+#: templates/basket/partials/basket_content.html:148
+msgid "Proceed to checkout"
+msgstr ""
+
+#: templates/basket/partials/basket_content.html:157
+msgid "Your basket is empty."
+msgstr ""
+
+#: templates/basket/partials/basket_content.html:158
+msgid "Continue shopping"
+msgstr ""
+
+#: templates/basket/partials/basket_content.html:167
+msgid "Items to buy later"
+msgstr ""
+
+#: templates/basket/partials/basket_content.html:170
+msgid "Items"
+msgstr ""
+
+#: templates/basket/partials/basket_content.html:209
+#, fuzzy
+#| msgid "Add to basket"
+msgid "Move to basket"
 msgstr "В корзину"
 
-#: templates/catalogue/category.html:29 templates/catalogue/detail.html:75
+#: templates/basket/partials/summary.html:4 templates/basket/summary.html:6
+msgid "Your order"
+msgstr "Ваш заказ"
+
+#: templates/basket/partials/summary.html:10
+msgid "Go to the main page"
+msgstr "Перейти на главную страницу"
+
+#: templates/basket/partials/summary.html:27
+msgid "Name of product"
+msgstr "Название товара"
+
+#: templates/basket/partials/summary.html:75
+msgid "Payment method"
+msgstr "Способ оплаты"
+
+#: templates/basket/partials/summary.html:93
+msgid "Shipping method"
+msgstr "Способ доставки"
+
+#: templates/basket/partials/summary.html:111
+msgid "Shipping information"
+msgstr "Информация для доставки"
+
+#: templates/basket/partials/summary.html:133
+msgid "Total to pay"
+msgstr "Всего к оплате"
+
+#: templates/basket/partials/summary.html:137
+msgid "Pay the order"
+msgstr "Оплатить заказ"
+
+#: templates/catalogue/browse.html:10 templates/catalogue/detail.html:70
+#: templates/main.html:10
+msgid "Categories"
+msgstr "Категории"
+
+#: templates/catalogue/detail.html:36
+#: templates/catalogue/partials/product.html:40
 msgid "Not available"
 msgstr "Нет в наличии"
 
-#: templates/catalogue/detail.html:82
+#: templates/catalogue/detail.html:44
 msgid "Product details"
 msgstr "Подробнее о товаре"
 
-#: templates/catalogue/detail.html:89
-msgid "Related products"
+#: templates/catalogue/detail.html:53
+#, fuzzy
+#| msgid "Related products"
+msgid "Recommended products"
 msgstr "Связанные товары"
 
-#: templates/catalogue/detail.html:92
-msgid "See all products"
-msgstr "Посмотреть все товары"
+#: templates/catalogue/partials/add_to_basket_form.html:20
+#: templates/catalogue/partials/add_to_basket_form.html:33
+#: templates/catalogue/partials/product.html:32
+msgid "Add to basket"
+msgstr "В корзину"
 
-#: templates/catalogue/detail.html:109 templates/main.html:10
-msgid "Categories"
-msgstr "Категории"
+#: templates/catalogue/partials/add_to_basket_form.html:27
+msgid "You have an active stock alert for this product."
+msgstr ""
+
+#: templates/catalogue/partials/add_to_basket_form.html:31
+msgid "You can get an email alert when this product is back in stock."
+msgstr ""
+
+#: templates/catalogue/partials/add_to_basket_form.html:33
+msgid "Submitting..."
+msgstr ""
+
+#: templates/catalogue/partials/add_to_basket_form.html:33
+msgid "Notify me"
+msgstr ""
+
+#: templates/catalogue/partials/add_to_wishlist.html:11
+#: templates/catalogue/partials/add_to_wishlist.html:31
+#: templates/catalogue/partials/add_to_wishlist.html:46
+#, fuzzy
+#| msgid "Add to basket"
+msgid "Add to wish list"
+msgstr "В корзину"
+
+#: templates/catalogue/partials/add_to_wishlist.html:17
+#, python-format
+msgid ""
+"\n"
+"                                            Add to '%(name)s' wish list\n"
+"                                        "
+msgstr ""
+
+#: templates/catalogue/partials/add_to_wishlist.html:24
+msgid "Create a new wishlist"
+msgstr ""
+
+#: templates/catalogue/partials/add_to_wishlist.html:38
+#, python-format
+msgid ""
+"\n"
+"                    <span class=\"pull-left\">Product is in <a href=\"%(url)s"
+"\">'%(name)s'</a> wishlist.</span>\n"
+"                "
+msgstr ""
+
+#: templates/catalogue/partials/add_to_wishlist.html:41
+msgid "Removing..."
+msgstr ""
+
+#: templates/catalogue/partials/add_to_wishlist.html:46
+msgid "Please login to add products to a wish list."
+msgstr ""
+
+#: templates/catalogue/partials/product.html:36
+#, fuzzy
+#| msgid "Product details"
+msgid "More details..."
+msgstr "Подробнее о товаре"
+
+#: templates/customer/baseaccountpage.html:5
+msgid "Account"
+msgstr "Аккаунт"
+
+#: templates/partials/form.html:11
+msgid "Saving..."
+msgstr ""
+
+#: templates/partials/form.html:11
+msgid "Save"
+msgstr ""
+
+#: templates/partials/form_fields.html:5
+msgid "Oops! We found some errors"
+msgstr ""
+
+#: templates/partials/form_fields.html:5
+msgid "please check the error messages below and try again"
+msgstr ""
+
+#: templates/partials/image_input_widget.html:6
+#: templates/partials/image_input_widget.html:8
+msgid "thumbnail"
+msgstr ""
+
+#: templates/partials/image_input_widget.html:10
+msgid "Unrecognized image type!"
+msgstr ""
+
+#: templates/partials/image_input_widget.html:11
+msgid "Upload Image"
+msgstr ""
 
 #: templates/simple.html:14
 msgid "This page is under construction"
 msgstr "Данная страница находится в разработке"
+
+#~ msgid "Delivery"
+#~ msgstr "Доставка"
+
+#~ msgid "Checkout"
+#~ msgstr "Покупка"
+
+#~ msgid "item(s)"
+#~ msgstr "предметы"
+
+#~ msgid "See all products"
+#~ msgstr "Посмотреть все товары"
