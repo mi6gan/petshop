@@ -25,6 +25,7 @@
                 </h5>
             </div>
             <form id="miniBasketForm" class="collapse fade out" data-type="ajax" method="POST" action="{% url 'basket:process' %}">
+            <div class="arrow"></div>
             <div class="well">
             {% csrf_token %}
             
@@ -34,31 +35,32 @@
             {% for form in formset %}
             {% with line=form.instance product=form.instance.product %}
             {% purchase_info_for_line request line as session %}
-            <br>
-            <div class="row">
-                <div class="col-xs-2 text-center">
-                    <img src="{{ product.tiny_thumb }}" alt="{{ product.get_title }}">
-                </div>
-                <div class="col-xs-4 text-center">
-                    <b>{{ line.description }}</b>
-                </div>
-                <div class="col-xs-4 text-center">
-                    {% purchase_info_for_product request form.instance.product as saved %}
-                    {% if line.is_tax_known %}
-                        {{ line.quantity }} x {{ saved.price.incl_tax|currency:saved.price.currency }}
-                    {% else %}
-                        {{ line.quantity }} x {{ saved.price.incl_tax|currency:saved.price.currency }}
-                    {% endif %}
-                </div>
-                <div class="col-xs-2">
+            <table class="table table-condensed table-bordered">
+                <tr>
+                    <td class="text-center">
+                        <a href="{{ product.get_absolute_url }}"><img src="{{ product.tiny_thumb }}" alt="{{ product.get_title }}"></a>
+                    </td>
+                    <td class="text-center">
+                        <b>{% with title=line.description|wordwrap:20 %}{{ title|linebreaksbr }}{% endwith %}</b>
+                    </td>
+                    <td class="text-center">
+                        {% purchase_info_for_product request form.instance.product as saved %}
+                        {% if line.is_tax_known %}
+                            {{ line.quantity }} x {{ saved.price.incl_tax|currency:saved.price.currency }}
+                        {% else %}
+                            {{ line.quantity }} x {{ saved.price.incl_tax|currency:saved.price.currency }}
+                        {% endif %}
+                    </td>
+                    <td>
                         {% for field in form.hidden_fields %}
                             {{ field }}
                         {% endfor %}
                         {% for field in form.visible_fields %}
                             {{ field }}
                         {% endfor %}
-                </div>
-            </div>
+                    </td>
+                </tr>
+            </table>
             {% endwith %}
             {% empty %}
             {% endfor %}

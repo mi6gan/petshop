@@ -100,3 +100,30 @@ body > .wrap {
         }
     }
 }
+#miniBasketForm {
+    .arrow {
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-bottom: 10px solid #f5f5f5;
+        float: right;
+        margin-top: -10px;
+        margin-right: 140px; 
+        position: relative;
+    }
+    .well {
+        border: none;
+        @include box-shadow(none);
+        .table {
+            background-color: white;
+            tr {
+                > td {
+                    vertical-align: middle;
+                    border-top: none;
+                }
+            }
+            margin-bottom: 0;
+        }
+    }
+}

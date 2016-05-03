@@ -10,13 +10,11 @@ CMS_CACHE_DURATIONS = {
     'permissions': 0
 }
 
-'''
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.dummy.DummyCache'
     }
 }
-'''
 
 DATABASES = {
     'default': {
