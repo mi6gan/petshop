@@ -5,12 +5,19 @@
 {% block "title" %}{% trans "Yandex Money - testing mode" %}{% endblock %}
 
 {% block "inner-content" %}
-<ul class="list-unstyled">
-    {% for name,value in request.POST.items %}
-        <li>{{ name }}: {{ value }}</li>
-    {% endfor %}
-</ul>
-<p>&nbsp;</p>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <p>&nbsp;</p>
+            <ul class="list-unstyled">
+                {% for name,value in request.POST.items %}
+                <li>{{ name }}: {{ value }}</li>
+                {% endfor %}
+            </ul>
+            <p>&nbsp;</p>
+        </div>
+    </div>
+</div>
 <form method="POST" action=".">
     <div class="form-group">
         <button class="btn btn-primary" type="submit" name="action" value="success">{% trans "Test payment is successful" %}</button>

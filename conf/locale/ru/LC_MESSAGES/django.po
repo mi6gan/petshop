@@ -88,7 +88,7 @@ msgid ""
 msgstr ""
 "Извините, но оплата еще не подтверждена. Не беспокойтесь, мы уже "
 "обрабатываем ваш заказ #{0}. Возможно, вы хотите <a href='{1}'>повторить "
-"попыткуоплаты</a> или просто подождите и наш менеджер свяжется с вами."
+"попытку оплаты</a> или просто подождите и наш менеджер свяжется с вами."
 
 #: petshop/checkout/views.py:317
 #, python-brace-format
@@ -548,7 +548,7 @@ msgstr "Подробнее..."
 
 #: templates/checkout/payment.html:6
 msgid "Please wait, redirecting to"
-msgstr ""
+msgstr "Пожалуйста, подождите, соединение с"
 
 #: templates/checkout/shipping_address.html:39
 msgid "Next"
