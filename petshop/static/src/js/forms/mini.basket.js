@@ -43,9 +43,10 @@ $.fn.miniBasket = function(){
             showMiniBasket();
         }
     });
-    $("body").on("click", "a[data-target=#" + id + "]", function(){
+    $("body").on("click", "a[data-target=#" + id + "]", function(event){
         var link = $(this),
-            url = link.data('url');
+            url = link.data('url'),
+            csrftoken = getCookie('csrftoken') || miniBasket.data('csrftoken');
         miniBasket.addClass("loading");
         $.ajax({
             url: url,
@@ -62,8 +63,11 @@ $.fn.miniBasket = function(){
         }).success(function(response){
             miniBasket.removeClass("loading");
             updateContent(response.content);
+            $("html,body").animate({
+                scrollTop: miniBasket.offset().top
+            }, 400);
         });
-
+        event.preventDefault();
     });
     bindForm();
     miniBasket.data('updateContent', updateContent);

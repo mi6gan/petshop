@@ -1,0 +1,49 @@
+{% extends "simple.html" %}
+
+{% load i18n %}
+{% load sekizai_tags %}
+
+
+{% block "inner-content" %}
+
+{% for js in form.media.render_js %}
+{% addtoblock 'js' %}{{ js }}{% endaddtoblock %}
+{% endfor %}
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h3><span class="bold">{% trans "Shipping information" %}</span></h3>
+<p>&nbsp;</p>
+<div class="row">
+    <div class="col-sm-12 col-md-8 col-md-offset-2">
+
+<div class="row">
+    <div class="col-xs-6 col-xs-offset-3 col-sm-4 col-sm-offset-4">
+        <form method="POST" action="{% url 'checkout:shipping-address' %}">
+        {% csrf_token %}
+        <div style="display:none;">
+        {% for field in form.hidden_fields %}
+            {{ field }}
+        {% endfor %}
+        </div>
+        {% for field in form.visible_fields %}
+            <div class="form-group{% if field.errors %} has-error has-feedback{% endif %}">
+                <div data-field="{{ field.name }}">{{ field }}</div>
+                {% if field.errors %}<span class="glyphicon icon-basic-exclamation form-control-feedback"></span>{% endif %}
+           </div>
+        {% endfor %}
+        <p>&nbsp;</p>
+        <div class="form-group">
+            <button class="btn btn-primary" type="submit">{% trans "Next" %}</button>
+        </div>
+        </form>
+    </div>
+</div>
+
+    </div>
+</div>
+
+<p>&nbsp;</p>
+{% endblock %}

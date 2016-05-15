@@ -9,7 +9,7 @@ from django.shortcuts import redirect
 from django.template.context import RequestContext
 from django.utils import timezone
 from django.utils.decorators import method_decorator
-from django.utils.decorators import method_decorator
+from django.utils.safestring import mark_safe
 from django.utils.functional import cached_property 
 from django.utils.translation import ugettext as _
 from django.views.decorators.csrf import csrf_exempt
@@ -41,6 +41,7 @@ OrderTotalCalculator = get_class(
             'checkout.calculators', 'OrderTotalCalculator')
 SourceType = get_model('payment', 'SourceType')
 Source = get_model('payment', 'Source')
+UserAddress = get_model('address', 'UserAddress')
 
 class CheckoutSessionMixin(object):
 
@@ -49,8 +50,7 @@ class CheckoutSessionMixin(object):
 
     session_key = 'checkout_session' 
     checkout_urls = [
-        'basket:summary',
-        'checkout:checkout',
+        'checkout:index',
         'checkout:payment'
     ]
     checks = [
@@ -145,10 +145,12 @@ class CheckoutSessionMixin(object):
         send_email_to_managers(self.request, 'ORDER_PLACED', ctx)
         return order
 
-    def add_payment_source(self, source_type):
+    def add_payment_source(self, source_type, total=False):
         order = self.get_order()
         payment_source, __ = Source.objects.get_or_create(
                 order=order, source_type=source_type)
+        if total:
+            payment_source.allocate(total)
         self._set_model_instance('payment_source', payment_source)
         return payment_source
 
@@ -211,7 +213,7 @@ class CheckoutView(CheckoutSessionMixin, AjaxFormView):
     ]
 
     def form_valid(self, form):
-        # shipping address
+        user = self.request.user
         shipping_form = form.shippingform
         address_form = form.addressform
         payment_form = form.paymentform
@@ -225,6 +227,23 @@ class CheckoutView(CheckoutSessionMixin, AjaxFormView):
                 (k, v) for (k, v) in address_form.instance.__dict__.items()
                 if not k.startswith('_'))
         shipping_address = address_form.save()
+        if user.is_authenticated():
+            current_useraddress = (
+                    user.addresses.filter(
+                        is_default_for_shipping=True).first())
+            useraddress_kwargs = {
+                    f.name: getattr(shipping_address, f.name)
+                    for f in UserAddress._meta.get_fields()
+                    if hasattr(shipping_address, f.name)
+                }
+            if current_useraddress:
+                for k, v in useraddress_kwargs.items():
+                    if getattr(current_useraddress, k) != v:
+                        user.addresses.create(**useraddress_kwargs)
+                        break
+            else:
+                useraddress_kwargs.update(is_default_for_shipping=True)
+                user.addresses.create(**useraddress_kwargs)
         basket = self.request.basket
         shipping_charge = shipping_method.calculate(basket)
         total = OrderTotalCalculator().calculate(basket, shipping_charge)
@@ -236,7 +255,7 @@ class CheckoutView(CheckoutSessionMixin, AjaxFormView):
                 shipping_charge=shipping_charge,
                 shipping_address=shipping_address)
         source = self.add_payment_source(
-                payment_form.instance.source_type)
+                payment_form.instance.source_type, total.incl_tax)
         response = {
             'success_url': self.get_success_url(),
             'result': 'ok'
@@ -248,7 +267,9 @@ class CheckoutView(CheckoutSessionMixin, AjaxFormView):
         repo = Repository()
         basket = self.request.basket
         shipping_method = repo.get_shipping_methods(basket)[0]
-        kwargs.update(basket=basket, shipping_method=shipping_method)
+        kwargs.update(
+                basket=basket, 
+                shipping_method=shipping_method)
         return kwargs
 
 
@@ -257,7 +278,7 @@ class PaymentView(CheckoutSessionMixin, FormView):
         'order_is_placed',
         'has_payment_source'
     ]
-    template_name = "oparts/checkout/payment.html"
+    template_name = "checkout/payment.html"
 
     def get_form_class(self):
         return self.payment_provider.form_class
@@ -268,8 +289,8 @@ class PaymentView(CheckoutSessionMixin, FormView):
         order = self.get_order()
         source = self.get_payment_source()
         status = order.status
-        total = order.total_excl_tax
-        if status == Order.STATUS_PENDING:
+        total = order.total_incl_tax
+        if not status or status == Order.STATUS_PENDING:
             amount_debited = (
                     order.sources.aggregate(
                         amount=Sum('amount_debited'))['amount']) or 0
@@ -280,9 +301,30 @@ class PaymentView(CheckoutSessionMixin, FormView):
                 send_email_to_managers(self.request, 'ORDER_PAID', ctx)
                 send_email_to(
                         self.request, 'USER_ORDER_PAID', ctx, [order.email])
+        if order.status == Order.STATUS_FAILED:
+            messages.error(self.request, 
+                        mark_safe(
+                            _("Sorry, but the payment is not submitted yet."
+                          " Don't worry, we're already"
+                          " processing it as order #{0}."
+                          " You may want to"
+                          " <a href='{1}'>retry your payment</a> or just wait"
+                          " and our managers will contact you soon."
+                          ).format( order.number, reverse(
+                              'checkout:order_payment', args=[order.number]))))
+        elif order.status == Order.STATUS_PAID:
+                messages.success(self.request, 
+                        _("Thank you! Your order #{0}"
+                          " is successfully paid."
+                          " Please wait for our managers response,"
+                          " they will contact you soon.").format(order.number))
         if order.status in (Order.STATUS_PAID, Order.STATUS_FAILED):
             self.reset_session()
-            return redirect('checkout:order', order.number)
+            if request.user.is_authenticated():
+                return redirect('customer:order', order.number)
+            else:
+                return redirect('customer:anon-order',
+                        order.number, order.verification_hash())
         else:
             return (super(PaymentView, self)
                         .dispatch(request, *args, **kwargs))
@@ -310,36 +352,12 @@ class OrderPaymentView(CheckoutSessionMixin, DetailView):
         order.status = Order.STATUS_PENDING
         order.save()
         self.set_order(order)
-        self.add_payment_source(order.sources.first().source_type)
+        payment_source = order.sources.first()
+        self.add_payment_source(
+                payment_source.source_type, max(
+                    order.total_incl_tax,
+                    payment_source.amount_allocated))
         return redirect('checkout:payment')
-
-
-class OrderDetailView(CheckoutSessionMixin, DetailView):
-    model = get_model('order', 'Order')
-    template_name = 'oparts/checkout/order_detail.html'
-    slug_field = 'number' 
-    slug_url_kwarg = 'number'
-    checks = []
-    checkout_urls = []
-
-    def dispatch(self, request, *args, **kwargs):
-        return (super(OrderDetailView, self)
-                .dispatch(request, *args, **kwargs))
-
-    def get_context_data(self, **kwargs):
-        kwargs = super(OrderDetailView, self).get_context_data(**kwargs)
-        user_is_auth = self.request.user.is_authenticated()
-        try:
-            placed_order = self.get_placed_order()
-            order = self.get_object()
-            if placed_order == order:
-                kwargs.update(order_placed=True)
-            elif not user_is_auth or order.user != self.request.user:
-                raise PermissionDenied
-        except Order.DoesNotExist:
-            if not user_is_auth:
-                raise PermissionDenied
-        return kwargs
 
 
 class YandexMoneyError(Exception):
@@ -355,7 +373,7 @@ class YandexMoneyError(Exception):
 
 
 class YandexMoneyResponseView(TemplateResponseMixin, View):
-    template_name = "oparts/checkout/yandex_money.xml"
+    template_name = "checkout/yandex_money.xml"
     content_type = 'application/xml'
     tagname = 'base'
     http_method_names = ['post']
@@ -363,7 +381,7 @@ class YandexMoneyResponseView(TemplateResponseMixin, View):
 
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
-        post = self.request.POST
+        post = request.POST
         ctx= dict(
             tagname=self.tagname,
             invoice_id=post.get('invoiceId'),
@@ -410,10 +428,10 @@ class YandexMoneyResponseView(TemplateResponseMixin, View):
         else:
             ctx.update(code=0)
             if action == 'checkOrder':
-                source.allocate(order_sum_amount)
                 ctx.update(order_sum_amount=str(order_sum_amount))
             elif action == 'paymentAviso':
-                source.debit(order_sum_amount)
+                if source.amount_allocated > source.amount_debited:
+                    source.debit(order_sum_amount)
             send_email_to_admins(request, 'YAMONEY_CHECK_DEBUG', ctx)
         context =  RequestContext(request, ctx) 
         return self.render_to_response(context)
@@ -428,7 +446,7 @@ class YandexMoneyAvisoView(YandexMoneyResponseView):
 
 
 class YandexMoneyTestView(CheckoutSessionMixin, TemplateView):
-    template_name = 'oparts/checkout/yandex_money_test.html'
+    template_name = 'checkout/yandex_money_test.html'
     checks = [
         'order_is_placed',
         'has_payment_source'
@@ -448,7 +466,7 @@ class YandexMoneyTestView(CheckoutSessionMixin, TemplateView):
         request_datetime = datetime.datetime.isoformat(timezone.now())
         data = dict(
             action=action,
-            orderSumAmount=order.total_excl_tax,
+            orderSumAmount=order.total_incl_tax,
             orderSumCurrencyPaycash=643,
             orderSumBankPaycash=643,
             shopId=provider_settings.get('shopId'),
@@ -466,7 +484,7 @@ class YandexMoneyTestView(CheckoutSessionMixin, TemplateView):
             requestDatetime=request_datetime,
             orderNumber=order.number,
             orderCreatedDatetime=request_datetime,
-            shopSumAmount=order.total_excl_tax,
+            shopSumAmount=order.total_incl_tax,
             paymentType=source.source_type.code,
             md5=yandex_money_checksum(**md5_data)
         )

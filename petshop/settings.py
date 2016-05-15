@@ -65,14 +65,16 @@ INSTALLED_APPS = [
     'petshop.customer',
     'petshop.payment',
     'petshop.shipping',
+    'petshop.order',
+    'petshop.address',
     'petshop.basket'])
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.cache.UpdateCacheMiddleware',
     'cms.middleware.utils.ApphookReloadMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -202,8 +204,9 @@ OSCAR_EAGER_ALERTS = False
 OSCAR_CURRENCY_FORMAT = u"# руб."
 OSCAR_DEFAULT_CURRENCY = "RUR"
 OSCAR_EAGER_ALERTS = False
-OSCAR_ALLOW_ANON_CHECKOUT = False
+OSCAR_ALLOW_ANON_CHECKOUT = True
 OSCAR_PRODUCTS_PER_PAGE = 18
+OSCAR_INITIAL_ORDER_STATUS = 'pending'
 
 LOGIN_REDIRECT_URL = 'customer:profile-view'
 OSCAR_ACCOUNTS_REDIRECT_URL = LOGIN_REDIRECT_URL

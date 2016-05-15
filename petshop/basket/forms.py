@@ -4,9 +4,12 @@ from django.forms.utils import flatatt
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
+from django.utils.encoding import force_text
 from django import forms
 
 from oscar.core.loading import get_class, get_model
+from oscar.forms.widgets import AdvancedSelect
+from oscar.templatetags.currency_filters import currency
 from oscar.apps.basket.forms import (
         AddToBasketForm as OscarAddToBasketForm,
         BaseBasketLineFormSet as OscarBaseBasketLineFormSet,
@@ -111,6 +114,93 @@ class BaseBasketLineFormSet(OscarBaseBasketLineFormSet):
         )
         self.add_fields(form, None)
         return form
+
+
+class ParentProductSelect(AdvancedSelect):
+    
+    def __init__(self, attrs=None, choices=(), disabled_values=(),
+                 choices_extra={}):
+        self.disabled_values = set(force_text(v) for v in disabled_values)
+        self.choices_extra = choices_extra
+        super(ParentProductSelect, self).__init__(attrs, choices)
+
+    def render_option(self, selected_choices, option_value, option_label):
+        extra_attrs = self.choices_extra.get(option_value, {})
+        option_value = force_text(option_value)
+        if option_value in self.disabled_values:
+            selected_html = mark_safe(' disabled="disabled"')
+        elif option_value in selected_choices:
+            selected_html = mark_safe(' selected="selected"')
+            if not self.allow_multiple_selected:
+                # Only allow for a single selection.
+                selected_choices.remove(option_value)
+        else:
+            selected_html = ''
+        return format_html(u'<option value="{0}"{1}{2}>{3}</option>',
+                           option_value,
+                           selected_html,
+                           flatatt(extra_attrs),
+                           force_text(option_label))
+
+
+class AddToBasketForm(OscarAddToBasketForm):
+
+    class Media:
+        js = ('js/forms/add.to.basket.js',)
+
+    def __init__(self, basket, product, *args, **kwargs):
+        super(AddToBasketForm, self).__init__(
+                basket, product, *args, **kwargs)
+
+    def _add_option_field(self, product, option):
+        """
+        Creates the appropriate form field for the product option.
+
+        This is designed to be overridden so that specific widgets can be used
+        for certain types of options.
+        """
+        kwargs = {'required': option.is_required}
+        self.fields[option.code] = forms.CharField(**kwargs)
+
+    def _create_parent_product_fields(self, product):
+        """
+        Adds the fields for a "group"-type product (eg, a parent product with a
+        list of children.
+
+        Currently requires that a stock record exists for the children
+        """
+        choices = []
+        disabled_values = []
+        choices_extra = {}
+        for child in product.children.all():
+            # Build a description of the child, including any pertinent
+            # attributes
+            attr_summary = child.attribute_summary
+            if attr_summary:
+                summary = attr_summary
+            else:
+                summary = child.get_title()
+
+            # Check if it is available to buy
+            info = self.basket.strategy.fetch_for_product(child)
+            if not info.availability.is_available_to_buy:
+                disabled_values.append(child.id)
+            else:
+                price = (info.price.incl_tax 
+                        if info.price.is_tax_known else info.price.excl_tax)
+                choices_extra[child.id] = {
+                    'data-price': currency(price, info.price.currency)
+                }
+            choices.append((child.id, summary))
+        self.fields['child_id'] = forms.ChoiceField(
+            choices=tuple(choices), label=_("Variant"),
+            widget=ParentProductSelect(disabled_values=disabled_values,
+                                       choices_extra=choices_extra))
+
+class SimpleAddToBasketForm(AddToBasketForm):
+    quantity = forms.IntegerField(
+        initial=1, min_value=1, widget=forms.HiddenInput, label=_('Quantity'))
+
 
 
 BasketLineFormSet = modelformset_factory(

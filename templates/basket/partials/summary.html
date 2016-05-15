@@ -14,7 +14,7 @@
 
 <hr class="transparent" />
 
-<div class="row"><div class="col-sm-12 col-md-8 col-md-offset-2">
+<div class="row"><div class="col-sm-12 col-md-10 col-md-offset-1">
 
 <form id="basketForm" data-submitalways="true" method="POST" action="{% url 'basket:summary' %}">
 
@@ -24,10 +24,12 @@
     {{ formset.management_form }}
 </div>
 <div class="row">
-    <div class="col-xs-4 bold">{% trans "Name of product" %}</div>
-    <div class="col-xs-2 bold">{% trans "Quantity" %}</div>
-    <div class="col-xs-3 bold">{% trans "Price" %}</div>
-    <div class="col-xs-1 bold"></div>
+    <div class="col-xs-2"><b>{% trans "UPC" %}</b></div>
+    <div class="col-xs-1"><b>{% trans "Photo" %}</b></div>
+    <div class="col-xs-3"><b>{% trans "Name of product" %}</b></div>
+    <div class="col-xs-2"><b>{% trans "Quantity" %}</b></div>
+    <div class="col-xs-2"><b>{% trans "Price" %}</b></div>
+    <div class="col-xs-2 text-center"><b>{% trans "Remove" %}</b></div>
 </div>
 
 <hr/>
@@ -38,7 +40,15 @@
 {% purchase_info_for_line request line as saved %}
 
 <div class="row fade in" data-line="{{ line.pk }}">
-    <div class="col-xs-4"><a href="{{ product.get_absolute_url }}">{{ product }}</a></div>
+    <div class="col-xs-2">
+        {{ product.upc }}
+    </div>
+    <div class="col-xs-1">
+        <a href="{{ product.get_absolute_url }}">
+            <img class="responsive" src="{{ product.tiny_thumb }}" />
+        </a>
+    </div>
+    <div class="col-xs-3"><a href="{{ product.get_absolute_url }}">{{ product }}</a></div>
     <div class="col-xs-2">
         <div style="display:none;">
         {% for field in form.hidden_fields %}
@@ -47,14 +57,14 @@
         </div>
         {{ form.quantity }}
     </div>
-    <div class="col-xs-3">
+    <div class="col-xs-2">
         {% if line.is_tax_known %}
             {{ line.line_price_incl_tax|currency:saved.price.currency }}
         {% else %}
             {{ line.line_price_excl_tax|currency:saved.price.currency }}
         {% endif %}
     </div>
-    <div class="col-xs-1">
+    <div class="col-xs-2 text-center">
         {{ form.DELETE }}
     </div>
 </div>
@@ -71,42 +81,7 @@
 <form method="POST" id="checkoutForm" action="{% url 'checkout:index' %}">
     {% csrf_token %}
     <div class="row">
-        <div class="col-xs-7 col-sm-6 text-right">
-            <h3 class="bold">{% trans "Payment method" %}</h3>
-            <br/>
-            {% with form=checkout_form.paymentform %}
-            <div style="display:none;">
-                {% for field in form.hidden_fields %}
-                    {{ field }}
-                {% endfor %}
-            </div>
-            {% for field in form.visible_fields %}
-                <div class="form-group">
-                    <div data-field="{{ field.html_name }}" data-placement="{% if not forloop.last %}top{% else %}bottom{% endif %}">
-                        {{ field }}
-                    </div>
-                </div>
-            {% endfor %}
-            {% endwith %}
-        </div>
-        <div class="col-xs-4 col-xs-offset-1 col-sm-5 text-right">
-            <h3 class="bold">{% trans "Shipping method" %}</h3>
-            <br/>
-            {% with form=checkout_form.shippingform %}
-            <div style="display:none;">
-                {% for field in form.hidden_fields %}
-                    {{ field }}
-                {% endfor %}
-            </div>
-            {% for field in form.visible_fields %}
-                <div class="form-group">
-                    <div data-field="{{ field.html_name }}" data-placement="{% if not forloop.last %}top{% else %}bottom{% endif %}">
-                        {{ field }}
-                    </div>
-                </div>
-            {% endfor %}
-            {% endwith %}
-            <hr class="transparent" />
+        <div class="col-xs-4 col-sm-5">
             {% with form=checkout_form.addressform %}
             <h3 class="bold">{% trans "Shipping information" %}</h3>
             <br/>
@@ -125,23 +100,56 @@
             {% endfor %}
             {% endwith %}
         </div>
+        <div class="col-xs-8 col-sm-7">
+            <h3 class="bold">{% trans "Payment method" %}</h3>
+            <br/>
+            {% with form=checkout_form.paymentform %}
+            <div style="display:none;">
+                {% for field in form.hidden_fields %}
+                    {{ field }}
+                {% endfor %}
+            </div>
+            {% for field in form.visible_fields %}
+                <div class="form-group">
+                    <div data-field="{{ field.html_name }}" data-placement="{% if not forloop.last %}top{% else %}bottom{% endif %}">
+                        {{ field }}
+                    </div>
+                </div>
+            {% endfor %}
+            {% endwith %}
+            <hr class="transparent" />
+            <h3 class="bold">{% trans "Shipping method" %}</h3>
+            <br/>
+            {% with form=checkout_form.shippingform %}
+            <div style="display:none;">
+                {% for field in form.hidden_fields %}
+                    {{ field }}
+                {% endfor %}
+            </div>
+            {% for field in form.visible_fields %}
+                <div class="form-group">
+                    <div data-field="{{ field.html_name }}" data-placement="{% if not forloop.last %}top{% else %}bottom{% endif %}">
+                        {{ field }}
+                    </div>
+                </div>
+            {% endfor %}
+            {% endwith %}
     </div>
-
-<div class="row summary">
-    <div class="col-xs-offset-10 col-xs-2 text-right">
-        <hr/>
-        <p class="bold">{% trans "Total to pay" %}:</p>
-        <h4><b class="bold"><span id="totalSum" data-initial="{{ basket.total_excl_tax.to_integral_value }}" data-currency="{{ basket.currency }}">{{ basket.total_excl_tax.to_integral_value }} {{ basket.currency }}</span></b></h4>
-        <p>&nbsp;</p>
-        <div class="form-group">
-            <button class="btn btn-primary" type="submit">{% trans "Pay the order" %}</button>
-        </div>
-    </div>
-</div>
 </form>
 <div class="well fade hide" data-form="checkoutForm">
     <div class="container-fluid text-center">
         <span data-bind="nonfielderrors">&nbsp;</span>
+    </div>
+</div>
+<div class="row summary">
+    <div class="col-xs-8 col-sm-7 col-xs-offset-4 col-sm-offset-5">
+            <hr/>
+            <p class="bold">{% trans "Total to pay" %}:</p>
+            <h4><b class="bold"><span id="totalSum" data-initial="{{ basket.total_excl_tax.to_integral_value }}" data-currency="{{ basket.currency }}">{{ basket.total_excl_tax.to_integral_value }} {{ basket.currency }}</span></b></h4>
+            <p>&nbsp;</p>
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit">{% trans "Pay the order" %}</button>
+            </div>
     </div>
 </div>
 <p>&nbsp;</p>

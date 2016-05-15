@@ -1,0 +1,13 @@
+{% extends "simple.html" %}
+
+{% load i18n %}
+
+{% block "inner-content" %}
+<h3>{% trans "Please wait, redirecting to" %} {{ provider }}...</h3>
+<form method="POST" id="paymentGatewayForm" action="{{ provider.url }}">
+    {{ form }}
+</form>
+<script>
+document.getElementById('paymentGatewayForm').submit();
+</script>
+{% endblock %}

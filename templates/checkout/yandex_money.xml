@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="UTF-8"?><{{ tagname }} performedDatetime="{% now 'c' %}" code="{{ code }}" invoiceId="{{ invoice_id }}" shopId="{{ shop_id }}"{% if message %} message="{{ message }}"{% endif %}{% if order_sum_amount %} orderSumAmount="{{ order_sum_amount }}"{% endif %} />

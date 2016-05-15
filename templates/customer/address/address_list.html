@@ -1,0 +1,8 @@
+{% extends "oscar/customer/address/address_list.html" %}
+{% load sekizai_tags static %}
+
+{% block tabcontent %}
+    {% addtoblock 'js' %}<script type="text/javascript" src="{% static "vendor/js/bootstrap/dropdown.js" %}"></script>{% endaddtoblock %}
+    {{ block.super }}
+{% endblock tabcontent %}
+

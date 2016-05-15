@@ -5,7 +5,7 @@ from oscar.apps.checkout.utils import CheckoutSessionData
 
 class Repository(repository.Repository):
 
-    methods = (methods.RussianPost(), methods.Courier(), methods.DHL())
+    methods = (methods.RussianPost(),)
 
     def get_shipping_method_by_code(self, code):
         methods = self.methods

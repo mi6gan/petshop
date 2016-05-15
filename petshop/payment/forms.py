@@ -28,7 +28,7 @@ class PaymentForm(ModelForm):
         source_type.initial = queryset.first()
         source_type.label_from_instance = (
                 lambda obj: format_html(
-                    u'<img src="{}"/><span>{}</span>', obj.icon.url, obj.name))
+                    u'<span>{1}</span><img src="{0}"/>', obj.icon.url, obj.name))
 
 
 class ProviderBaseForm(Form):
@@ -51,7 +51,7 @@ class YandexKassaProviderForm(ProviderBaseForm):
         kwargs.update(initial={
             'shopId': provider_settings['shopId'],
             'scid': provider_settings['scid'], 
-            'sum': order.total_excl_tax,
+            'sum': order.total_incl_tax,
             'customerNumber': user.pk if user else 0,
             'paymentType': source.source_type.code,
             'orderNumber': order.number

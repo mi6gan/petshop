@@ -1,0 +1,22 @@
+{% extends "simple.html" %}
+
+{% load i18n %}
+
+{% block "title" %}{% trans "Yandex Money - testing mode" %}{% endblock %}
+
+{% block "inner-content" %}
+<ul class="list-unstyled">
+    {% for name,value in request.POST.items %}
+        <li>{{ name }}: {{ value }}</li>
+    {% endfor %}
+</ul>
+<p>&nbsp;</p>
+<form method="POST" action=".">
+    <div class="form-group">
+        <button class="btn btn-primary" type="submit" name="action" value="success">{% trans "Test payment is successful" %}</button>
+    </div>
+    <div class="form-group">
+        <button class="btn btn-danger" type="submit" name="action" value="fail">{% trans "Test Payment error" %}</button>
+    </div>
+</form>
+{% endblock %}

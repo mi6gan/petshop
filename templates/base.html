@@ -36,7 +36,7 @@
                 <a href="{% url "pages-root" %}"><img src="{{ request.site.settings.logo.thumb.url }}" title="{{ request.site.name }}" alt="{{ request.site.name }}" /></a>
             </div>
             {% block "mini-basket" %}
-            <div id="miniBasket" class="cart">
+            <div id="miniBasket" class="cart" data-csrftoken="{{ csrf_token }}">
                 {% if not hide_mini_basket %}
                     {% render_mini_basket %}
                 {% endif %}

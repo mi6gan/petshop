@@ -32,10 +32,10 @@
             <div style="display:none;">
                 {{ formset.management_form }}
             </div>
+            <table class="table table-condensed table-bordered">
             {% for form in formset %}
             {% with line=form.instance product=form.instance.product %}
             {% purchase_info_for_line request line as session %}
-            <table class="table table-condensed table-bordered">
                 <tr>
                     <td class="text-center">
                         <a href="{{ product.get_absolute_url }}"><img src="{{ product.tiny_thumb }}" alt="{{ product.get_title }}"></a>
@@ -60,10 +60,10 @@
                         {% endfor %}
                     </td>
                 </tr>
-            </table>
             {% endwith %}
             {% empty %}
             {% endfor %}
+            </table>
             <div class="row">
                 <div class="col-xs-12 text-right">
                     <br/>

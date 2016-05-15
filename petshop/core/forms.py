@@ -147,7 +147,7 @@ class StyledRadioChoiceInput(RadioChoiceInput):
         else:
             label_for = ''
         attrs = dict(self.attrs, **attrs) if attrs else self.attrs
-        return format_html(u'<label{}><span>{}</span> {}</label>', label_for,
+        return format_html(u'<label{0}><span>{2}</span> {1}</label>', label_for,
                            self.choice_label, self.tag(attrs))
    
 
@@ -160,7 +160,7 @@ class PaymentRadioChoiceInput(StyledRadioChoiceInput):
             label_for = ''
         attrs = dict(self.attrs, **attrs) if attrs else self.attrs
         return format_html(
-                u'<label{}>{}{}<span></span></label>',
+                u'<label{0}>{2}{1}<span></span></label>',
                 label_for, self.choice_label, self.tag(attrs))
 
 
@@ -199,7 +199,7 @@ class PhoneNumberMaskWidget(forms.TextInput):
             selector = u':input'
         input_html = (super(PhoneNumberMaskWidget, self)
                 .render(name, value, attrs))
-        return format_html(u"{}<script>$('{}').inputmask();</script>",
+        return format_html(u"{}<script>$(function(){{$('{}').inputmask()}});</script>",
                            input_html, selector)
 
 

@@ -18,30 +18,11 @@ class ShippingMethodMixin(object):
 
 	@property
 	def address_required_fields(self):
-		return ('first_name', 'last_name',
+		return ('first_name', 'last_name', 'middle_name',
 			    'phone_number', 'line1',
                 'line4', 'postcode')
 
 
 class RussianPost(ShippingMethodMixin, methods.Free):
 	code = 'rupost'
-	name = _('Free delivery by Russian Post')
-
-
-class Courier(ShippingMethodMixin, methods.FixedPrice):
-	code = 'courier'
-	name = _('Delivery by courier in Moscow')
-	charge_excl_tax = D('550.00')
-	charge_incl_tax = D('550.00')
-
-	@property
-	def address_required_fields(self):
-		return ('first_name', 'last_name',
-			    'phone_number', 'line1')
-
-
-class DHL(ShippingMethodMixin, methods.FixedPrice):
-	code = 'dhl'
-	name = _('Delivery by DHL in Russia')
-	charge_excl_tax = D('1500.00')
-	charge_incl_tax = D('1500.00')
+	name = _('Delivery by Russian Post')

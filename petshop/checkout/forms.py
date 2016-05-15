@@ -16,6 +16,8 @@ from petshop.core.forms import (
 
 Repository = get_class('shipping.repository', 'Repository')
 PaymentForm = get_class('payment.forms', 'PaymentForm')
+PetshopAddressForm = get_class('address.forms', 'PetshopAddressForm')
+ShippingAddress = get_model('order', 'ShippingAddress')
 
 
 class ShippingMethodsForm(Form):
@@ -34,7 +36,7 @@ class ShippingMethodsForm(Form):
         for method in shipping_methods:
             choices.append((method.code, method.name))
             data_extra[method.code] = dict(
-                charge = int(method.calculate(basket).excl_tax),
+                charge = int(method.calculate(basket).incl_tax),
                 address = method.address_required_fields + ('email',))
 
         self.fields['method_code'].widget = (StyledRadioSelect(
@@ -47,62 +49,21 @@ class ShippingMethodsForm(Form):
         self.fields['method_code'].initial = shipping_methods[0].code 
 
 
-Country = get_model('address', 'country')
+class ShippingAddressForm(ModelForm, PetshopAddressForm):
 
-ADDRESS_FIELDS_INITIAL = {
-    'line1': _('No address required'),
-    'line4': _('Moscow'),
-    'country': Country.objects.get(iso_3166_1_a2='RU'),
-    'postcode': '117133' 
-}
+    class Meta(PetshopAddressForm.Meta):
+        model = ShippingAddress 
 
-
-class ShippingAddressForm(ModelForm, OscarShippingAddressForm):
-    class Meta:
-        model = OscarShippingAddressForm.Meta.model
-        fields = [
-                'country', 'state',
-                'first_name', 'last_name', 'phone_number',
-                'line4', 'line1', 'postcode', 
-        ]
-        labels = {
-            'line1': _('Address'),
-            'line4': _('City')
-        }
-        widgets = {
-            'phone_number': PhoneNumberMaskWidget() 
-        }
-    email = forms.EmailField(label=_('Email'))
-
-    def __init__(self, shipping_method, guest_email=None, *args, **kwargs):
-        required_fields = getattr(shipping_method, 'address_required_fields', [])
-        super(ShippingAddressForm, self).__init__(*args, **kwargs)
-        if guest_email:
-            self.fields['email'].initial = guest_email
-        for field_name in self.fields:
-            required = field_name in required_fields
-            if not required and not field_name in ['email']:
-                self.fields[field_name].widget = forms.HiddenInput()
-                self.fields[field_name].initial = (
-                    ADDRESS_FIELDS_INITIAL.get(field_name))
-                print field_name, self.fields[field_name].initial
-            else:
-                self.fields[field_name].widget.attrs[
-                    'placeholder'] = self.fields[field_name].label
-                self.fields[field_name].required = required
-            if field_name in ADDRESS_FIELDS_INITIAL: 
-                self.fields[field_name].widget.attrs['data-initial'] = (
-                        ADDRESS_FIELDS_INITIAL[field_name])
-        original_fields = self.fields
-        print original_fields
-        self.fields = OrderedDict([('email', self.fields['email']),] + 
-                                [(k, v) for k, v in self.fields.items()
-                                                 if k not in ['email']])
+    def __init__(self, shipping_method, *args, **kwargs):
+        required_fields = getattr(
+            shipping_method, 'address_required_fields', [])
+        super(ShippingAddressForm, self).__init__(
+                    required_fields, *args, **kwargs)
 
 
 class CheckoutBaseForm(BaseCombinedForm):
 
-    def __init__(self, basket, shipping_method, *args, **kwargs):
+    def __init__(self, basket, shipping_method, address=None, *args, **kwargs):
         shipping_kwargs = kwargs.copy()
         shipping_kwargs['prefix'] = "shippingform"
         shippingform = ShippingMethodsForm(basket, *args, **shipping_kwargs)
@@ -113,20 +74,21 @@ class CheckoutBaseForm(BaseCombinedForm):
                         Repository().get_shipping_method_by_code(method_code))
         addressform_initial = None
         user = basket.owner
-        if user:
-            user_address = user.addresses.first()
-            if user_address:
-                addressform_initial = {
-                    f: getattr(user_address, f)
-                    for f in ShippingAddressForm.Meta.fields  
-                }
-                addressform_initial.update(email=user.email)
+        shipping_useraddress = user.addresses.filter(
+                is_default_for_shipping=True).first()
+        if shipping_useraddress:
+            addressform_initial = {
+                f: getattr(shipping_useraddress, f)
+                for f in ShippingAddressForm.Meta.fields  
+            }
+            addressform_initial.update(email=user.email)
         kwargs.update({
             'shippingform__kwargs': {
                 'basket': basket
             },
             'addressform__kwargs': {
-                'shipping_method': shipping_method
+                'shipping_method': shipping_method,
+                'initial': addressform_initial
             },
             'paymentform__kwargs': {
                 'shipping_method': shipping_method
