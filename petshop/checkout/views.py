@@ -228,22 +228,18 @@ class CheckoutView(CheckoutSessionMixin, AjaxFormView):
                 if not k.startswith('_'))
         shipping_address = address_form.save()
         if user.is_authenticated():
-            current_useraddress = (
-                    user.addresses.filter(
-                        is_default_for_shipping=True).first())
-            useraddress_kwargs = {
-                    f.name: getattr(shipping_address, f.name)
-                    for f in UserAddress._meta.get_fields()
-                    if hasattr(shipping_address, f.name)
-                }
-            if current_useraddress:
-                for k, v in useraddress_kwargs.items():
-                    if getattr(current_useraddress, k) != v:
-                        user.addresses.create(**useraddress_kwargs)
-                        break
-            else:
-                useraddress_kwargs.update(is_default_for_shipping=True)
-                user.addresses.create(**useraddress_kwargs)
+            useraddress = UserAddress(**{
+                f.name: getattr(shipping_address, f.name)
+                for f in UserAddress._meta.get_fields()
+                if hasattr(shipping_address, f.name)
+            })
+            if not user.addresses.filter(
+                    hash=useraddress.generate_hash()).exists():
+                useraddress.user = user
+                if not user.addresses.filter(
+                    is_default_for_shipping=True).exists():
+                    useraddress.is_default_for_shipping = True
+                    useraddress.save()
         basket = self.request.basket
         shipping_charge = shipping_method.calculate(basket)
         total = OrderTotalCalculator().calculate(basket, shipping_charge)
