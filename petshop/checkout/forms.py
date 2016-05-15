@@ -74,14 +74,14 @@ class CheckoutBaseForm(BaseCombinedForm):
                         Repository().get_shipping_method_by_code(method_code))
         addressform_initial = None
         user = basket.owner
-        shipping_useraddress = user.addresses.filter(
+        if user:
+            shipping_useraddress = user.addresses.filter(
                 is_default_for_shipping=True).first()
-        if shipping_useraddress:
-            addressform_initial = {
-                f: getattr(shipping_useraddress, f)
-                for f in ShippingAddressForm.Meta.fields  
-            }
-            addressform_initial.update(email=user.email)
+            if shipping_useraddress:
+                addressform_initial = {
+                    f: getattr(shipping_useraddress, f)
+                    for f in ShippingAddressForm.Meta.fields  
+                }
         kwargs.update({
             'shippingform__kwargs': {
                 'basket': basket
