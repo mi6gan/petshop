@@ -17,7 +17,7 @@ SERVER_EMAIL='info@mi6gan.space'
 ADMINS = (('Michael Boyarov',"mi6gan@mail.ru"),)
 MANAGERS = (('Michael Boyarov',"mi6gan@mail.ru"),)
 
-ALLOWED_HOSTS = ['pets.mi6gan.space', 'pet-zakupki.ru']
+ALLOWED_HOSTS = ['localhost', 'pet-zakupki.ru']
 
 DEBUG = False
 
