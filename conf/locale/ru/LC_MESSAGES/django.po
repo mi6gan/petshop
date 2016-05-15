@@ -181,7 +181,7 @@ msgstr "иконка (favicon)"
 
 #: petshop/order/models.py:12
 msgid "Pending for payment"
-msgstr ""
+msgstr "Ожидает оплаты"
 
 #: petshop/order/models.py:13
 msgid "Checked"
@@ -752,10 +752,8 @@ msgid "Contact Number"
 msgstr ""
 
 #: templates/customer/order/order_detail.html:159
-#, fuzzy
-#| msgid "Payment method"
 msgid "Payment Method"
-msgstr "Способ оплаты"
+msgstr "Способ Оплаты"
 
 #: templates/customer/order/order_list.html:11
 msgid "Order number"
