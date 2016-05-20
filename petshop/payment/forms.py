@@ -46,7 +46,7 @@ class YandexKassaProviderForm(ProviderBaseForm):
     orderNumber = forms.IntegerField(widget=forms.HiddenInput)
 
     def __init__(self, order, source, *args, **kwargs):
-        provider_settings = self.provider.settings
+        provider_settings = self.provider.instance.settings
         user = order.basket.owner
         kwargs.update(initial={
             'shopId': provider_settings['shopId'],

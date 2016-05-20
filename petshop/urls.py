@@ -14,6 +14,7 @@ basket_urls = get_class('basket.app', 'application').urls
 checkout_urls = get_class('checkout.app', 'application').urls
 promotion_urls = get_class('promotions.app', 'application').urls
 dashboard_urls = get_class('dashboard.app', 'application').urls
+payment_urls = get_class('payment.urls', 'urlpatterns')
 password_reset_form = get_class('customer.forms', 'PasswordResetForm')
 set_password_form = get_class('customer.forms', 'SetPasswordForm')
 
@@ -23,6 +24,7 @@ urlpatterns = [
         url(r'^checkout/', include(checkout_urls)),
         url(r'^promotion/', include(promotion_urls)),
         url(r'^dashboard/', include(dashboard_urls)),
+        url(r'^payment/', include(payment_urls, 'payment')),
         url(r'^password-reset/$',
                 login_forbidden(auth_views.password_reset),
                 {'password_reset_form': password_reset_form,

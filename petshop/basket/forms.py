@@ -66,7 +66,7 @@ class BaseMiniBasketLineFormSet(forms.BaseModelFormSet):
         label = mark_safe(format_html("<span{}></span>", flatatt(label_attrs)))
         form.fields[DELETION_FIELD_NAME].widget = (
                 ButtonInput(label=label, attrs=button_attrs))
-        form.fields[DELETION_FIELD_NAME].initial = True
+        form.fields[DELETION_FIELD_NAME].initial = False
 
 
 MiniBasketLineFormSet = modelformset_factory(
@@ -102,7 +102,7 @@ class BaseBasketLineFormSet(OscarBaseBasketLineFormSet):
         label = mark_safe(format_html("<i{}></i>", flatatt(label_attrs)))
         form.fields[DELETION_FIELD_NAME].widget = (
                 ButtonInput(label=label, attrs=button_attrs))
-        form.fields[DELETION_FIELD_NAME].initial = True
+        form.fields[DELETION_FIELD_NAME].initial = False
 
     @property
     def empty_form(self):

@@ -112,8 +112,7 @@ class ButtonInput(Input):
         if value is None:
             value = ''
         final_attrs = self.build_attrs(attrs, type='submit', name=name)
-        if value != '':
-            final_attrs['value'] = '1' if value else '0' 
+        final_attrs['value'] = '1'
         return format_html(u'<button{0}>{1}</button>',
                            flatatt(final_attrs), self.label)
 
