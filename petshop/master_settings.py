@@ -26,6 +26,7 @@ EMAIL_SUBJECT_PREFIX = '[pet-zakupki.ru] '
 DEFAULT_FROM_EMAIL = 'noreply@mi6gan.space' 
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
 OSCAR_FROM_EMAIL = DEFAULT_FROM_EMAIL
+OSCAR_STATIC_BASE_URL = 'http://pet-zakupki.ru%s' % STATIC_URL
 
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 587

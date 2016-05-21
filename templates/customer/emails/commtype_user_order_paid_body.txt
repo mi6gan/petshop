@@ -1,0 +1,22 @@
+{% load i18n currency_filters %}{% trans "Your order #" %}{{ order.number }} {% trans "is successfully paid. Please wait for our managers response, they will contact you soon." %}
+
+{% filter center:'80' %}{% trans "Order #" %}{{ order.number }}{% endfilter %}
+
+{% trans "VIN code" as th %}{{ th|center:"20" }}{% trans "Name of product" as th %}{{ th|center:"40" }}{% trans "Quantity" as th %}{{ th|center:"10" }}{% trans "Price" as th %}{{ th|center:"10" }}
+{% for group in order.line_groups.all %}{% for line in group.lines.all %}{% with product=line.product %}
+{% if forloop.first %}{{ group.vin.vin|center:"20" }}{% else %}{{ " "|center:"20" }}{% endif %}{{ product|center:"40" }}{{ line.quantity|center:"10" }}{% if line.is_tax_known %}{% with price=line.line_price_incl_tax|currency:order.currency %}{{ price|center:"10" }}{% endwith %}{% else %}{% with price=line.line_price_excl_tax|currency:order.currency %}{{ price|center:"10" }}{% endwith %}{% endif %}
+
+{% if forloop.last %}{% trans "Summary for this VIN code" %}: {{ group.price_excl_tax|currency:order.currency }}{% endif %}{% endwith %}{% endfor %}{% endfor %}
+
+{% trans "Shipping method" %}
+    {{ order.shipping_method }}
+
+{% trans "Shipping information" %}
+    {{ order.shipping_address_summary }}{% for name,value in order.shipping_address.active_address_fields %}{% if field %}
+    {{ name }}: {{ value }}{% endif %}{% endfor %}
+
+{% trans "Payment information" %}
+    {% trans "Payment method" %}: {{ source.source_type.name|lower }}
+    {% trans "Status of payment" %}: {{ order.get_status_display|lower }}
+
+{% trans "Order total" %}: {{ order.total_excl_tax|currency:order.currency }}

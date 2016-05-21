@@ -19,6 +19,10 @@ module.exports = function(grunt) {
         src: 'src/scss/bootstrap.scss',
         dest: 'build/vendor/css/bootstrap.css'
       },
+      dashboard: {
+        src: 'src/scss/dashboard.scss',
+        dest: 'build/css/dashboard.css'
+      },
       fontawesome: {
                 src: 'node_modules/font-awesome/scss/font-awesome.scss',
                 dest: 'build/vendor/font-awesome/css/font-awesome.css'
@@ -61,13 +65,39 @@ module.exports = function(grunt) {
             cwd: 'src/vendor/js',
             src: ['**'], dest: 'build/vendor/js'}]
     },
+    dashboardjs: {
+        files: [{
+            expand: true,
+            cwd: 'src/vendor/oscar/js',
+            src: ['**'], dest: 'build/vendor/oscar/js'}]
+    },
     bootstrapjs: {
         files: [{
             expand: true,
             cwd: 'node_modules/bootstrap-sass/assets/javascripts/bootstrap',
-            src: ['button.js', 'collapse.js', 'dropdown.js', 'transition.js', 'popover.js', 'tooltip.js', 'alert.js'],
+            src: ['button.js', 'collapse.js', 'dropdown.js', 'tab.js', 'transition.js', 'popover.js', 'tooltip.js', 'alert.js'],
             dest: 'build/vendor/js/bootstrap'}]
-      },
+    },
+    tinymce: {
+        files: [{
+            expand: true,
+            cwd: 'node_modules/tinymce',
+            src: ['tinymce.min.js',
+                  'jquery.tinymce.min.js',
+                  'themes/**',
+                  'plugins/**',
+                  'skins/**'],
+            dest: 'build/vendor/js/tinymce'
+        }]
+    },
+    select2: {
+        files: [{
+            expand: true,
+            cwd: 'node_modules/select2/dist/js',
+            src: ['select2.full.min.js'],
+            dest: 'build/vendor/js/select2/'
+        }]
+    },
     inputmask: {
         files: [{
             expand: true,
@@ -79,7 +109,7 @@ module.exports = function(grunt) {
     watch: {
         sass: {
             files: ['src/scss/**'],
-            tasks: ['sass:base', 'sass:components', 'sass:bootstrap']
+            tasks: ['sass:base', 'sass:components', 'sass:bootstrap', 'sass:dashboard']
         },
     	fonts: {
 		    files: ['src/fonts/**'],

@@ -1,0 +1,16 @@
+.content.dashboard {
+@import "bootstrap/variables.scss"; 
+@import "bootstrap/mixins.scss"; 
+@import "dashboard/variables.scss"; 
+@import "dashboard/mixins.scss"; 
+@import "dashboard/alerts.scss"; 
+@import "dashboard/base.scss";
+@import "dashboard/buttons.scss";
+@import "dashboard/datetimepicker.scss";
+@import "dashboard/forms.scss";
+@import "dashboard/tables.scss";
+@import "dashboard/index.scss";
+@import "dashboard/catalogue.scss";
+@import "dashboard/order.scss";
+}
+@import "node_modules/select2/src/scss/core.scss";

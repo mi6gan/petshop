@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-15 05:52+0000\n"
+"POT-Creation-Date: 2016-05-21 08:46+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,7 +34,7 @@ msgstr "Адрес"
 msgid "City"
 msgstr "Город"
 
-#: petshop/address/models.py:9 petshop/address/models.py:13
+#: petshop/address/models.py:13
 msgid "Middle name"
 msgstr "Отчество"
 
@@ -49,10 +49,12 @@ msgstr ""
 #: petshop/basket/forms.py:202 templates/basket/partials/basket_content.html:30
 #: templates/basket/partials/summary.html:30
 #: templates/customer/anon_order.html:75
+#: templates/customer/emails/commtype_user_order_paid_body.txt:5
 msgid "Quantity"
 msgstr "Количество"
 
 #: petshop/catalogue/cms_apps.py:16 petshop/catalogue/cms_menus.py:15
+#: petshop/settings.py:283
 msgid "Catalogue"
 msgstr "Каталог"
 
@@ -79,7 +81,7 @@ msgstr ""
 msgid "Payment source is not selected yet"
 msgstr ""
 
-#: petshop/checkout/views.py:307
+#: petshop/checkout/views.py:303
 #, python-brace-format
 msgid ""
 "Sorry, but the payment is not submitted yet. Don't worry, we're already "
@@ -90,7 +92,7 @@ msgstr ""
 "обрабатываем ваш заказ #{0}. Возможно, вы хотите <a href='{1}'>повторить "
 "попытку оплаты</a> или просто подождите и наш менеджер свяжется с вами."
 
-#: petshop/checkout/views.py:317
+#: petshop/checkout/views.py:313
 #, python-brace-format
 msgid ""
 "Thank you! Your order #{0} is successfully paid. Please wait for our "
@@ -99,13 +101,10 @@ msgstr ""
 "Спасибо! Ваш заказ #{0} успешно оплачен. Пожалуйста, дождитесь ответа наших "
 "менеджеров, они скоро свяжутся с Вами."
 
-#: petshop/checkout/views.py:401
-msgid "Invalid order number"
-msgstr "Неверный номер заказа"
-
-#: petshop/checkout/views.py:408
-msgid "This payment type is not supported"
-msgstr "Это тип оплаты не поддерживается"
+#: petshop/cms_toolbars.py:68 petshop/settings.py:278
+#: templates/dashboard/comms/detail.html:14
+msgid "Dashboard"
+msgstr ""
 
 #: petshop/core/commands.py:31
 #, python-format
@@ -147,6 +146,10 @@ msgstr "Подробнее о товаре"
 msgid "Notifications"
 msgstr ""
 
+#: petshop/customer/models.py:11
+msgid "Managers"
+msgstr ""
+
 #: petshop/management/commands/fakecategories.py:13
 msgid "Clothes and footwear"
 msgstr "Одежда и обувь"
@@ -179,25 +182,21 @@ msgstr "лого"
 msgid "favicon"
 msgstr "иконка (favicon)"
 
-#: petshop/order/models.py:12
+#: petshop/order/models.py:14
 msgid "Pending for payment"
 msgstr "Ожидает оплаты"
 
-#: petshop/order/models.py:13
+#: petshop/order/models.py:15
 msgid "Checked"
 msgstr "Проверен"
 
-#: petshop/order/models.py:14
+#: petshop/order/models.py:16
 msgid "Paid"
 msgstr "Оплачен"
 
-#: petshop/order/models.py:15
+#: petshop/order/models.py:17
 msgid "Payment is not submitted"
 msgstr "Оплата не подтверждена"
-
-#: petshop/order/models.py:19
-msgid "Unknown"
-msgstr "Неизвестен"
 
 #: petshop/payment/forms.py:72
 msgid "port for test mode"
@@ -249,25 +248,78 @@ msgstr "Оплата с произвольной банковской карты
 msgid "Cash via the terminal"
 msgstr "Наличными через терминалы"
 
-#: petshop/settings.py:194
+#: petshop/payment/views.py:58
+msgid "Invalid order number"
+msgstr "Неверный номер заказа"
+
+#: petshop/payment/views.py:65
+msgid "This payment type is not supported"
+msgstr "Это тип оплаты не поддерживается"
+
+#: petshop/settings.py:196
 msgid "Primary partner"
 msgstr "Главный партнер"
 
-#: petshop/settings.py:199
+#: petshop/settings.py:201
 msgid "Pet product"
 msgstr "Товар для питомца"
 
-#: petshop/settings.py:220
+#: petshop/settings.py:228
 msgid "Simple page"
 msgstr "Простая страница"
 
-#: petshop/settings.py:221
+#: petshop/settings.py:229
 msgid "Main page"
 msgstr "Главная страница"
 
-#: petshop/settings.py:224
+#: petshop/settings.py:232
 msgid "Russian"
 msgstr "Русский"
+
+#: petshop/settings.py:274
+msgid "Shop"
+msgstr "Магазин"
+
+#: petshop/settings.py:286
+#, fuzzy
+#| msgid "Pet product"
+msgid "Products"
+msgstr "Товар для питомца"
+
+#: petshop/settings.py:290 templates/catalogue/browse.html:10
+#: templates/catalogue/detail.html:70 templates/main.html:10
+msgid "Categories"
+msgstr "Категории"
+
+#: petshop/settings.py:295
+msgid "Fulfilment"
+msgstr ""
+
+#: petshop/settings.py:298
+#, fuzzy
+#| msgid "Order #"
+msgid "Orders"
+msgstr "Заказ #"
+
+#: petshop/settings.py:302
+msgid "Statistics"
+msgstr ""
+
+#: petshop/settings.py:306
+#, fuzzy
+#| msgid "Primary partner"
+msgid "Partners"
+msgstr "Главный партнер"
+
+#: petshop/settings.py:310
+msgid "Email templates"
+msgstr ""
+
+#: petshop/settings.py:316
+#, fuzzy
+#| msgid "Customer profile"
+msgid "Customers"
+msgstr "Профиль пользователя"
 
 #: petshop/shipping/methods.py:28
 msgid "Delivery by Russian Post"
@@ -336,6 +388,7 @@ msgstr ""
 #: templates/basket/partials/basket_content.html:31
 #: templates/basket/partials/basket_content.html:171
 #: templates/basket/partials/summary.html:31
+#: templates/customer/emails/commtype_user_order_paid_body.txt:5
 msgid "Price"
 msgstr ""
 
@@ -382,11 +435,13 @@ msgstr ""
 
 #: templates/basket/partials/basket_content.html:126
 #: templates/customer/address/address_delete.html:20
+#: templates/dashboard/comms/detail.html:112
 msgid "or"
 msgstr ""
 
 #: templates/basket/partials/basket_content.html:126
 #: templates/customer/address/address_delete.html:20
+#: templates/dashboard/comms/detail.html:112
 msgid "cancel"
 msgstr ""
 
@@ -437,36 +492,39 @@ msgid "Photo"
 msgstr "Фото"
 
 #: templates/basket/partials/summary.html:29
+#: templates/customer/emails/commtype_user_order_paid_body.txt:5
 msgid "Name of product"
 msgstr "Название товара"
 
-#: templates/basket/partials/summary.html:85
-#: templates/customer/anon_order.html:26
-msgid "Payment method"
-msgstr "Способ оплаты"
-
-#: templates/basket/partials/summary.html:104
+#: templates/basket/partials/summary.html:86
 #: templates/checkout/shipping_address.html:17
+#: templates/customer/emails/commtype_user_order_paid_body.txt:14
 msgid "Shipping information"
 msgstr "Информация для доставки"
 
+#: templates/basket/partials/summary.html:104
+#: templates/customer/anon_order.html:26
+#: templates/customer/emails/commtype_user_order_paid_body.txt:19
+msgid "Payment method"
+msgstr "Способ оплаты"
+
 #: templates/basket/partials/summary.html:121
 #: templates/customer/anon_order.html:61
+#: templates/customer/emails/commtype_user_order_paid_body.txt:11
 msgid "Shipping method"
 msgstr "Способ доставки"
 
-#: templates/basket/partials/summary.html:143
+#: templates/basket/partials/summary.html:147
 msgid "Total to pay"
 msgstr "Всего к оплате"
 
-#: templates/basket/partials/summary.html:147
+#: templates/basket/partials/summary.html:151
 msgid "Pay the order"
 msgstr "Оплатить заказ"
 
-#: templates/catalogue/browse.html:10 templates/catalogue/detail.html:70
-#: templates/main.html:10
-msgid "Categories"
-msgstr "Категории"
+#: templates/catalogue/detail.html:31
+msgid "Change"
+msgstr ""
 
 #: templates/catalogue/detail.html:36
 #: templates/catalogue/partials/product.html:40
@@ -498,6 +556,7 @@ msgid "You can get an email alert when this product is back in stock."
 msgstr ""
 
 #: templates/catalogue/partials/add_to_basket_form.html:38
+#: templates/dashboard/comms/detail.html:88
 msgid "Submitting..."
 msgstr ""
 
@@ -558,11 +617,11 @@ msgstr ""
 msgid "Yandex Money - testing mode"
 msgstr "Яндекс.Касса - режим тестирования"
 
-#: templates/checkout/yandex_money_test.html:16
+#: templates/checkout/yandex_money_test.html:23
 msgid "Test payment is successful"
 msgstr "Тестировать успешный платеж"
 
-#: templates/checkout/yandex_money_test.html:19
+#: templates/checkout/yandex_money_test.html:26
 msgid "Test Payment error"
 msgstr "Тестировать ошибку оплаты"
 
@@ -583,6 +642,7 @@ msgid "Delete"
 msgstr ""
 
 #: templates/customer/address/address_form.html:37
+#: templates/dashboard/comms/detail.html:111
 msgid "Save"
 msgstr ""
 
@@ -592,6 +652,7 @@ msgid "Order #%(number)s"
 msgstr "Заказ #%(number)s"
 
 #: templates/customer/anon_order.html:12
+#: templates/customer/emails/commtype_user_order_paid_body.txt:3
 msgid "Order #"
 msgstr "Заказ #"
 
@@ -665,6 +726,7 @@ msgid "Shipping charge (inc. tax)"
 msgstr ""
 
 #: templates/customer/anon_order.html:120
+#: templates/customer/emails/commtype_user_order_paid_body.txt:22
 #: templates/customer/order/order_detail.html:119
 msgid "Order total"
 msgstr ""
@@ -672,6 +734,145 @@ msgstr ""
 #: templates/customer/baseaccountpage.html:5
 msgid "Account"
 msgstr "Аккаунт"
+
+#: templates/customer/emails/commtype_user_order_paid_body.html:4
+#: templates/customer/emails/order_base.html:4
+msgid "Hello,"
+msgstr ""
+
+#: templates/customer/emails/commtype_user_order_paid_body.html:6
+#: templates/customer/emails/order_base.html:6
+#, python-format
+msgid ""
+"We are pleased to confirm your order %(order_number)s has been received and\n"
+"will be processed shortly."
+msgstr ""
+
+#: templates/customer/emails/commtype_user_order_paid_body.html:9
+#: templates/customer/emails/order_base.html:9
+#: templates/customer/emails/order_base.txt:6
+#, fuzzy
+#| msgid "Your order"
+msgid "Your order contains:"
+msgstr "Ваш заказ"
+
+#: templates/customer/emails/commtype_user_order_paid_body.html:13
+#: templates/customer/emails/order_base.html:13
+#: templates/customer/emails/order_base.txt:8
+#, fuzzy
+#| msgid "Quantity"
+msgid "quantity:"
+msgstr "Количество"
+
+#: templates/customer/emails/commtype_user_order_paid_body.html:13
+#: templates/customer/emails/order_base.html:13
+#: templates/customer/emails/order_base.txt:8
+msgid "price:"
+msgstr ""
+
+#: templates/customer/emails/commtype_user_order_paid_body.html:17
+#: templates/customer/emails/order_base.html:17
+#: templates/customer/emails/order_base.txt:10
+#, fuzzy
+#| msgid "Basket"
+msgid "Basket total:"
+msgstr "Корзина"
+
+#: templates/customer/emails/commtype_user_order_paid_body.html:18
+#: templates/customer/emails/order_base.html:18
+#: templates/customer/emails/order_base.txt:11
+#, fuzzy
+#| msgid "Shipping method"
+msgid "Shipping:"
+msgstr "Способ доставки"
+
+#: templates/customer/emails/commtype_user_order_paid_body.html:19
+#: templates/customer/emails/order_base.html:19
+#: templates/customer/emails/order_base.txt:12
+#, fuzzy
+#| msgid "Order status"
+msgid "Order Total:"
+msgstr "Статус заказа"
+
+#: templates/customer/emails/commtype_user_order_paid_body.html:22
+#: templates/customer/emails/order_base.html:22
+#: templates/customer/emails/order_base.txt:14
+#, fuzzy
+#| msgid "Shipping address"
+msgid "Shipping address:"
+msgstr "Адрес доставки"
+
+#: templates/customer/emails/commtype_user_order_paid_body.html:27
+#: templates/customer/emails/order_base.html:27
+#, python-format
+msgid ""
+"You can view the status of this order by clicking <a href=\"%(status_url)s\" "
+"title=\"order status\">here</a>"
+msgstr ""
+
+#: templates/customer/emails/commtype_user_order_paid_body.txt:1
+#, fuzzy
+#| msgid "Your order"
+msgid "Your order #"
+msgstr "Ваш заказ"
+
+#: templates/customer/emails/commtype_user_order_paid_body.txt:1
+#, fuzzy
+#| msgid ""
+#| "Thank you! Your order #{0} is successfully paid. Please wait for our "
+#| "managers response, they will contact you soon."
+msgid ""
+"is successfully paid. Please wait for our managers response, they will "
+"contact you soon."
+msgstr ""
+"Спасибо! Ваш заказ #{0} успешно оплачен. Пожалуйста, дождитесь ответа наших "
+"менеджеров, они скоро свяжутся с Вами."
+
+#: templates/customer/emails/commtype_user_order_paid_body.txt:5
+msgid "VIN code"
+msgstr ""
+
+#: templates/customer/emails/commtype_user_order_paid_body.txt:9
+msgid "Summary for this VIN code"
+msgstr ""
+
+#: templates/customer/emails/commtype_user_order_paid_body.txt:18
+#, fuzzy
+#| msgid "Shipping information"
+msgid "Payment information"
+msgstr "Информация для доставки"
+
+#: templates/customer/emails/commtype_user_order_paid_body.txt:20
+msgid "Status of payment"
+msgstr ""
+
+#: templates/customer/emails/commtype_user_order_paid_subject.txt:1
+msgid "Thank you for your purchase!"
+msgstr ""
+
+#: templates/customer/emails/commtype_yamoney_check_debug_subject.txt:1
+msgid "Debug message: Yandex.Money check"
+msgstr ""
+
+#: templates/customer/emails/order_base.txt:1
+#, python-format
+msgid ""
+"Hello,\n"
+"\n"
+"We are pleased to confirm your order %(order_number)s has been received and\n"
+"will be processed shortly."
+msgstr ""
+
+#: templates/customer/emails/order_base.txt:20
+#, python-format
+msgid ""
+"You can view the status of this order at the below URL:\n"
+"%(status_url)s"
+msgstr ""
+
+#: templates/customer/emails/order_base.txt:24
+msgid "pet-zakupki.ru team"
+msgstr ""
 
 #: templates/customer/order/order_detail.html:12
 msgid "Dispatch date"
@@ -756,6 +957,7 @@ msgid "Payment Method"
 msgstr "Способ Оплаты"
 
 #: templates/customer/order/order_list.html:11
+#: templates/dashboard/comms/detail.html:72
 msgid "Order number"
 msgstr ""
 
@@ -783,9 +985,102 @@ msgstr ""
 msgid "You haven't placed any orders."
 msgstr ""
 
-#: templates/simple.html:14
+#: templates/dashboard/comms/detail.html:17
+msgid "Emails"
+msgstr ""
+
+#: templates/dashboard/comms/detail.html:37
+msgid "Edit"
+msgstr ""
+
+#: templates/dashboard/comms/detail.html:38
+#: templates/dashboard/comms/detail.html:81
+msgid "Preview"
+msgstr ""
+
+#: templates/dashboard/comms/detail.html:42
+msgid "Edit email"
+msgstr ""
+
+#: templates/dashboard/comms/detail.html:58
+msgid "Email content"
+msgstr ""
+
+#: templates/dashboard/comms/detail.html:61
+msgid "These fields are rendered using Django's template system."
+msgstr ""
+
+#: templates/dashboard/comms/detail.html:62
+msgid "You can use the following variables:"
+msgstr ""
+
+#: templates/dashboard/comms/detail.html:65
+msgid "The full name of the user (if they have one)"
+msgstr ""
+
+#: templates/dashboard/comms/detail.html:67
+msgid "The user's email address"
+msgstr ""
+
+#: templates/dashboard/comms/detail.html:69
+msgid "The name of the site (eg example.com)"
+msgstr ""
+
+#: templates/dashboard/comms/detail.html:85
+msgid "View a preview of this email using order:"
+msgstr ""
+
+#: templates/dashboard/comms/detail.html:88
+msgid "View preview"
+msgstr ""
+
+#: templates/dashboard/comms/detail.html:89
+msgid "or send a preview to:"
+msgstr ""
+
+#: templates/dashboard/comms/detail.html:91
+msgid "Sending..."
+msgstr ""
+
+#: templates/dashboard/comms/detail.html:91
+msgid "Send preview email"
+msgstr ""
+
+#: templates/dashboard/comms/detail.html:97
+msgid "Subject"
+msgstr ""
+
+#: templates/dashboard/comms/detail.html:101
+msgid "Body text"
+msgstr ""
+
+#: templates/dashboard/comms/detail.html:105
+msgid "Body HTML"
+msgstr ""
+
+#: templates/dashboard/comms/detail.html:111
+msgid "Saving..."
+msgstr ""
+
+#: templates/partials/image_input_widget.html:6
+#: templates/partials/image_input_widget.html:8
+msgid "thumbnail"
+msgstr ""
+
+#: templates/partials/image_input_widget.html:10
+msgid "Unrecognized image type!"
+msgstr ""
+
+#: templates/partials/image_input_widget.html:11
+msgid "Upload Image"
+msgstr ""
+
+#: templates/simple.html:16
 msgid "This page is under construction"
 msgstr "Данная страница находится в разработке"
+
+#~ msgid "Unknown"
+#~ msgstr "Неизвестен"
 
 #~ msgid "Delivery"
 #~ msgstr "Доставка"

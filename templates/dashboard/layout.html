@@ -1,3 +1,13 @@
-{% extends "oscar/dashboard/layout.html" %}
+{% extends "dashboard/base.html" %}
+
+{% load static %}
 
 {% block "mini-basket" %}{% endblock %}
+
+{% block content %}
+    <div class="content_top">{% block breadcrumbs %}{% endblock %}</div>
+    <div class="content">
+        <h1 class="text-danger">{% block headertext %}{% endblock %}</h1>
+        {% block dashboard_content %}{% endblock %}
+    </div>
+{% endblock %}

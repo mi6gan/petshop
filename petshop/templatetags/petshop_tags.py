@@ -30,6 +30,32 @@ def get_base_media():
     )
     return media
 
+@register.assignment_tag
+def get_dashboard_media():
+    media = (
+        Media(
+            js=(
+                'vendor/js/inputmask/inputmask.js',
+                'vendor/js/inputmask/jquery.inputmask.js',
+                'vendor/js/tinymce/jquery.tinymce.min.js',
+                'vendor/js/tinymce/tinymce.min.js',
+                'vendor/js/select2/select2.full.min.js',
+                'vendor/js/bootstrap/button.js',
+                'vendor/js/bootstrap/collapse.js',
+                'vendor/js/bootstrap/tab.js',
+                'vendor/js/bootstrap/dropdown.js',
+                'vendor/oscar/js/ui.js',
+                'vendor/oscar/js/dashboard.js',
+            ),
+            css = {
+                'all': {
+                    'css/dashboard.css'
+                }
+            }
+        )
+    )
+    return media
+
 @register.simple_tag(takes_context=True)
 def extend_media_block(context, media_type, media, block_name=None):
     if not block_name:

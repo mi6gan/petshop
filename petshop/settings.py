@@ -67,7 +67,9 @@ INSTALLED_APPS = [
     'petshop.shipping',
     'petshop.order',
     'petshop.address',
-    'petshop.basket'])
+    'petshop.basket',
+    'petshop.dashboard.communications'
+    ])
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.cache.UpdateCacheMiddleware',
@@ -207,6 +209,12 @@ OSCAR_EAGER_ALERTS = False
 OSCAR_ALLOW_ANON_CHECKOUT = True
 OSCAR_PRODUCTS_PER_PAGE = 18
 OSCAR_INITIAL_ORDER_STATUS = 'pending'
+OSCAR_ORDER_STATUS_PIPELINE = {
+    'pending': ('checked', 'paid', 'failed'),
+    'checked': ('paid', 'failed'),
+    'paid': (),
+    'failed': ('pending',)
+}
 
 LOGIN_REDIRECT_URL = 'customer:profile-view'
 OSCAR_ACCOUNTS_REDIRECT_URL = LOGIN_REDIRECT_URL
@@ -241,6 +249,10 @@ THUMBNAIL_ALIASES = {
         'product_large': {
             'size': (480, 0),
             'background': (255, 255, 255)
+        },
+        'dashboard_image_input': {
+            'size': (200, 200),
+            'background': (255, 255, 255)
         }
     },
     'petshop.SiteSettings.logo': {
@@ -255,6 +267,58 @@ THUMBNAIL_ALIASES = {
         }
     }
 }
+
+from django.utils.translation import ugettext_lazy as _
+
+OSCAR_DASHBOARD_NAVIGATION = [{
+    'label': _('Shop'),
+    'icon': 'icon-th-list',
+    'children': [
+    {
+        'label': _('Dashboard'),
+        'icon': 'icon-th-list',
+        'url_name': 'dashboard:index',
+    },
+    {
+        'label': _('Catalogue'),
+        'icon': 'icon-sitemap',
+        'children': [{
+            'label': _('Products'),
+            'url_name': 'dashboard:catalogue-product-list',
+        },
+        {
+            'label': _('Categories'),
+            'url_name': 'dashboard:catalogue-category-list',
+        }]
+    },
+    {
+        'label': _('Fulfilment'),
+        'icon': 'icon-shopping-cart',
+        'children': [{
+            'label': _('Orders'),
+            'url_name': 'dashboard:order-list',
+        },
+        {
+            'label': _('Statistics'),
+            'url_name': 'dashboard:order-stats',
+        },
+        {
+            'label': _('Partners'),
+            'url_name': 'dashboard:partner-list',
+        },
+        {
+            'label': _('Email templates'),
+            'url_name': 'dashboard:comms-list',
+        },
+        ],
+    },
+    {
+        'label': _('Customers'),
+        'icon': 'icon-group',
+        'url_name': 'dashboard:users-index'
+    },
+    ]
+}]
 
 try:
     from protected_settings import *

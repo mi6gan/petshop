@@ -1,0 +1,10 @@
+.datetimepicker {
+  .glyphicon {
+    &.icon-arrow-left {
+        @extend &.glyphicon-arrow-left:before;
+    }
+    &.icon-arrow-right {
+        @extend &.glyphicon-arrow-right:before;
+    }
+  }
+}

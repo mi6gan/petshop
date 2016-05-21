@@ -1,0 +1,16 @@
+{% spaceless %}
+{% if message %}
+error message:
+{{ message }}{% endif %}
+{% if md5_kwargs %}
+md5 computation args:{% for name,value in md5_kwargs.items %}
+{{ name }} = {{ value }}{% endfor %}{% endif %}
+{% if md5 %}
+Computed md5:
+{{ md5 }}{% endif %}
+{% if post %}
+provider request post data:{% for name,value in post.items %}
+{{ name }} = {{ value }}{% endfor %}{% endif %}
+{% if not message %}
+{% include "oparts/checkout/yandex_money.xml" %}{% endif %}
+{% endspaceless %}

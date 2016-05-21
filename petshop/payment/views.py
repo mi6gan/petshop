@@ -87,7 +87,7 @@ class YandexMoneyResponseView(TemplateResponseMixin, View):
             if action == 'checkOrder':
                 ctx.update(order_sum_amount=str(order_sum_amount))
             elif action == 'paymentAviso':
-                if source.amount_allocated > source.amount_debited:
+                if source.amount_allocated >= source.amount_debited:
                     source.debit(order_sum_amount)
             send_email_to_admins(request, 'YAMONEY_CHECK_DEBUG', ctx)
         context =  RequestContext(request, ctx) 

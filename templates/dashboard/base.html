@@ -1,19 +1,21 @@
-{% extends "base.html" %}
-{% load static %}
+{% extends "simple.html" %}
+{% load petshop_tags sekizai_tags %}
 
-{% block 'oscar-head' %}
-{% block mainstyles %}{% endblock %}
-{% block styles %}{% endblock %}
-{% block extrastyles %}{% endblock %}
-{% endblock %}
+{% block content-class %}{{ block.super }} dashboard{% endblock %}
 
-{% block 'oscar-tail' %}
-<script src="{% static "oscar/js/oscar/ui.js" %}" type="text/javascript" charset="utf-8"></script>
-{% block scripts %}{% endblock %}
-{% block extrascripts %}{% endblock %}
+{% block "media" %}
+{% get_dashboard_media as dashboard_media %}
+{% extend_media_block 'css' dashboard_media %}
+{% extend_media_block 'js' dashboard_media %}
+
 <script type="text/javascript">
     $(function() {
-        {% block onbodyload %}{% endblock %}
+        {% block onbodyload %}
+        options = {
+            'languageCode': '{{ LANGUAGE_CODE }}'
+        };
+        oscar.dashboard.init(options);
+        {% endblock %}
     });
 </script>
 {% endblock %}

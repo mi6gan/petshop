@@ -8,8 +8,8 @@
 <link href='https://fonts.googleapis.com/css?family=Roboto:400,700,400italic,700italic&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
 {% get_base_media as base_media %}{% render_block 'css' %}{% extend_media_block 'css' base_media %}
 {% render_block 'basejs' %}{% extend_media_block 'js' base_media 'basejs' %}
+{% block "media" %}{% endblock %}
 <script type="text/javascript" src="{% url 'javascript_catalog' %}"></script>
-{% block 'oscar-head' %}{% endblock %}
 </head>
 <body>{% cms_toolbar %}
   <div class="wrap">
@@ -51,11 +51,13 @@
                     <div class="clear"></div>
                  </ul>
              </div>
+             {% comment %}
              <div class="search_box">
                  <form>
                      <input type="text" value="Search" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}"><input type="submit" value="">
                  </form>
              </div>
+             {% endcomment %}
              <div class="clear"></div>
         </div>
         <p>&nbsp;</p>
@@ -63,8 +65,7 @@
         {% block "top-content" %}{% endblock %}
    </div>
  <div class="main">
-    <div class="content">
-        {% block dashboard_nav %}{% endblock %}
+    <div class="{% block content-class %}content{% endblock %}">
         {% block content %}{% endblock %}
     </div>
  </div>
@@ -134,6 +135,5 @@
     </script>
     {% render_block 'js' %}
     <a href="#" id="toTop"><span id="toTopHover"> </span></a>
-    {% block 'oscar-tail' %}{% endblock %}
 </body>
 </html>

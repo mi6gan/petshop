@@ -1,0 +1,24 @@
+{% load currency_filters i18n %}{% block intro %}{% blocktrans with order_number=order.number %}Hello,
+
+We are pleased to confirm your order {{ order_number }} has been received and
+will be processed shortly.{% endblocktrans %}
+
+{% trans 'Your order contains:' %}{% endblock %}
+
+{% block summary %}{% for line in order.lines.all %} * {{ line.title }} - {%  trans 'quantity:' %} {{ line.quantity }} - {% trans 'price:' %} {{ line.line_price_incl_tax|currency:order.currency }}
+{% endfor %}
+{% trans 'Basket total:' %} {{ order.basket_total_incl_tax|currency:order.currency }}
+{% trans 'Shipping:' %} {{ order.shipping_incl_tax|currency:order.currency }}
+{% trans 'Order Total:' %} {{ order.total_incl_tax|currency:order.currency }}{% endblock %}
+
+{% block details %}{% trans 'Shipping address:' %}
+
+{% for field in order.shipping_address.active_address_fields %}  {% if field %}{{ field }}
+{% endif %}{% endfor %}
+
+{% if status_url %}
+{% blocktrans %}You can view the status of this order at the below URL:
+{{ status_url }}{% endblocktrans %}
+{% endif %}{% endblock %}
+
+{% blocktrans %}pet-zakupki.ru team{% endblocktrans %}

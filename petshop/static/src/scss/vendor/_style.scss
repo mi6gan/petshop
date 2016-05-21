@@ -569,7 +569,7 @@ body {
 .cont-desc:first-child {
 	margin-left: 0;
 }
-.desc {
+&::not(.dashboard) .desc {
 	display: block;
 	float: left;
 	margin: 0% 0 0% 2.6%;
