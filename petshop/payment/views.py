@@ -44,7 +44,7 @@ class YandexMoneyResponseView(TemplateResponseMixin, View):
             invoice_id=post.get('invoiceId'),
             shop_id=post.get('shopId'))
         provider_code = 'yandex_kassa'
-        payment_provider = providers_pool.get_by_code(provider_code)
+        payment_provider = providers_pool.get_by_code(provider_code).instance
         source_type_code = post.get('paymentType', '')
         order_number = post.get('orderNumber', '')
         action = post.get('action')
