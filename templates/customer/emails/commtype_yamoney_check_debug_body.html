@@ -12,5 +12,5 @@ Computed md5:
 provider request post data:{% for name,value in post.items %}
 {{ name }} = {{ value }}{% endfor %}{% endif %}
 {% if not message %}
-{% include "oparts/checkout/yandex_money.xml" %}{% endif %}
+{% include "payment/yandex_money.xml" %}{% endif %}
 {% endspaceless %}
