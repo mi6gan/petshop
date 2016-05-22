@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'cmsplugin_filer_image',
     'cmsplugin_filer_link',
     'cmsplugin_bootstrap_columns',
+    'cmsplugin_plaintext',
     'compressor',
     'widget_tweaks',
     'petshop',

@@ -16,7 +16,7 @@
     <div class="header">
         <div class="headertop_desc">
             <div class="call">
-                <p><span>{% trans "Need help?" %}</span> {% trans "call us" %} <span class="number">1-22-3456789</span></span></p>
+                <p><span>{% trans "Need help?" %}</span> {% trans "call us" %} <span class="number">{% placeholder "top-phone" or %}1-22-3456789{% endplaceholder %}</span></span></p>
             </div>
             <div class="account_desc">
                 <ul>
@@ -71,6 +71,7 @@
  </div>
 </div>
    <div class="footer">
+         {% comment %}
          <div class="wrap">    
          <div class="section group">
                 <div class="col_1_of_4 span_1_of_4">
@@ -123,8 +124,9 @@
                 </div>
             </div>            
         </div>
+        {% endcomment %}
         <div class="copy_right">
-            <p>{{ request.site.name }} © All rights Reseverd | Design by  <a href="http://w3layouts.com">W3Layouts</a> </p>
+            <p>{{ request.site.name }} © Все права защищены  </p>
         </div>
     </div>
     <script type="text/javascript">
