@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-21 08:46+0000\n"
+"POT-Creation-Date: 2016-05-22 13:12+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -54,9 +54,105 @@ msgid "Quantity"
 msgstr "Количество"
 
 #: petshop/catalogue/cms_apps.py:16 petshop/catalogue/cms_menus.py:15
-#: petshop/settings.py:283
+#: petshop/settings.py:293
 msgid "Catalogue"
 msgstr "Каталог"
+
+#: petshop/catalogue/cms_plugins.py:15
+msgid "Link"
+msgstr ""
+
+#: petshop/catalogue/cms_plugins.py:32
+msgid "Products carousel"
+msgstr "Слайдер с товарами"
+
+#: petshop/catalogue/models.py:84
+msgid "name"
+msgstr ""
+
+#: petshop/catalogue/models.py:85
+msgid "url"
+msgstr ""
+
+#: petshop/catalogue/models.py:88
+#, fuzzy
+#| msgid "Pet product"
+msgid "product page"
+msgstr "Товар для питомца"
+
+#: petshop/catalogue/models.py:95
+msgid "catalogue category page"
+msgstr ""
+
+#: petshop/catalogue/models.py:101
+#, fuzzy
+#| msgid "Main page"
+msgid "page"
+msgstr "Главная страница"
+
+#: petshop/catalogue/models.py:104
+msgid "A link to a page has priority over urls."
+msgstr ""
+
+#: petshop/catalogue/models.py:107
+msgid "mailto"
+msgstr ""
+
+#: petshop/catalogue/models.py:108
+msgid "An email address has priority over both pages and urls"
+msgstr ""
+
+#: petshop/catalogue/models.py:109
+msgid "link style"
+msgstr ""
+
+#: petshop/catalogue/models.py:111
+msgid "new window?"
+msgstr ""
+
+#: petshop/catalogue/models.py:112
+msgid "Do you want this link to open a new window?"
+msgstr ""
+
+#: petshop/catalogue/models.py:123 petshop/settings.py:334
+msgid "Default"
+msgstr ""
+
+#: petshop/catalogue/models.py:135
+msgid "Bestselling"
+msgstr "Топ продаж"
+
+#: petshop/catalogue/models.py:136
+msgid "Recently added"
+msgstr "Недавно добавленные"
+
+#: petshop/catalogue/models.py:138
+msgid "title"
+msgstr "заголовок"
+
+#: petshop/catalogue/models.py:140
+msgid "style"
+msgstr "стиль"
+
+#: petshop/catalogue/models.py:145
+msgid "exact product list"
+msgstr "задать список продуктов"
+
+#: petshop/catalogue/models.py:146
+msgid "If you'll add any product here no automatic list will be generated"
+msgstr ""
+
+#: petshop/catalogue/models.py:151
+msgid "categories"
+msgstr "категории"
+
+#: petshop/catalogue/models.py:154
+msgid "order by"
+msgstr "сортировать"
+
+#: petshop/catalogue/models.py:158
+msgid "number of products"
+msgstr "количестов товаров"
 
 #: petshop/checkout/forms.py:112 petshop/core/forms.py:37
 msgid "This field can't be empty"
@@ -101,7 +197,7 @@ msgstr ""
 "Спасибо! Ваш заказ #{0} успешно оплачен. Пожалуйста, дождитесь ответа наших "
 "менеджеров, они скоро свяжутся с Вами."
 
-#: petshop/cms_toolbars.py:68 petshop/settings.py:278
+#: petshop/cms_toolbars.py:68 petshop/settings.py:288
 #: templates/dashboard/comms/detail.html:14
 msgid "Dashboard"
 msgstr ""
@@ -256,70 +352,74 @@ msgstr "Неверный номер заказа"
 msgid "This payment type is not supported"
 msgstr "Это тип оплаты не поддерживается"
 
-#: petshop/settings.py:196
+#: petshop/settings.py:199
 msgid "Primary partner"
 msgstr "Главный партнер"
 
-#: petshop/settings.py:201
+#: petshop/settings.py:204
 msgid "Pet product"
 msgstr "Товар для питомца"
 
-#: petshop/settings.py:228
+#: petshop/settings.py:231
 msgid "Simple page"
 msgstr "Простая страница"
 
-#: petshop/settings.py:229
+#: petshop/settings.py:232
 msgid "Main page"
 msgstr "Главная страница"
 
-#: petshop/settings.py:232
+#: petshop/settings.py:235
 msgid "Russian"
 msgstr "Русский"
 
-#: petshop/settings.py:274
+#: petshop/settings.py:284
 msgid "Shop"
 msgstr "Магазин"
 
-#: petshop/settings.py:286
+#: petshop/settings.py:296
 #, fuzzy
 #| msgid "Pet product"
 msgid "Products"
 msgstr "Товар для питомца"
 
-#: petshop/settings.py:290 templates/catalogue/browse.html:10
-#: templates/catalogue/detail.html:70 templates/main.html:10
+#: petshop/settings.py:300 templates/catalogue/browse.html:10
+#: templates/catalogue/detail.html:86 templates/main.html:11
 msgid "Categories"
 msgstr "Категории"
 
-#: petshop/settings.py:295
+#: petshop/settings.py:305
 msgid "Fulfilment"
 msgstr ""
 
-#: petshop/settings.py:298
+#: petshop/settings.py:308
 #, fuzzy
 #| msgid "Order #"
 msgid "Orders"
 msgstr "Заказ #"
 
-#: petshop/settings.py:302
+#: petshop/settings.py:312
 msgid "Statistics"
 msgstr ""
 
-#: petshop/settings.py:306
+#: petshop/settings.py:316
 #, fuzzy
 #| msgid "Primary partner"
 msgid "Partners"
 msgstr "Главный партнер"
 
-#: petshop/settings.py:310
+#: petshop/settings.py:320
 msgid "Email templates"
 msgstr ""
 
-#: petshop/settings.py:316
+#: petshop/settings.py:326
 #, fuzzy
 #| msgid "Customer profile"
 msgid "Customers"
 msgstr "Профиль пользователя"
+
+#: petshop/settings.py:335
+msgid "Button"
+msgstr "Кнопка"
 
 #: petshop/shipping/methods.py:28
 msgid "Delivery by Russian Post"
@@ -522,24 +622,29 @@ msgstr "Всего к оплате"
 msgid "Pay the order"
 msgstr "Оплатить заказ"
 
-#: templates/catalogue/detail.html:31
+#: templates/catalogue/cmsplugin_products_carousel/default_carousel.html:24
+#: templates/catalogue/detail.html:33
+msgid "Previous"
+msgstr "Назад"
+
+#: templates/catalogue/cmsplugin_products_carousel/default_carousel.html:28
+#: templates/catalogue/detail.html:37
+#: templates/checkout/shipping_address.html:39
+msgid "Next"
+msgstr "Далее"
+
+#: templates/catalogue/detail.html:46
 msgid "Change"
 msgstr ""
 
-#: templates/catalogue/detail.html:36
+#: templates/catalogue/detail.html:51
 #: templates/catalogue/partials/product.html:40
 msgid "Not available"
 msgstr "Нет в наличии"
 
-#: templates/catalogue/detail.html:44
+#: templates/catalogue/detail.html:57
 msgid "Product details"
 msgstr "Подробнее о товаре"
-
-#: templates/catalogue/detail.html:53
-#, fuzzy
-#| msgid "Related products"
-msgid "Recommended products"
-msgstr "Связанные товары"
 
 #: templates/catalogue/partials/add_to_basket_form.html:25
 #: templates/catalogue/partials/add_to_basket_form.html:38
@@ -608,10 +713,6 @@ msgstr "Подробнее..."
 #: templates/checkout/payment.html:6
 msgid "Please wait, redirecting to"
 msgstr "Пожалуйста, подождите, соединение с"
-
-#: templates/checkout/shipping_address.html:39
-msgid "Next"
-msgstr ""
 
 #: templates/checkout/yandex_money_test.html:5
 msgid "Yandex Money - testing mode"
@@ -1078,6 +1179,11 @@ msgstr ""
 #: templates/simple.html:16
 msgid "This page is under construction"
 msgstr "Данная страница находится в разработке"
+
+#, fuzzy
+#~| msgid "Related products"
+#~ msgid "Recommended products"
+#~ msgstr "Связанные товары"
 
 #~ msgid "Unknown"
 #~ msgstr "Неизвестен"

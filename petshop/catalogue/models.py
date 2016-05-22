@@ -129,10 +129,11 @@ PRODUCTS_CAROUSEL_MAX_COUNT = getattr(
         settings, "PRODUCTS_CAROUSEL_MAX_COUNT", 25)
 
 
+@python_2_unicode_compatible
 class ProductsCarouselPlugin(CMSPlugin):
     PRODUCTS_CAROUSEL_ORDERBY = (
-        ("date_created", _("Bestselling")),
-        ("stats__score", _("Recently added")),
+        ("stats__score", _("Bestselling")),
+        ("-date_created", _("Recently added")),
     )
     title = models.CharField(_('title'), max_length=255)
     style = models.CharField(
@@ -154,7 +155,7 @@ class ProductsCarouselPlugin(CMSPlugin):
             max_length=256,
             choices=PRODUCTS_CAROUSEL_ORDERBY,
             blank=True)
-    count = models.PositiveIntegerField(('number of products'),
+    count = models.PositiveIntegerField(_('number of products'),
             validators=[
                 MinValueValidator(1),
                 MaxValueValidator(PRODUCTS_CAROUSEL_MAX_COUNT)
@@ -169,6 +170,7 @@ class ProductsCarouselPlugin(CMSPlugin):
                 qs = qs.filter(categories__in=self.categories.all())
             if self.order_by:
                 qs = qs.order_by(self.order_by)
+        qs = qs.filter(images__isnull=False)
         return qs[:self.count]
 
     def copy_relations(self, oldinstance):
@@ -176,3 +178,6 @@ class ProductsCarouselPlugin(CMSPlugin):
         self.products.add(*oldinstance.products.all())
         self.categories.clear()
         self.categories.add(*oldinstance.categories.all())
+
+    def __str__(self):
+        return self.title

@@ -23,6 +23,7 @@ djangocms-text-ckeditor==2.8.1
 easy-thumbnails==2.3
 easywebdav==1.2.0
 fake-factory==0.5.3
+git+https://github.com/mi6gan/djnagocms_plugin_bootstrap_columns
 gunicorn
 html5lib==0.9999999
 jsonfield==1.0.3
