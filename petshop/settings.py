@@ -56,6 +56,9 @@ INSTALLED_APPS = [
     'reversion',
     'easy_thumbnails',
     'filer',
+    'cmsplugin_filer_image',
+    'cmsplugin_filer_link',
+    'cmsplugin_bootstrap_columns',
     'compressor',
     'widget_tweaks',
     'petshop',
@@ -69,7 +72,7 @@ INSTALLED_APPS = [
     'petshop.address',
     'petshop.basket',
     'petshop.dashboard.communications'
-    ])
+])
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.cache.UpdateCacheMiddleware',
@@ -232,6 +235,13 @@ LANGUAGES = (
     ('ru', gettext('Russian')),
 )
 
+THUMBNAIL_PROCESSORS = (
+    'easy_thumbnails.processors.colorspace',
+    'easy_thumbnails.processors.autocrop',
+    'filer.thumbnail_processors.scale_and_crop_with_subject_location',
+    'easy_thumbnails.processors.filters',
+)
+
 THUMBNAIL_ALIASES = {
     '': {
         'product_tiny': {
@@ -247,8 +257,8 @@ THUMBNAIL_ALIASES = {
             'background': (255, 255, 255)
         },
         'product_large': {
-            'size': (480, 0),
-            'background': (255, 255, 255)
+            'size': (250, 400),
+            'background': (255, 255, 255, 255)
         },
         'dashboard_image_input': {
             'size': (200, 200),
@@ -319,6 +329,11 @@ OSCAR_DASHBOARD_NAVIGATION = [{
     },
     ]
 }]
+
+FILER_LINK_STYLES = (
+    ("", _("Default")),
+    ("btn btn-primary", _("Button")),
+)
 
 try:
     from protected_settings import *

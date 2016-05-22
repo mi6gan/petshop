@@ -266,7 +266,6 @@ body {
 	font-family: 'Roboto', sans-serif;
 	font-weight: normal;
 	margin-top: 0px;
-	text-transform: uppercase;
 }
 .content_top{
 	padding: 15px 20px;
@@ -543,10 +542,7 @@ body {
 	float: left;
 	clear: both;
 }
-.rightsidebar {
-	display: block;
-	float: left;
-	margin: 0% 0 0% 1.6%;
+.rightsidebar-categories {
     ul {
         li {
             &.selected,
@@ -619,6 +615,7 @@ body {
 	padding:20px 0;
 	color: #666;
 	vertical-align: top;
+    float: left;
 }
 .price .value span {
 	font-size:3em;
@@ -857,47 +854,50 @@ body {
 .button button {
     cursor: pointer;
 }
-.span_3_of_1 li a {
-	font-size:1em;
-	padding:8px 0 8px 20px;
-	color: #666;
-	display: block;
-	font-family: 'Roboto', sans-serif;
-	background: url(../images/drop_arrow.png) no-repeat 0;
-	border-bottom:1px solid #F0F0F0;
+.span_3_of_1, .categories-menu {
+    li a {
+	    font-size:1em;
+	    padding:8px 0 8px 20px;
+	    color: #666;
+	    display: block;
+	    font-family: 'Roboto', sans-serif;
+	    background: url(../images/drop_arrow.png) no-repeat 0;
+    	border-bottom:1px solid #F0F0F0;
+        &:hover {
+	        background: url(../images/drop_arrow-hover.png) no-repeat 0;
+	        color:$brand-primary;
+        }
+    }
 }
-.span_3_of_1 li a:hover {
-	background: url(../images/drop_arrow-hover.png) no-repeat 0;
-	color:$brand-primary;
-}
-.span_3_of_2 .button {
-	float: right;
-	margin-top:15px;
-	line-height:3em;
-}
-.span_3_of_2 .button a,
-.span_3_of_2 .button button {
-	padding: 0px 20px;
-	font-size: 1em;
-	font-weight: bold;
-	font-family: Arial, "Helvetica Neue", "Helvetica", Tahoma, Verdana, sans-serif;
-	border: 1px solid rgba(0,0,0,0.1);
-	box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
-	background: #3f4040;
-	color: #fff;
-	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
-	-webkit-box-shadow: 0 1px rgba(255, 255, 255, 0.2) inset, 0 2px 2px -1px rgba(0, 0, 0, 0.3);
-	-moz-box-shadow: 0 1px rgba(255,255,255,0.2) inset, 0 2px 2px -1px rgba(0,0,0,0.3);
-	box-shadow: 0 1px rgba(255, 255, 255, 0.2) inset, 0 2px 2px -1px rgba(0, 0, 0, 0.3);
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-}
-.span_3_of_2 .button a:hover,
-.span_3_of_2 .button button:hover {
-	border: 1px solid #303030;
-	background: #525252;
-	text-decoration: none;
+.span_3_of_2,
+.product-details {
+    .button {
+	    float: right;
+	    margin-top:15px;
+	    line-height:3em;
+        a, button {
+    	padding: 0px 20px;
+    	font-size: 1em;
+    	font-weight: bold;
+    	font-family: Arial, "Helvetica Neue", "Helvetica", Tahoma, Verdana, sans-serif;
+    	border: 1px solid rgba(0,0,0,0.1);
+    	box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
+    	background: #3f4040;
+    	color: #fff;
+    	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+    	-webkit-box-shadow: 0 1px rgba(255, 255, 255, 0.2) inset, 0 2px 2px -1px rgba(0, 0, 0, 0.3);
+    	-moz-box-shadow: 0 1px rgba(255,255,255,0.2) inset, 0 2px 2px -1px rgba(0,0,0,0.3);
+    	box-shadow: 0 1px rgba(255, 255, 255, 0.2) inset, 0 2px 2px -1px rgba(0, 0, 0, 0.3);
+    	-moz-border-radius: 3px;
+    	-webkit-border-radius: 3px;
+    	border-radius: 3px;
+        &:hover {
+    	    border: 1px solid #303030;
+    	    background: #525252;
+    	    text-decoration: none;
+        }
+        }
+    }
 }
 .subscribe {
 	padding:30px 0;

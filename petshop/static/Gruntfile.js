@@ -75,7 +75,7 @@ module.exports = function(grunt) {
         files: [{
             expand: true,
             cwd: 'node_modules/bootstrap-sass/assets/javascripts/bootstrap',
-            src: ['button.js', 'collapse.js', 'dropdown.js', 'tab.js', 'transition.js', 'popover.js', 'tooltip.js', 'alert.js'],
+            src: ['button.js', 'collapse.js', 'dropdown.js', 'tab.js', 'transition.js', 'popover.js', 'tooltip.js', 'alert.js', 'carousel.js'],
             dest: 'build/vendor/js/bootstrap'}]
     },
     tinymce: {

@@ -2,51 +2,66 @@
 
 {% load static i18n %}
 {% load menu_tags %}
+{% load sekizai_tags %}
 {% load purchase_info_tags currency_filters product_tags %}
 
 {% block "inner-content" %}
+{% addtoblock 'js' %}<script type="text/javascript" src="{% static "vendor/js/bootstrap/carousel.js" %}"></script>{% endaddtoblock %}
 {% purchase_info_for_product request product as session %}
 {% with available=session.availability.is_available_to_buy %}
-<div class="section group">
-    <div class="cont-desc span_1_of_2">
-        <div class="product-details">
-            <div class="grid images_3_of_2">
-                <div id="container">
-                    <div id="products_example">
-                        <div id="products">
-                            <div class="slides_container">
-                                <a href="#" target="_blank"><img src="{{ product.large_thumb }}" alt=" " /></a>
-                            </div>
-                            <ul class="pagination list-inline">
-                                {% for thumb in product.small_thumbs %}
-                                    <li><a href="#"><img src="{{ thumb }}" alt=" " /></a></li>
-                                {% endfor %}
-                            </ul>
-                        </div>
+<div>
+    <p>&nbsp;</p>
+    <div class="row product-details">
+        <div class="col-sm-3 col-sm-offset-1">
+            {% with thumbs=product.small_thumbs images=product.large_thumbs %}
+            {% if product.thumbs_count > 1 %}
+            <div class="carousel slide" id="productCarousel" data-ride="carousel">
+                <ul class="carousel-indicators">
+                {% for thumb in thumbs %}
+                    <li data-target="#productCarousel" data-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %}></li>
+                {% endfor %}
+                </ul>
+                <div class="carousel-inner" role="listbox">
+                    {% for image in images %}
+                    <div class="item{% if forloop.first %} active{% endif %}">
+                        <img src="{{ image }}" />
                     </div>
+                    {% endfor %}
                 </div>
+                <a class="left carousel-control" href="#productCarousel" role="button" data-slide="prev">
+                    <span class="icon-prev" aria-hidden="true"></span>
+                    <span class="sr-only">{% trans "Previous" %}</span>
+                </a>
+                <a class="right carousel-control" href="#productCarousel" role="button" data-slide="next">
+                    <span class="icon-next" aria-hidden="true"></span>
+                    <span class="sr-only">{% trans "Next" %}</span>
+                </a>
             </div>
+            {% else %}
+                <img src="{{ product.large_thumb }}" class="img-responsive" />
+            {% endif %}
+            {% endwith %}
         </div>
-        <div class="desc span_3_of_2">
-            <h2>{{ product.title }} {% if user.is_staff %} <a class="pull-right text-muted text-lowercase" href="{% url "dashboard:catalogue-product" product.pk %}"><i class="fa fa-pencil"></i> {% trans "Change" %}</a>{% endif %}</h2>
+        <div class="col-sm-5">
+            <h2>{{ product.title }}{% if user.is_staff %}&nbsp;&nbsp;&nbsp;<a class=" small text-muted text-lowercase" href="{% url "dashboard:catalogue-product" product.pk %}"><i class="fa fa-pencil"></i> {% trans "Change" %}</a>{% endif %}</h2>
             <p>{{ product.description|truncatewords:20 }}</p>
             {% if available %}
             {% include "catalogue/partials/add_to_basket_form.html" %}
             {% else %}
             <div class="price">{% trans "Not available" %}</div>
             {% endif %}
-        </div>
-        <div class="clear"></div>
-        {% if product.description %}
-        <div class="product_desc">
-            <div id="horizontalTab">
-                <div class="product-desc">
-                    <h2>{% trans "Product details" %}</h2>
-                    <p>{{ product.description|safe }}</p>
+            {% if product.description %}
+            <div class="product_desc">
+                <div id="horizontalTab">
+                    <div class="product-desc">
+                        <h2>{% trans "Product details" %}</h2>
+                        <p>{{ product.description|safe }}</p>
+                    </div>
                 </div>
             </div>
+            {% endif %}
         </div>
-        {% endif %}
+        {% comment %}
         {% if product.recommended_products.exists %}
         <div class="content_bottom">
             <div class="heading">
@@ -65,12 +80,13 @@
          </div>
         </div>
         {% endif %}
-    </div>
-    <div class="rightsidebar span_3_of_1">
-        <h2>{% trans "Categories" %}</h2>
-        <ul>
-            {% show_menu 1 2 0 0 'menu/menu.html' 'catalogue' %}
-        </ul>
+        {% endcomment %}
+        <div class="col-sm-3 rightsidebar-categories">
+            <h2>{% trans "Categories" %}</h2>
+            <ul class="categories-menu">
+                {% show_menu 1 2 0 0 'menu/menu.html' 'catalogue' %}
+            </ul>
+        </div>
     </div>
 </div>
 {% endwith %}

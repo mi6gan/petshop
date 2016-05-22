@@ -29,10 +29,6 @@ ul.breadcrumb {
             &:hover {
                 color: $brand-primary;
             }
-            &:active,
-            &:focus {
-                font-weight: bold;
-            }
         }
         > span.active {
             color: $brand-primary;
@@ -165,4 +161,25 @@ body > .wrap {
 }
 hr.transparent {
     border-color: transparent;
+}
+.carousel-control {
+    &.right, &.left {
+        background-image: none !important;
+    }
+}
+.carousel.multiple {
+    padding-left: 5%;
+    padding-right: 5%;
+    .carousel-control {
+        width: 2.5%;
+        .icon-prev,
+        .icon-next {
+            font-size: 50px;
+            margin-top: -25px;
+        }
+    }
+    .item {
+        padding-left: $grid-gutter-width/2;
+        padding-right: $grid-gutter-width/2;
+    }
 }
