@@ -1,7 +1,7 @@
 #!/bin/sh
 pip install -r requirements.txt
 python manage.py migrate --noinput
-python manage.py fixproducts -v 3 --noinput
+python manage.py fixproducts -v 3
 #python manage.py flush --noinput
 #python manage.py oscar_populate_countries
 #python manage.py loadfixtures -v 3
