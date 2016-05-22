@@ -331,7 +331,7 @@ OSCAR_DASHBOARD_NAVIGATION = [{
 }]
 
 FILER_LINK_STYLES = (
-    ("", _("Default")),
+    (" ", _("Default")),
     ("btn btn-primary", _("Button")),
 )
 

@@ -72,11 +72,11 @@ from filer.fields.file import FilerFileField
 from filer.utils.compatibility import python_2_unicode_compatible
 
 
-DEFULT_LINK_STYLES = (
+DEFAULT_LINK_STYLES = (
     (" ", "Default"),
 )
 
-LINK_STYLES = getattr(settings, "FILER_LINK_STYLES", DEFULT_LINK_STYLES)
+LINK_STYLES = getattr(settings, "FILER_LINK_STYLES", DEFAULT_LINK_STYLES)
 
 
 @python_2_unicode_compatible
@@ -119,11 +119,11 @@ class CatalogueLinkPlugin(CMSPlugin):
             qs = qs.filter(categories__in=instance.categories.all())
 
 
-DEFULT_PRODUCTS_CAROUSEL_STYLES = (
+DEFAULT_PRODUCTS_CAROUSEL_STYLES = (
     ("default", _("Default")),
 )
 PRODUCTS_CAROUSEL_STYLES = getattr(
-        settings, "PRODUCTS_CAROUSEL_STYLES", DEFULT_PRODUCTS_CAROUSEL_STYLES)
+        settings, "PRODUCTS_CAROUSEL_STYLES", DEFAULT_PRODUCTS_CAROUSEL_STYLES)
 
 PRODUCTS_CAROUSEL_MAX_COUNT = getattr(
         settings, "PRODUCTS_CAROUSEL_MAX_COUNT", 25)
