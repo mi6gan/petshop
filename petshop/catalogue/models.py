@@ -21,7 +21,7 @@ class Product(AbstractProduct):
         if self.images.exists():
             image = self.primary_image()
         else:
-            image = None
+            image = self.get_thumbs_qs().first()
         return self.thumb(image, alias_name)
 
     def tiny_thumb(self):
@@ -170,7 +170,10 @@ class ProductsCarouselPlugin(CMSPlugin):
                 qs = qs.filter(categories__in=self.categories.all())
             if self.order_by:
                 qs = qs.order_by(self.order_by)
-        qs = qs.filter(images__isnull=False)
+        qs = qs.filter(
+                images__isnull=False,
+                structure__in=(
+                    Product.PARENT, Product.STANDALONE))
         return qs[:self.count]
 
     def copy_relations(self, oldinstance):

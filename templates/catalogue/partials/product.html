@@ -5,7 +5,7 @@
 {% purchase_info_for_product request product as session %}
 {% with available=session.availability.is_available_to_buy %}
 <a href="{{ product.get_absolute_url }}"><img src="{{ product.medium_thumb }}" alt="" /></a>
-{% with wrapped_title=product.title|wordwrap:20 %}
+{% with wrapped_title=product.get_title|wordwrap:20 %}
 <h5 class="text-center" title="{{ product.title }}">
     {% spaceless %}
     {{ wrapped_title|linebreaksbr }}
