@@ -1,6 +1,7 @@
 {% extends "simple.html" %}
 
 {% load menu_tags product_tags i18n %}
+{% load petshop_pagination %}
 
 {% block "inner-content" %}
 <div class="row">
@@ -15,14 +16,7 @@
     </div>
 
     <div class="col-md-9">
-    {% if paginator.num_pages > 1 %}
-    <ul class="content-pagenation">
-        {% for page in paginator.page_range %}
-        <li{% if page = page_obj.number %} class="active"{% endif %}><a href="?page={{ page }}">{{ page }}</a></li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-
+    {% render_pagination paginator page_obj css_class="content-pagenation" url=request.path %}
     <div class="row product-list">
     {% for product in products %}
     {% if forloop.counter0|divisibleby:3 %}{% if not forloop.first %}</div>{% endif %}<div class="section group">{% endif %}
@@ -33,15 +27,7 @@
        </div>
     {% endfor %}
     </div>
-
-    {% if paginator.num_pages > 1 %}
-    <ul class="content-pagenation">
-        {% for page in paginator.page_range %}
-        <li{% if page = page_obj.number %} class="active"{% endif %}><a href="?page={{ page }}">{{ page }}</a></li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-
+    {% render_pagination paginator page_obj css_class="content-pagenation" url=request.path %}
     </div>
 </div>
 {% endblock %}

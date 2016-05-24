@@ -14,6 +14,9 @@ class Command(BaseCommand):
             parser.add_argument(
                     'data_file', type=open, help='path to csv file')
             parser.add_argument(
+                    '--rows', type=int, nargs='+',
+                    help='row numbers to parse from the source table')
+            parser.add_argument(
                     '--clear', action='store_true',
                     help='clear exist data')
 
@@ -31,12 +34,20 @@ class Command(BaseCommand):
     def handle(self, verbosity, *args, **kwargs):
         clear = kwargs.get('clear', False)
         photos = kwargs.get('photos', False)
+        row_ns = kwargs.get('rows')
+        Product = get_model('catalogue', 'Product')
         if clear:
             Category = get_model('catalogue', 'Category')
-            Product = get_model('catalogue', 'Product')
             Category.objects.all().delete()
             Product.objects.all().delete()
         data_file = kwargs.get('data_file', False)
         if data_file: 
-            for instance in load_products_from_csv(data_file):
+            for instance in load_products_from_csv(data_file, row_ns):
                 self._model_message(instance, False, verbosity)
+                if getattr(instance, 'parent', False):
+                    self.stdout.write(
+                            'product is child of %s' % force_text(
+                                str(instance.parent)))
+                else:
+                    self.stdout.write('product is standalone')
+                self.stdout.write('\n')

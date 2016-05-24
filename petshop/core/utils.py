@@ -168,7 +168,7 @@ def load_products_photos(root_path, image_width, clear):
         yield '\n', 'INFO'
     yield 'uploaded %s product images' % len(images), ''
 
-def load_products_from_csv(data_file):
+def load_products_from_csv(data_file, row_ns=None):
     if hasattr(data_file, 'open'):
         data_file.open('r')
     Category = get_model('catalogue', 'Category')
@@ -183,98 +183,140 @@ def load_products_from_csv(data_file):
     header = None
     product_class = (ProductClass.objects.get_or_create(
         **settings.DEFAULT_PRODUCT_CLASS))[0]
-    parsed_parents = []
     parsed_attributevalues = []
     product = None
-    for row in list(reader) + [None]:
+    if row_ns:
+        rows = filter(lambda r: not r[0] or ((r[0] + 1) in row_ns),
+                      enumerate(reader))
+    else:
+        rows = enumerate(reader)
+    # group all rows by upc
+    upc_groups = {}
+    for row_n, row in rows:
         if not header:
             header = [c.strip() for c in row]
-        elif row:
-            (upc, title, partner_sku, partner_code, partner_price,
-             price, main_category, categories, desc) = (
-                    c.strip() for c in row[0:9])
-            title = title
-            slug = slugify(u'%s_%s' % (title, upc))
-            partner_sku = slugify(partner_sku)
-            partner_code = slugify(partner_code)
-            upc = '%s%s' % ('0'*(10-len(str(upc))), upc)
-            product = Product.objects.filter(upc=upc).first()
-            child = None
-            if product and product in parsed_parents:
-                for child in product.children.all():
-                    for attribute, value in parsed_attributevalues:
-                        product_attribute = None
-                        for product_attribute in (
-                                ProductAttributeValue.objects.filter(
-                                        product=product, attribute=attribute)):
-                            if product_attribute.value == value:
-                                product_attribute = None
-                                break
-                        if not product_attribute:
-                            child = None
-                    if child:
-                        product = child
-                        break
-                if not child:
-                    product.structure = Product.PARENT
-                    product.save()
-                    child = Product.objects.create(
-                            parent=product, structure=Product.CHILD)
-                    product = child
-            else:
-                product, __ = Product.objects.update_or_create(
-                    upc=upc, defaults={
+            continue
+        (upc, title, partner_sku, partner_code, partner_price,
+        price, main_category, categories, desc) = (
+            c.strip() for c in row[0:9])
+        if not upc:
+            continue
+        group = upc_groups.get(upc, [])
+        group.append({
+            'upc': '%s%s' % ('0'*(10-len(str(upc))), upc),
+            'title': title,
+            'slug': slugify(u'%s_%s' % (title, upc)),
+            'partner_sku': slugify(partner_sku),
+            'partner_code': slugify(partner_code),
+            'partner_price': partner_price,
+            'price': price.replace(',', '.'),
+            'main_category': main_category,
+            'categories': categories,
+            'desc': desc,
+            'attributes': enumerate(row[9:])
+        })
+        upc_groups[upc] = group
+    # iterate through groups and update db
+    for upc, group in upc_groups.items():
+        parent = None
+        is_standalone = (len(group) == 1)
+        for kwargs in group:
+            slug = kwargs['slug']
+            title = kwargs['title']
+            product = None
+            if not parent:
+                # get parent for this group
+                parent, __ = Product.objects.get_or_create(
+                    upc=kwargs['upc'], 
+                    structure=(
+                        Product.STANDALONE
+                        if is_standalone else
+                        Product.PARENT),
+                    defaults = {
                         'title': title,
                         'slug': slug,
-                        'product_class': product_class})
-            partner, __ = Partner.objects.update_or_create(
-                    code=partner_code, defaults={'name': partner_code})
-            if not partner_sku or partner.stockrecords.filter(
-                    partner_sku=partner_sku):
-                partner_sku = ('%s_' % partner_sku) if partner_sku else ''
-                partner_sku = '%s%s_%s_%s' % (
-                        partner_sku, partner_code, upc,
-                        partner.stockrecords.count())
-            stockrecord, __ = StockRecord.objects.get_or_create(
-                        product=product, partner=partner,
-                        defaults={
-                            'partner_sku': partner_sku,
-                            'num_in_stock': 100000,
-                            'price_excl_tax': D(price.replace(',', '.'))})
-        if product:
-            yield product
-            for attribute, value in parsed_attributevalues:
-                attribute.save_value(product, value)
-            parsed_attributevalues = []
-        if row:
-            for i, attribute_or_value in enumerate(row[9:]):
+                        'product_class': product_class
+                    })
+                # add category to parent 
+                categories = tuple(kwargs['main_category'].split('\\'))
+                parent_category = None
+                category = None
+                for i, category_name in enumerate(categories):
+                    category_name = category_name.strip().capitalize()
+                    category_slug = slugify(category_name)
+                    category = Category.objects.filter(
+                            slug=category_slug).first()
+                    if not category:
+                        if not parent_category:
+                            category = Category.add_root(
+                                    name=category_name, slug=category_slug)
+                        else:
+                            category = parent_category.add_child(
+                                name=category_name, slug=category_slug)
+                    parent_category = category
+                if category:
+                    ProductCategory.objects.get_or_create(
+                        product=parent, category=category)
+            # prepare attributes
+            attribute_values = []
+            found = ProductAttributeValue.objects.all()
+            attributes = kwargs['attributes']
+            for i, attribute_or_value in attributes:
                 if i % 2 is 0:
                     attribute_name = attribute_or_value
                     attribute_code = slugify(attribute_name)
                     attribute, created = (
-                            ProductAttribute.objects.update_or_create(
-                        code=attribute_code,
-                        defaults={'name': attribute_name},
-                        type=ProductAttribute.TEXT))
+                        ProductAttribute.objects.update_or_create(
+                            code=attribute_code,
+                            defaults={'name': attribute_name},
+                            type=ProductAttribute.TEXT))
                 else:
                     value = attribute_or_value
-                    parsed_attributevalues.append((attribute, value))
-        if product and product.structure is not Product.CHILD:
-            categories = tuple(main_category.split('\\'))
-            parent_category = None
-            category = None
-            for i, category_name in enumerate(categories):
-                name = category_name.strip().capitalize()
-                slug = slugify(category_name)
-                category = Category.objects.filter(slug=slug).first()
-                if not category:
-                    if not parent_category:
-                        category = Category.add_root(name=name, slug=slug)
+                    found = found & ProductAttributeValue.objects.filter(
+                            product__parent=parent,
+                            attribute=attribute,
+                            value_text=value)
+                    attribute_values.append((attribute, value))
+            if not is_standalone: 
+                # try to find child product with exactly the same attribute values
+                from itertools import groupby
+                for product, av in groupby(
+                    found.order_by('product'), lambda f: f.product):
+                    if ProductAttributeValue.objects.filter(
+                            product=product).count() == len(
+                                    list(av)):
+                        break
                     else:
-                        category = parent_category.add_child(
-                                name=name, slug=slug)
-                parent_category = category
-            if category:
-                ProductCategory.objects.get_or_create(
-                        product=product, category=category)
-            parsed_parents.append(product)
+                        product = None
+                if not product:
+                    product = Product.objects.create(
+                                parent=parent,
+                                structure=Product.CHILD)
+                else:
+                    attribute_values = []
+            else:
+                product = parent
+            # setting attributes for product
+            for attribute, value in attribute_values: 
+                attribute.save_value(product, value)
+            # adding stockrecord
+            partner_sku = kwargs['partner_sku'] 
+            price = kwargs['price'] 
+            partner_code = kwargs['partner_code']
+            partner, __ = Partner.objects.update_or_create(
+                        code=partner_code, defaults={'name': partner_code})
+            if not partner_sku or partner.stockrecords.filter(
+                    partner_sku=partner_sku).exists():
+                partner_sku = ('%s_' % partner_sku) if partner_sku else ''
+                partner_sku = '%s%s_%s_%s' % (
+                        partner_sku, partner_code, upc,
+                        partner.stockrecords.count())
+
+            stockrecord, __ = StockRecord.objects.get_or_create(
+                        product=product,
+                        partner=partner,
+                        defaults={
+                            'partner_sku': partner_sku,
+                            'num_in_stock': 100000,
+                            'price_excl_tax': D(price)})
+            yield product
