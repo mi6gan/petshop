@@ -244,13 +244,21 @@ def load_products_from_csv(data_file, row_ns=None):
                 for i, category_name in enumerate(categories):
                     category_name = category_name.strip().capitalize()
                     category_slug = slugify(category_name)
-                    category = Category.objects.filter(
-                            slug=category_slug).first()
-                    if not category:
-                        if not parent_category:
+                    qs = Category.objects.filter(
+                                slug=category_slug, depth=i+1)
+                    category = qs.first()
+                    if not parent_category:
+                        if not qs.exists():
                             category = Category.add_root(
                                     name=category_name, slug=category_slug)
                         else:
+                            category = qs.first()
+                    else:
+                        for category in qs:
+                            if category.get_parent() == parent_category:
+                                break
+                            category = None
+                        if not category:
                             category = parent_category.add_child(
                                 name=category_name, slug=category_slug)
                     parent_category = category
@@ -262,6 +270,7 @@ def load_products_from_csv(data_file, row_ns=None):
             found = ProductAttributeValue.objects.all()
             attributes = kwargs['attributes']
             for i, attribute_or_value in attributes:
+                attribute_or_value = attribute_or_value.strip()
                 if i % 2 is 0:
                     attribute_name = attribute_or_value
                     attribute_code = slugify(attribute_name)
