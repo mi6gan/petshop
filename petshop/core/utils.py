@@ -21,6 +21,7 @@ import unicodecsv as csv
 from hashlib import md5
 from decimal import Decimal as D
 import easywebdav
+from bs4 import BeautifulSoup as bs
 from PIL import Image
 from io import BytesIO
 from urllib import quote, unquote
@@ -65,6 +66,21 @@ def send_email_to_admins(request, commtype_code, ctx):
     ctx.update({'site': site})
     admins_emails = set(a[1] for a in settings.ADMINS)
     send_email_to(request, commtype_code, ctx, admins_emails)
+
+def process_image_file(image_file, image_width): 
+    try:
+        pil_image = Image.open(image_file)
+    except IOError:
+        pass
+    else:
+        size = (image_width, (
+            image_width*pil_image.size[1])/pil_image.size[0])
+        if (size[0] >= pil_image.size[0]) or (size[1] >= pil_image.size[1]):
+            pil_image = pil_image.resize(size, Image.BICUBIC)
+            image_file = BytesIO()
+            pil_image.save(image_file, format='JPEG')
+        image_file.seek(0)
+        return image_file
 
 def load_products_photos(root_path, image_width, clear):
     Product = get_model('catalogue', 'Product')
@@ -142,20 +158,10 @@ def load_products_photos(root_path, image_width, clear):
                     product_image.delete()
             else:
                 parsed_products.add(product)
-            try:
-                pil_image = Image.open(image_file)
-            except IOError:
+            image_file = process_image_file(image_file, image_width)
+            if not image_file:
                 yield ('\tskipping, corrupt image file', 'NOTICE')
             else:
-                size = (image_width, (
-                            image_width*pil_image.size[1]
-                        )/pil_image.size[0])
-                if (size[0] >= pil_image.size[0]) or (
-                        size[1] >= pil_image.size[1]):
-                    pil_image = pil_image.resize(size, Image.BICUBIC)
-                    mage_file = BytesIO()
-                    pil_image.save(image_file, format='JPEG')
-                image_file.seek(0)
                 image=ProductImage.objects.get_or_create(
                             product=product, display_order = 0)[0]
                 image.original.save(path.name.split('/')[-1],
@@ -171,6 +177,59 @@ def load_products_photos(root_path, image_width, clear):
                            sku, partner_code)), 'ERROR'
         yield '\n', 'INFO'
     yield 'uploaded %s product images' % len(images), ''
+
+def load_petline_photos(image_width, clear):
+    URL_BASE = "http://www.petline.ru"
+    SEARCH_URL_PATTERN = "%s/search/?text=%s"
+    Partner = get_model('partner', 'Partner')
+    ProductImage = get_model('catalogue', 'ProductImage')
+    partner = Partner.objects.filter(code="petline").first()
+    images = []
+    if not partner:
+        yield 'partner with code petline is not found', 'ERROR'
+    else:
+        for srecord in partner.stockrecords.all():
+            product = srecord.product
+            sku = srecord.partner_sku.lstrip('0')
+            yield 'trying to find image for sku %s' % sku, 'INFO'
+            response = requests.get(SEARCH_URL_PATTERN % (URL_BASE, sku))
+            results = bs(response.content, 'html5lib')
+            link = results.select_one('.shop_items li.item .over .pic a')
+            href = link.get('href') if link else None
+            if href:
+                response = requests.get(''.join([URL_BASE, href]))
+                item = bs(response.content, 'html5lib')
+                for img_link in item.select(
+                        '.shop_item .pics'
+                        ' .connected-carousels .pic a'):
+                    href = img_link.get('href')
+                    if href:
+                        yield 'found image at %s' % href, 'INFO'
+                        response = requests.get(''.join([URL_BASE, href]))
+                        image_file = BytesIO(response.content)
+                        image_file.seek(0)
+                        image_file = process_image_file(image_file, image_width)
+                        if not image_file:
+                            yield ('\tskipping, corrupt image file', 'NOTICE')
+                        else:
+                            images_count = ProductImage.objects.filter(
+                                    product=product).count()
+                            image, __ = ProductImage.objects.get_or_create(
+                                product=product, display_order = images_count)
+                            image.original.save(href.split('/')[-1],
+                                            ContentFile(image_file.read()))
+                            image.save()
+                            images.append(image)
+                            yield '\tattached image', 'SUCCESS'
+                    else:
+                        yield 'no image found', 'INFO'
+            else:
+                yield 'no items at search results', 'INFO'
+    yield 'uploaded %s product images' % len(images), ''
+
+
+
+            
 
 def load_products_from_csv(data_file, row_ns=None):
     if hasattr(data_file, 'open'):
