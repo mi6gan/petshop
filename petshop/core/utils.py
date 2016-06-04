@@ -131,6 +131,10 @@ def load_products_photos(root_path, image_width, clear):
             webdav.download(path.name, image_file)
             image_file.seek(0)
             product = srecord.product
+            product_images = ProductImage.objects.filter(product=product)
+            if not clear and product_images.exists():
+                yield ('\tskipping, image already exists', 'NOTICE')
+                continue
             if clear and product not in parsed_products:
                 for product_image in ProductImage.objects.filter(
                         product=product):
