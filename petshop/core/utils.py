@@ -332,6 +332,7 @@ def load_products_from_csv(data_file, row_ns=None):
             attribute_values = []
             found = ProductAttributeValue.objects.all()
             attributes = kwargs['attributes']
+            partner_sku = kwargs['partner_sku']
             for i, attribute_or_value in attributes:
                 attribute_or_value = attribute_or_value.strip()
                 if not attribute_or_value:
@@ -353,7 +354,6 @@ def load_products_from_csv(data_file, row_ns=None):
                     attribute_values.append((attribute, value))
             if not is_standalone: 
                 partner_code = kwargs['partner_code']
-                partner_sku = kwargs['partner_sku']
                 stockrecord = StockRecord.objects.filter(
                         partner__code=partner_code, partner_sku=partner_sku
                         ).first()
@@ -380,7 +380,6 @@ def load_products_from_csv(data_file, row_ns=None):
                 partner_sku = '%s%s_%s_%s' % (
                         partner_sku, partner_code, upc,
                         partner.stockrecords.count())
-
             stockrecord, __ = StockRecord.objects.get_or_create(
                         product=product,
                         partner=partner,
