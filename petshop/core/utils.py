@@ -269,7 +269,7 @@ def load_products_from_csv(data_file, row_ns=None):
             'upc': '%s%s' % ('0'*(10-len(str(upc))), upc),
             'title': title,
             'slug': slugify(u'%s_%s' % (title, upc)),
-            'partner_sku': slugify(partner_sku),
+            'partner_sku': partner_sku,
             'partner_code': slugify(partner_code),
             'partner_price': partner_price,
             'price': price.replace(',', '.'),
@@ -334,6 +334,8 @@ def load_products_from_csv(data_file, row_ns=None):
             attributes = kwargs['attributes']
             for i, attribute_or_value in attributes:
                 attribute_or_value = attribute_or_value.strip()
+                if not attribute_or_value:
+                    continue
                 if i % 2 is 0:
                     attribute_name = attribute_or_value
                     attribute_code = slugify(attribute_name)
@@ -350,29 +352,24 @@ def load_products_from_csv(data_file, row_ns=None):
                             value_text=value)
                     attribute_values.append((attribute, value))
             if not is_standalone: 
-                # try to find child product with exactly the same attribute values
-                from itertools import groupby
-                for product, av in groupby(
-                    found.order_by('product'), lambda f: f.product):
-                    if ProductAttributeValue.objects.filter(
-                            product=product).count() == len(
-                                    list(av)):
-                        break
-                    else:
-                        product = None
-                if not product:
+                partner_code = kwargs['partner_code']
+                partner_sku = kwargs['partner_sku']
+                stockrecord = StockRecord.objects.filter(
+                        partner__code=partner_code, partner_sku=partner_sku
+                        ).first()
+                if stockrecord:
+                    product = stockrecord.product
+                    attribute_values = []
+                else:
                     product = Product.objects.create(
                                 parent=parent,
                                 structure=Product.CHILD)
-                else:
-                    attribute_values = []
             else:
                 product = parent
             # setting attributes for product
             for attribute, value in attribute_values: 
                 attribute.save_value(product, value)
             # adding stockrecord
-            partner_sku = kwargs['partner_sku'] 
             price = kwargs['price'] 
             partner_code = kwargs['partner_code']
             partner, __ = Partner.objects.update_or_create(

@@ -72,7 +72,8 @@ INSTALLED_APPS = [
     'petshop.order',
     'petshop.address',
     'petshop.basket',
-    'petshop.dashboard.communications'
+    'petshop.dashboard.communications',
+    'petshop.dashboard.catalogue'
 ])
 
 MIDDLEWARE_CLASSES = (
