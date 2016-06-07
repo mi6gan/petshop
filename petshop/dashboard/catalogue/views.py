@@ -33,4 +33,4 @@ class ProductListView(OscarProductListView):
                 queryset = queryset.filter(q0|q1)
             elif has_image == '2':
                 queryset = queryset.exclude(q0).exclude(q1)
-        return queryset
+        return queryset.distinct()

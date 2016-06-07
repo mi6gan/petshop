@@ -174,6 +174,7 @@ class ProductsCarouselPlugin(CMSPlugin):
                 images__isnull=False,
                 structure__in=(
                     Product.PARENT, Product.STANDALONE))
+        qs = qs.distinct()
         return qs[:self.count]
 
     def copy_relations(self, oldinstance):
