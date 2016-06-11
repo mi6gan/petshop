@@ -194,7 +194,13 @@ def load_petline_photos(image_width, clear):
             yield 'trying to find image for sku %s' % sku, 'INFO'
             response = requests.get(SEARCH_URL_PATTERN % (URL_BASE, sku))
             results = bs(response.content, 'html5lib')
-            link = results.select_one('.shop_items li.item .over .pic a')
+            link = False
+            for item in results.select('.shop_items li.item .over'):
+                marking = item.select_one('.marking').text
+                marking = marking.split(' ')[-1]
+                if marking == sku:
+                    link = item.select_one('.pic a')
+                    break
             href = link.get('href') if link else None
             if href:
                 response = requests.get(''.join([URL_BASE, href]))
