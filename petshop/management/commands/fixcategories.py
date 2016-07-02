@@ -6,6 +6,6 @@ from oscar.core.loading import get_model
 
 class Command(BaseCommand):
 
-    def handle(self, verbosity, desc, *args, **kwargs):
+    def handle(self, verbosity, *args, **kwargs):
         Category = get_model('catalogue', 'Category')
         Category.fix_tree()
