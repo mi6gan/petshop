@@ -36,14 +36,28 @@ ul.breadcrumb {
         }
     }
 }
-.categories {
-    > ul > li {
+.categories, .categories-menu {
+    li {
         ul {
             margin-left: 15px;
             li {
-                > a {
+                a {
                     text-transform: none;
                     background: none;
+                }
+            }
+        }
+        > ul {
+            > li {
+                > a:before {
+                    content: '- ';
+                }
+                > ul {
+                    li {
+                        > a:before {
+                            content: '';
+                        }
+                    }
                 }
             }
         }

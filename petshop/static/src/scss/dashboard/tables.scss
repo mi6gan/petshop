@@ -8,7 +8,7 @@
 
 .table {
   background-color: $white;
-  @extend .table-condensed;
+  @extend .table-condensed !optional;
 }
 
 .table thead tr th.asc i:before {

@@ -38,7 +38,7 @@ class Command(BaseCommand):
         Product = get_model('catalogue', 'Product')
         if clear:
             Category = get_model('catalogue', 'Category')
-            Category.objects.all().delete()
+            Category._base_manager.all().delete()
             Product.objects.all().delete()
         data_file = kwargs.get('data_file', False)
         if data_file: 

@@ -1,4 +1,4 @@
-from oscar.apps.catalogue.abstract_models import AbstractProduct
+from oscar.apps.catalogue.abstract_models import AbstractProduct, AbstractCategory
 
 from easy_thumbnails.alias import aliases
 from easy_thumbnails.templatetags.thumbnail import thumbnail_url
@@ -58,6 +58,10 @@ class Product(AbstractProduct):
 
     def large_thumbs(self):
         return self.thumbs('product_large')
+
+
+class Category(AbstractCategory):
+    node_order_by = ['name']
 
 
 from oscar.apps.catalogue.models import *  # noqa
