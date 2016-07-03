@@ -5,5 +5,5 @@ $(function(){
     childSelect.on('change', function() {
         var option = childSelect.find('option:selected');
         priceOutput.text(option.data('price'));
-    });
+    }).trigger('change');
 });

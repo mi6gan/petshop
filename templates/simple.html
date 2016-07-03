@@ -14,7 +14,7 @@
     </div>
     {% block "inner-content" %}
         <div class="content">
-            <h1 class="text-danger">{% placeholder "inner-contenr" or %}{% trans "This page is under construction" %}{% endplaceholder %}</h1>
+            {% placeholder "inner-contenr" or %}<h1 class="text-danger">{% trans "This page is under construction" %}</h1>{% endplaceholder %}
         </div>
     {% endblock %}
 {% endblock %}
