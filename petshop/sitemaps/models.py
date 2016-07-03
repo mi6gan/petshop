@@ -1,15 +1,13 @@
 from django.db import models
 
 from cms.models import Page
-from cms.extensions.models import PageExtension
 
 from .abstract_models import SitemapNode
 
 
-class PageSitemapNode(SitemapNode, PageExtension):
+class PageSitemapNode(SitemapNode):
 
-    page = models.ForeignKey(
-            Page, related_name='sitemap_node', unique=True)
+    page = models.OneToOneField(Page, related_name='sitemap_node')
 
     @property
     def has_changes(self):
