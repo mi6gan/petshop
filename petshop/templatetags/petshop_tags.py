@@ -17,7 +17,6 @@ def get_base_media():
                 'vendor/js/jquery.min.js',
                 'vendor/js/easing.js',
                 'vendor/js/move-top.js',
-                'vendor/js/startstop-slider.js',
                 'vendor/js/bootstrap/alert.js',
             ),
             css={
