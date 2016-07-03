@@ -42,11 +42,11 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
-    'django.contrib.sitemaps',
     'django.contrib.staticfiles',
     'django.contrib.flatpages',
     'django.contrib.auth',
     'djangocms_text_ckeditor',
+    'petshop.sitemaps',
     'cms',
     'menus',
     'sekizai',
@@ -72,6 +72,7 @@ INSTALLED_APPS = [
     'petshop.order',
     'petshop.address',
     'petshop.basket',
+    'petshop.partner',
     'petshop.dashboard.communications',
     'petshop.dashboard.catalogue'
 ])

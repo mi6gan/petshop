@@ -88,14 +88,14 @@ class CatalogueLinkPlugin(CMSPlugin):
     name = models.CharField(_('name'), max_length=255)
     url = models.CharField(_("url"), blank=True, null=True, max_length=255)
     product = models.ForeignKey(
-        'Product',
+        Product,
         verbose_name=_("product page"),
         blank=True,
         null=True,
         on_delete=models.SET_NULL,
     )
     category = models.ForeignKey(
-        'Category',
+        Category,
         verbose_name=_("catalogue category page"),
         blank=True,
         null=True,

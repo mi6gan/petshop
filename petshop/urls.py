@@ -15,11 +15,13 @@ checkout_urls = get_class('checkout.app', 'application').urls
 promotion_urls = get_class('promotions.app', 'application').urls
 dashboard_urls = get_class('dashboard.app', 'application').urls
 payment_urls = get_class('payment.urls', 'urlpatterns')
+petshop_sitemap = get_class('sitemaps.views', 'petshop_sitemap')
 password_reset_form = get_class('customer.forms', 'PasswordResetForm')
 set_password_form = get_class('customer.forms', 'SetPasswordForm')
 
 urlpatterns = [
         url(r'^admin/', include(admin.site.urls)),
+        url(r'^sitemap.xml$', petshop_sitemap),
         url(r'^basket/', include(basket_urls)),
         url(r'^checkout/', include(checkout_urls)),
         url(r'^promotion/', include(promotion_urls)),
