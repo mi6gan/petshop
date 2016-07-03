@@ -12,9 +12,5 @@ class PageSitemapNode(SitemapNode, PageExtension):
             Page, related_name='sitemap_node', unique=True)
 
     @property
-    def page(self):
-        return self.extended_object
-
-    @property
     def has_changes(self):
         return self.page.changed_date > self.lastmod
