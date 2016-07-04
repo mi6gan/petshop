@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-04 10:32+0000\n"
+"POT-Creation-Date: 2016-07-04 13:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -177,7 +177,16 @@ msgstr ""
 msgid "Payment source is not selected yet"
 msgstr ""
 
-#: petshop/checkout/views.py:303
+#: petshop/checkout/views.py:304
+#, python-brace-format
+msgid ""
+"Thank you, your order #{0} is successfully placed. Please wait for our "
+"managers response, they will contact you soon."
+msgstr ""
+"Спасибо! Ваш заказ #{0} успешно размещен. Пожалуйста, дождитесь ответа наших "
+"менеджеров, они скоро свяжутся с Вами."
+
+#: petshop/checkout/views.py:310
 #, python-brace-format
 msgid ""
 "Sorry, but the payment is not submitted yet. Don't worry, we're already "
@@ -188,7 +197,7 @@ msgstr ""
 "обрабатываем ваш заказ #{0}. Возможно, вы хотите <a href='{1}'>повторить "
 "попытку оплаты</a> или просто подождите и наш менеджер свяжется с вами."
 
-#: petshop/checkout/views.py:313
+#: petshop/checkout/views.py:320
 #, python-brace-format
 msgid ""
 "Thank you! Your order #{0} is successfully paid. Please wait for our "
@@ -293,15 +302,15 @@ msgstr "Ваше имя"
 msgid "Your e-mail"
 msgstr "Ваш e-mail"
 
-#: petshop/forms.py:19 petshop/forms.py:26
+#: petshop/forms.py:19 petshop/forms.py:33
 msgid "or phone number"
 msgstr "или номер телефона"
 
-#: petshop/forms.py:20
+#: petshop/forms.py:21
 msgid "Your message"
 msgstr "Ваше сообщение"
 
-#: petshop/forms.py:25
+#: petshop/forms.py:32
 msgid "Provide your e-mail"
 msgstr "Введите ваш e-mail"
 
@@ -377,15 +386,15 @@ msgstr "Яндекс.Касса"
 msgid "Mode"
 msgstr "Режим"
 
-#: petshop/payment/models.py:32
+#: petshop/payment/models.py:33
 msgid "provider"
 msgstr "поставщик"
 
-#: petshop/payment/models.py:33
+#: petshop/payment/models.py:34
 msgid "providers"
 msgstr "поставщики"
 
-#: petshop/payment/models.py:39
+#: petshop/payment/models.py:40
 #, fuzzy
 #| msgid "favicon"
 msgid "icon"
@@ -402,6 +411,15 @@ msgstr "Оплата с произвольной банковской карты
 #: petshop/payment/providers.py:69
 msgid "Cash via the terminal"
 msgstr "Наличными через терминалы"
+
+#: petshop/payment/providers.py:90
+#| msgid "provider"
+msgid "Default provider"
+msgstr "поставщик"
+
+#: petshop/payment/providers.py:93
+msgid "Pay at the delivery of product"
+msgstr "Оплатить при получении заказа"
 
 #: petshop/payment/views.py:58
 msgid "Invalid order number"
@@ -484,7 +502,7 @@ msgstr "Кнопка"
 msgid "Generic feedback form"
 msgstr ""
 
-#: petshop/shipping/methods.py:28
+#: petshop/shipping/methods.py:29
 msgid "Delivery by Russian Post"
 msgstr "Доставка Почтой России"
 
@@ -1247,7 +1265,7 @@ msgstr ""
 msgid "Saving..."
 msgstr ""
 
-#: templates/djangocms_feedback/base.html:26
+#: templates/djangocms_feedback/base.html:25
 msgid "Send"
 msgstr "Отправить"
 
