@@ -63,7 +63,7 @@ class YandexKassaProviderForm(ProviderBaseForm):
 class YandexKassaProviderAdminForm(ModelForm):
     class Meta:
         model = Provider
-        fields = []
+        fields = ['enabled']
 
     shopid = forms.CharField(label="shopId")
     scid = forms.CharField(label="scid")

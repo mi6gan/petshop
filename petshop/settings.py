@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
-gettext = lambda s: s
+from django.utils.translation import ugettext_lazy as gettext
 DATA_DIR = os.path.dirname(os.path.dirname(__file__))
 
 from oscar.defaults import *
@@ -60,6 +60,9 @@ INSTALLED_APPS = [
     'cmsplugin_filer_link',
     'cmsplugin_bootstrap_columns',
     'cmsplugin_plaintext',
+    'phonenumber_field',
+    'ajax_helpers',
+    'djangocms_feedback',
     'compressor',
     'widget_tweaks',
     'petshop',
@@ -339,6 +342,14 @@ FILER_LINK_STYLES = (
     (" ", _("Default")),
     ("btn btn-primary", _("Button")),
 )
+
+DJANGOCMS_FEEDBACK_TYPES = [
+    {
+        'label': gettext('Generic feedback form'),
+        'slug': 'feedback',
+        'form_class': 'petshop.forms.FeedbackForm'
+    },
+]
 
 try:
     from protected_settings import *

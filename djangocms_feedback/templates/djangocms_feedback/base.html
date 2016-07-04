@@ -1,0 +1,47 @@
+{% load sekizai_tags %}
+
+{% block js %}
+	{% addtoblock "js" %}
+		<script type="text/javascript" src="{{STATIC_URL}}ajax_helpers/js/ajaxform.js"></script>
+	{% endaddtoblock %}
+{% endblock %}
+
+{% block title %}
+	{% if instance.title %}<h3>{{ instance.title }}</h3>{% endif %}
+{% endblock %}
+
+{% block wrapper_open %}
+<form id="feedback-form-{{ instance.id }}" class="form form__{{ slug }} ajax-form" action="{{ url }}" method="post">
+{% endblock %}
+
+{% block controls %}
+{% csrf_token %}
+<div class="non-field-errors">
+	{% for error in form.non_field_errors %}
+		<span>{{ error }}</span>
+	{% endfor %}
+</div>
+{% for field in form.hidden_fields %}
+		{{ field }}
+{% endfor %}
+{% for field in form.visible_fields %}
+	<div class="control-group">
+			<div class="label">
+				{{ field.label_tag }}
+				{% for error in field.errors %}
+					<br><span class="error">{{ field.errors.0 }}</span>
+				{% endfor %}
+			</div>
+			<div class="controls">{{ field }}</div>
+	</div>
+{% endfor %}
+{% endblock %}
+{% block actions %}
+<div class="form-actions">
+	<button class="button button-large" type="submit">Отправить</button>
+</div>
+{% endblock %}
+
+{% block wrapper_close %}
+</form>
+{% endblock %}

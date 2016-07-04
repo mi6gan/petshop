@@ -15,6 +15,7 @@ class Provider(models.Model):
     code = models.SlugField(max_length=128, editable=False)
     site = models.ForeignKey(Site)
     settings = JSONField(null=True, editable=False)
+    enabled = models.BooleanField(default=True)
 
     def get_absolute_url(self):
         pass

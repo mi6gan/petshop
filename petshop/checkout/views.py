@@ -46,7 +46,7 @@ class CheckoutSessionMixin(object):
 
     @property
     def payment_provider(self):
-        return providers_pool.get_by_code('yandex_kassa')
+        return providers_pool.get_by_code('default')
 
     session_key = 'checkout_session' 
     checkout_urls = [
@@ -286,7 +286,8 @@ class PaymentView(CheckoutSessionMixin, FormView):
         source = self.get_payment_source()
         status = order.status
         total = order.total_incl_tax
-        if not status or status == Order.STATUS_PENDING:
+        #TODO if not status or status == Order.STATUS_PENDING:
+        if not status:
             amount_debited = (
                     order.sources.aggregate(
                         amount=Sum('amount_debited'))['amount']) or 0
@@ -297,8 +298,14 @@ class PaymentView(CheckoutSessionMixin, FormView):
                 send_email_to_managers(self.request, 'ORDER_PAID', ctx)
                 send_email_to(
                         self.request, 'USER_ORDER_PAID', ctx, [order.email])
-        if order.status == Order.STATUS_FAILED:
-            messages.error(self.request, 
+        elif status == Order.STATUS_PENDING:
+            messages.success(self.request,
+                        mark_safe(
+                            _("Thank you, your order #{0} is successfully"
+                          " placed. Please wait for our managers response,"
+                          " they will contact you soon.").format(order.number)))
+        elif order.status == Order.STATUS_FAILED:
+            messages.error(self.request,
                         mark_safe(
                             _("Sorry, but the payment is not submitted yet."
                           " Don't worry, we're already"
@@ -314,7 +321,8 @@ class PaymentView(CheckoutSessionMixin, FormView):
                           " is successfully paid."
                           " Please wait for our managers response,"
                           " they will contact you soon.").format(order.number))
-        if order.status in (Order.STATUS_PAID, Order.STATUS_FAILED):
+        #TODO if order.status in (Order.STATUS_PAID, Order.STATUS_FAILED):
+        if order.status in (Order.STATUS_PENDING, Order.STATUS_PAID, Order.STATUS_FAILED):
             self.reset_session()
             if request.user.is_authenticated():
                 return redirect('customer:order', order.number)

@@ -1,0 +1,49 @@
+{% load sekizai_tags %}
+{% load i18n %}
+
+{% addtoblock 'js' %}
+    {{ form.media.js }}
+{% endaddtoblock %}
+
+{% if instance.title %}<h2 class="text-uppercase">{{ instance.title }}</h2>{% endif %}
+
+<form id="feedback_form__{{ instance.id }}" class="fade in form-horizontal form__{{ slug }}" data-type="ajax" data-nosuccessurlload="true" data-hideonsuccess="true" action="{{ url }}" method="post">
+{% csrf_token %}
+{% for field in form.hidden_fields %}
+		{{ field }}
+{% endfor %}
+{% for field in form.visible_fields %}
+    <div class="form-group has-feedback">
+            <div data-field="{{ field.html_name }}" data-placement="top">
+                {{ field }}
+            </div>
+	</div>    
+{% endfor %}
+<div class="form-group">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <button class="btn btn-block btn-primary" type="submit">{% trans 'Send' %}</button>
+        </div>
+    </div>
+</div>
+</form>
+
+<div class="well fade hide" data-form="feedback_form__{{ instance.id }}">
+    <div class="container-fluid text-center">
+        <p>
+            <i class="mg-icon-crossed-shield">&nbsp;</i>
+        </p>
+        <p class="text-uppercase h4 hx-label">
+            <span data-bind="nonfielderrors">&nbsp;</span>
+        </p>
+    </div>
+</div>
+
+<div class="container-fluid text-center" data-form="feedback_form__{{ instance.id }}">
+    <p>
+        <i class="mg-icon-ticked-shield">&nbsp;</i>
+    </p>
+    <p class="h4 hx-label">
+        <span data-bind="successmessage">&nbsp;</span>
+    </p>
+</div>

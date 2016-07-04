@@ -15,7 +15,10 @@ DEFAULT_FROM_EMAIL='info@mi6gan.space'
 SERVER_EMAIL='info@mi6gan.space'
 
 ADMINS = (('Michael Boyarov',"mi6gan@mail.ru"),)
-MANAGERS = (('Michael Boyarov',"mi6gan@mail.ru"),)
+MANAGERS = (
+    ('Michael Boyarov',"mi6gan@mail.ru"),
+    ('Manager 1', "olelesik@mail.ru")
+)
 
 ALLOWED_HOSTS = ['localhost', 'pet-zakupki.ru']
 

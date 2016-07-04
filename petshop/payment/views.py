@@ -100,3 +100,6 @@ class YandexMoneyCheckView(YandexMoneyResponseView):
 
 class YandexMoneyAvisoView(YandexMoneyResponseView):
     tagname = 'paymentAvisoResponse'
+
+class DefaultProviderView(View):
+    pass

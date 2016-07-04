@@ -9,13 +9,13 @@ import os
 
 from oscar.core.loading import get_model 
 
-from .forms import YandexKassaProviderForm, YandexKassaProviderAdminForm
+from .forms import ProviderBaseForm, YandexKassaProviderForm, YandexKassaProviderAdminForm
 
 
 class ProviderBase(object):
     code = None
     name = None
-    form_class = None
+    form_class = ProviderBaseForm
     admin_form_class = None
     settings = {} 
     source_types = ()
@@ -85,9 +85,21 @@ class YandexKassaProvider(ProviderBase):
         return self.instance.settings.get('url')
 
 
+class DefaultProvider(ProviderBase):
+    code = "default"
+    name = _("Default provider")
+    url = reverse_lazy('payment:provider_default')
+    source_types = (
+        ('DF', _("Pay at the delivery of product")),
+    )
+    source_types_icons = (
+        ('DF', 'petshop/payment/GP.png'),
+    )
+
+
 class ProvidersPool(object):
 
-    providers = [YandexKassaProvider()]
+    providers = [DefaultProvider(), YandexKassaProvider()]
 
     def preload_providers(self):
         for provider in self.providers:
