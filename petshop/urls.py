@@ -22,7 +22,7 @@ set_password_form = get_class('customer.forms', 'SetPasswordForm')
 
 urlpatterns = [
         url(r'^admin/', include(admin.site.urls)),
-        url(r'^robots.txt$', lambda r: render_to_response('robots.txt'), name='robots'),
+        url(r'^robots.txt$', lambda r: render_to_response('robots.txt', content_type='text/plain'), name='robots'),
         url(r'^sitemap.xml$', petshop_sitemap),
         url(r'^feedback/', include('djangocms_feedback.urls'), name='feedback'),
         url(r'^basket/', include(basket_urls)),
