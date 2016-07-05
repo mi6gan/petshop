@@ -1,0 +1,13 @@
+Disallow: /admin
+Disallow: /feedback
+Disallow: /basket
+Disallow: /checkout
+Disallow: /promotion
+Disallow: /dashboard
+Disallow: /payment
+Disallow: /password-reset
+Disallow: /jsi18n
+Disallow: /media
+Disallow: /static
+Disallow: /catalogue
+Disallow: /accounts

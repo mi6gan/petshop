@@ -4,7 +4,8 @@
 {% load menu_tags %}
 {% load cms_tags %}
 
-{% block content %}
+{% block index_content %}
+    <noindex>
     <div class="content_top">
         {% block breadcrumbs %}
         <ul class="breadcrumb">
@@ -12,9 +13,10 @@
         </ul>
         {% endblock %}
     </div>
+    </noindex>
     {% block "inner-content" %}
         <div class="content">
-            {% placeholder "inner-contenr" or %}<h1 class="text-danger">{% trans "This page is under construction" %}</h1>{% endplaceholder %}
+            {% placeholder "inner-contenr" or %}<noindex><h1 class="text-danger">{% trans "This page is under construction" %}</h1></noindex>{% endplaceholder %}
         </div>
     {% endblock %}
 {% endblock %}

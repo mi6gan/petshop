@@ -14,7 +14,7 @@ class PetshopSitemap(Sitemap):
     model = SitemapNode
 
     def items(self):
-        return self.model.objects.all()
+        return self.model.objects.exclude(location='/accounts/')
 
     def changefreq(self, obj):
         return obj.get_changefreq_display()

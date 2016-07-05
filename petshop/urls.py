@@ -4,6 +4,7 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.core.urlresolvers import reverse_lazy
+from django.shortcuts import render_to_response
 from django.views import static
 from django.views.i18n import javascript_catalog
 
@@ -21,6 +22,7 @@ set_password_form = get_class('customer.forms', 'SetPasswordForm')
 
 urlpatterns = [
         url(r'^admin/', include(admin.site.urls)),
+        url(r'^robots.txt$', lambda r: render_to_response('robots.txt'), name='robots'),
         url(r'^sitemap.xml$', petshop_sitemap),
         url(r'^feedback/', include('djangocms_feedback.urls'), name='feedback'),
         url(r'^basket/', include(basket_urls)),
