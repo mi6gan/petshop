@@ -4,8 +4,6 @@ Host: http://pet-zakupki.ru
 
 User-agent: Googlebot
 {% include 'partials/robots.txt' %}
-Host: *
 
 User-agent: *
 {% include 'partials/robots.txt' %}
-Host: *
