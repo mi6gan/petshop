@@ -120,7 +120,7 @@ module.exports = function(grunt) {
 		    tasks: ['copy:images']
 	    },
     	js: {
-		    files: ['src/js/**'],
+		    files: ['src/js/**', 'src/vendor/oscar/js/**'],
 		    tasks: ['copy:js']
 	    },
     }

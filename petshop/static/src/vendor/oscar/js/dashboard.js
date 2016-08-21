@@ -187,6 +187,34 @@ var oscar = (function(o, $) {
             $textareas = $(el).find('textarea').not('.no-widget-init textarea').not('.no-widget-init');
             $textareas.filter('form.wysiwyg textarea').tinymce(o.dashboard.options.tinyConfig);
             $textareas.filter('.wysiwyg').tinymce(o.dashboard.options.tinyConfig);
+            $textareas.filter('form.ckeditor textarea').each(function (__, textEl) {
+                try {
+                 CKEDITOR.replace(textEl, {
+                    toolbar: [
+				        ['Undo', 'Redo'],
+				        ['ShowBlocks'],
+				        ['Format', 'Styles'],
+				        ['TextColor', 'BGColor', '-', 'PasteText', 'PasteFromWord'],
+				        ['Maximize', ''],
+				        '/',
+				        ['Bold', 'Italic', 'Underline', '-', 'Subscript', 'Superscript', '-', 'RemoveFormat'],
+				        ['JustifyLeft', 'JustifyCenter', 'JustifyRight'],
+				        ['HorizontalRule'],
+				        ['Link', 'Unlink'],
+				        ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Table'],
+				        ['Source']
+                    ],
+                    'language': 'ru',
+                    'skin': 'moono',
+                    'allowedContent': true,
+                    'toolbarCanCollapse': false,
+                    'removePlugins': 'resize'
+                });
+               }
+               catch(exception) {
+                   console.warn(exception);
+               }
+            });
         },
         initForms: function() {
             // Disable buttons when they are clicked and show a "loading" message taken from the

@@ -4,7 +4,7 @@
 {% load category_tags menu_tags %}
 {% load cms_tags %}
 
-{% block "top-content" %}
+{% block "top-content-index" %}
     <div class="header_slide">
         <div class="header_bottom_left">                
             <div class="categories">
@@ -17,6 +17,7 @@
         <div class="header_bottom_right"> 
             <div class="intro-promo">
                 {% placeholder "intro-promo" or %} 
+                <noindex>
                 <div class="row">
                     <div class="col-sm-6">
                         <a href=""><img src="{% static "images/slide-1-image.png" %}" alt="learn more" /></a>
@@ -28,6 +29,7 @@
                         <a href="preview.html" class="button">Shop Now</a>
                     </div>                           
                 </div>
+                </noindex>
                 {% endplaceholder %}
             </div>
             {% placeholder "content" %} 

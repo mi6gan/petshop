@@ -16,6 +16,7 @@
     </div>
 
     <div class="col-md-9">
+    {{ category.description|safe }}
     {% render_pagination paginator page_obj css_class="content-pagenation" url=request.path %}
     <div class="row product-list">
     {% for product in products %}

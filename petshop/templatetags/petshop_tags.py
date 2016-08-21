@@ -18,7 +18,7 @@ def get_base_media():
                 'vendor/js/easing.js',
                 'vendor/js/move-top.js',
                 'vendor/js/bootstrap/alert.js',
-                'js/base.js'
+                'js/base.js',
             ),
             css={
                 'all': (
@@ -45,6 +45,7 @@ def get_dashboard_media():
                 'vendor/js/bootstrap/tab.js',
                 'vendor/js/bootstrap/dropdown.js',
                 'vendor/oscar/js/ui.js',
+                'djangocms_text_ckeditor/ckeditor/ckeditor.js',
                 'vendor/oscar/js/dashboard.js',
             ),
             css = {

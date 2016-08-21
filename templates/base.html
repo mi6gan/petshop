@@ -13,12 +13,12 @@
 </head>
 <body>{% cms_toolbar %}
   <div class="wrap">
-    <noindex>
     <div class="header">
         <div class="headertop_desc">
             <div class="call">
-                <p><span>{% trans "Need help?" %}</span> {% trans "call us" %} <span class="number">{% static_placeholder "top-phone" or %}1-22-3456789{% endstatic_placeholder %}</span></span></p>
+                <p><span>{% trans "Need help?" %}</span> {% trans "call us" %} <span class="number">{% static_placeholder "top-phone" or %}<noindex>1-22-3456789</noindex>{% endstatic_placeholder %}</span></span></p>
             </div>
+            <noindex>
             <div class="account_desc">
                 <ul>
                     {% if not user.is_authenticated %}
@@ -31,11 +31,13 @@
                 </ul>
             </div>
             <div class="clear"></div>
+            </noindex>
         </div>
         <div class="header_top">
             <div class="logo">
                 <a href="{% url "pages-root" %}"><img src="{{ request.site.settings.logo.thumb.url }}" title="{{ request.site.name }}" alt="{{ request.site.name }}" /></a>
             </div>
+            <noindex>
             {% block "mini-basket" %}
             <div id="miniBasket" class="cart" data-csrftoken="{{ csrf_token }}">
                 {% if not hide_mini_basket %}
@@ -44,6 +46,7 @@
             </div>
             {% endblock %}
             <div class="clear"></div>
+            </noindex>
         </div>
         <div class="header_bottom">
              <div class="menu">
@@ -62,17 +65,23 @@
              <div class="clear"></div>
         </div>
         <p>&nbsp;</p>
-        {% include "partials/alert_messages.html" %}
-        {% block "top-content" %}{% endblock %}
+        <noindex>
+            {% include "partials/alert_messages.html" %}
+        </noindex>
+        {% if not request.sitemap_node.include %}<noindex>{% endif %}
+        {% block "top-content-index" %}
+            {% block "top-content" %}{% endblock %}
+        {% endblock %}
+        {% if not request.sitemap_node.include %}</noindex>{% endif %}
    </div>
- </noindex>
  <div class="main">
     <div class="{% block content-class %}content{% endblock %}">
+        {% if not request.sitemap_node.include %}<noindex>{% endif %}
         {% block index_content %}
-        <noindex>
             {% block content %}{% endblock %}
         </noindex>
         {% endblock %}
+        {% if not request.sitemap_node.include %}</noindex>{% endif %}
     </div>
  </div>
 </div>

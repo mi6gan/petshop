@@ -18,3 +18,15 @@ a{text-decoration:none;}
 nav.vertical ul li{	display:block;}/* vertical menu */
 nav.horizontal ul li{	display: inline-block;}/* horizontal menu */
 img{max-width:100%;}
+.header_bottom_right, .main > .content {
+    ol {
+        list-style: decimal;
+    }
+    ul {
+        list-style: disc;
+    }
+    ol, ul {
+        margin: 0 0 0 10px;
+        padding: 0 0 0 10px;
+    }
+}
