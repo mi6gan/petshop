@@ -7,7 +7,12 @@ from django.conf import settings
 from django.utils import translation
 from django.utils.encoding import smart_text
 
+from oscar.core.loading import get_model
+
 from optparse import make_option
+
+
+Category = get_model('catalogue', 'Category')
 
 
 class Command(BaseCommand):
@@ -22,7 +27,7 @@ class Command(BaseCommand):
         verbosity = options.get('verbosity')
         exclude = options.get('exclude')
         translation.activate(settings.LANGUAGE_CODE)
-        for model in (Page,):
+        for model in (Page, Category):
             if verbosity > 2:
                 self.stdout.write(smart_text('Saving all instances'
                     ' of %s one by one,'

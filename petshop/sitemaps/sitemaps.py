@@ -6,7 +6,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from .abstract_models import SitemapNode
-from .models import Page, PageSitemapNode
+from .models import Page, PageSitemapNode, Category, CategorySitemapNode
 
 
 class PetshopSitemap(Sitemap):
@@ -14,7 +14,8 @@ class PetshopSitemap(Sitemap):
     model = SitemapNode
 
     def items(self):
-        return self.model.objects.exclude(location='/accounts/')
+        return self.model.objects.exclude(
+                location='/accounts/').exclude(include=False)
 
     def changefreq(self, obj):
         return obj.get_changefreq_display()
@@ -33,8 +34,13 @@ class PageSitemap(PetshopSitemap):
     model = PageSitemapNode
 
 
+class CategorySitemap(PetshopSitemap):
+    model = CategorySitemapNode
+
+
 sitemaps = {
-    'page': PageSitemap
+    'page': PageSitemap,
+    'category': CategorySitemap
 }
 
 
@@ -59,4 +65,23 @@ def create_page_sitemap_node(instance, **kwargs):
             else:
                 node.changefreq = SitemapNode.MONTHLY
             node.priority = priority
+        node.save()
+
+
+@receiver(post_save, sender=Category)
+def create_category_sitemap_node(instance, **kwargs):
+    category = instance
+    node, __ = CategorySitemapNode.get_or_update(category)
+    if not node:
+        node = CategorySitemapNode(
+                category=category, location=category.get_absolute_url())
+        priority = (D('1.0') * (
+                (D('4.0') - category.depth) / D('4.0'))).quantize(D('0.0'))
+        if priority <= D('0.0'):
+            return
+        if priority >= D('0.8'):
+            node.changefreq = SitemapNode.WEEKLY
+        else:
+            node.changefreq = SitemapNode.MONTHLY
+        node.priority = priority
         node.save()

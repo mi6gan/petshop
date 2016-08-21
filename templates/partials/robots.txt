@@ -9,5 +9,4 @@ Disallow: /password-reset
 Disallow: /jsi18n
 Disallow: /media
 Disallow: /static
-Disallow: /catalogue
 Disallow: /accounts

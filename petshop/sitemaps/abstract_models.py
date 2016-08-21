@@ -28,11 +28,12 @@ class SitemapNode(models.Model):
     changefreq = models.PositiveIntegerField(
             choices=CHANGEFREQ_CHOICES, null=True, default=None)
     lastmod = models.DateTimeField(default=timezone.now)
-    location = models.URLField()
+    location = models.CharField(max_length=200)
     priority = models.DecimalField(
             max_digits=2, decimal_places=1, validators=[
                 MinValueValidator(D('0.0')), MaxValueValidator(D('1.0'))],
             default=D('0.8'))
+    include = models.BooleanField(default=True)
 
     @property
     def has_changes(self):
