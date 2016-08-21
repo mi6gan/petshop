@@ -18,6 +18,7 @@ def get_base_media():
                 'vendor/js/easing.js',
                 'vendor/js/move-top.js',
                 'vendor/js/bootstrap/alert.js',
+                'js/base.js'
             ),
             css={
                 'all': (

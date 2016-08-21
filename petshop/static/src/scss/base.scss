@@ -7,6 +7,13 @@
 @import "vendor/easy-responsive-tabs";
 @import "vendor/style";
 
+@import "../../node_modules/font-awesome/scss/variables";
+@import "../../node_modules/font-awesome/scss/path";
+@import "../../node_modules/font-awesome/scss/core";
+@import "../../node_modules/font-awesome/scss/icons";
+@import "../../node_modules/font-awesome/scss/animated";
+@import "../../node_modules/font-awesome/scss/mixins";
+
 .row,
 .row:before,
 .row:after,
@@ -37,31 +44,78 @@ ul.breadcrumb {
     }
 }
 .categories, .categories-menu {
-    li {
         ul {
-            margin-left: 15px;
-            li {
-                a {
-                    text-transform: none;
-                    background: none;
-                }
-            }
+            overflow: hidden;
         }
-        > ul {
-            > li {
-                > a:before {
-                    content: '- ';
+        li {
+            margin-left: 15px;
+            > hr {
+                margin-top: 5px;
+                margin-bottom: 5px;
+                margin-right: 7px;
+            }
+            > a {
+                color: $text-muted;
+                user-select: none;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                background: none;
+                text-transform: none;
+                padding: 8px 7px;
+                margin: 0px;
+                display: inline;
+                border: none;
+                &::before {
+                    content: '';
                 }
-                > ul {
-                    li {
-                        > a:before {
-                            content: '';
-                        }
+                &.toggle-children {
+                    @extend .fa;
+                    @extend .fa-angle-right;
+                    &:hover {
+                    text-decoration: none;
                     }
                 }
             }
+            &.selected, &.ancestor {
+                > a {
+                    color: $brand-primary;
+                    &.toggle-children {
+                        @extend .fa-angle-down;
+                    }
+                }
+            }
+            ul {
+                max-height: 0;
+                transition: max-height 0.2s;
+            }
+            &.selected, &.ancestor {
+                > ul {
+                    max-height: 1024px;
+                }
+            }
+    }
+    > ul {
+        > li {
+            > a {
+                text-transform: uppercase;
+            }
         }
     }
+}
+.categories {
+    border: 1px solid #EEE;
+    padding-bottom: 15px;
+    > h3 {
+        font-size: 1.2em;
+        color: #FFF;
+        padding: 10px;
+        background: #FF9900;
+        text-transform: uppercase;
+        font-family: 'Roboto', sans-serif;
+        margin: 0 0 10px 0;
+    }
+}
+.categories-menu {
 }
 body > .wrap {
     min-height: 580px;
