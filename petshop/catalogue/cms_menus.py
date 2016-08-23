@@ -23,26 +23,26 @@ class CatalogueMenu(CMSAttachMenu):
                 parent_id = category.get_parent().pk
             else:
                 parent_id = None
-            nodes.append(
-                NavigationNode(
-                    title=category.name,
-                    url=category.get_absolute_url(),
-                    id=category.pk,
-                    parent_id=parent_id
-                )
+            node =  NavigationNode(
+                title=category.name,
+                url=category.get_absolute_url(),
+                id=category.pk,
+                parent_id=parent_id
             )
+            node.attr["is_category"] = True
+            nodes.append(node)
             for product_category in (
                     ProductCategory.objects.filter(category=category)):
                 product = product_category.product
-                nodes.append(
-                    NavigationNode(
-                        title=product.title,
-                        url=product.get_absolute_url(),
-                        id=product_category.pk,
-                        parent_id=category.pk,
-                        visible=False
-                    )
+                node = NavigationNode(
+                    title=product.title,
+                    url=product.get_absolute_url(),
+                    id=product_category.pk,
+                    parent_id=category.pk,
+                    visible=False
                 )
+                node.attr["is_product"] = True
+                nodes.append(node)
         return nodes
 
 
