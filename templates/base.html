@@ -24,11 +24,11 @@
             <div class="account_desc">
                 <ul>
                     {% if not user.is_authenticated %}
-                    <li><a href="{% url 'customer:login' %}">{% trans "Register" %}</a></li>
-                    <li><a href="{% url 'customer:login' %}">{% trans "Login" %}</a></li>
+                    <li><a rel="nofollow" href="{% url 'customer:login' %}">{% trans "Register" %}</a></li>
+                    <li><a rel="nofollow" href="{% url 'customer:login' %}">{% trans "Login" %}</a></li>
                     {% else %}
-                    <li><a href="{% url 'customer:profile-view' %}">{% trans "Account profile" %}</a></li>
-                    <li><a href="{% url 'customer:logout' %}">{% trans "Logout" %}</a></li>
+                    <li><a rel="nofollow" href="{% url 'customer:profile-view' %}">{% trans "Account profile" %}</a></li>
+                    <li><a rel="nofollow" href="{% url 'customer:logout' %}">{% trans "Logout" %}</a></li>
                     {% endif %}
                 </ul>
             </div>
@@ -37,7 +37,7 @@
         </div>
         <div class="header_top">
             <div class="logo">
-                <a href="{% url "pages-root" %}"><img src="{{ request.site.settings.logo.thumb.url }}" title="{{ request.site.name }}" alt="{{ request.site.name }}" /></a>
+                <a{% if request.current_page.is_home %} rel="nofollow"{% endif %}  href="{% url "pages-root" %}"><img src="{{ request.site.settings.logo.thumb.url }}" title="{{ request.site.name }}" alt="{{ request.site.name }}" /></a>
             </div>
             <noindex>
             {% block "mini-basket" %}
@@ -101,7 +101,7 @@
     </script>
     {% render_block 'js' %}
 </div>
-<a href="#" id="toTop"><span id="toTopHover"> </span></a>
+<a rel="nofollow" href="#" id="toTop"><span id="toTopHover"> </span></a>
 </noindex>
 </body>
 </html>

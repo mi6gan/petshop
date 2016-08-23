@@ -28,11 +28,11 @@
                     </div>
                     {% endfor %}
                 </div>
-                <a class="left carousel-control" href="#productCarousel" role="button" data-slide="prev">
+                <a rel="nofollow" class="left carousel-control" href="#productCarousel" role="button" data-slide="prev">
                     <span class="icon-prev" aria-hidden="true"></span>
                     <span class="sr-only">{% trans "Previous" %}</span>
                 </a>
-                <a class="right carousel-control" href="#productCarousel" role="button" data-slide="next">
+                <a rel="nofollow" class="right carousel-control" href="#productCarousel" role="button" data-slide="next">
                     <span class="icon-next" aria-hidden="true"></span>
                     <span class="sr-only">{% trans "Next" %}</span>
                 </a>
@@ -43,7 +43,7 @@
             {% endwith %}
         </div>
         <div class="col-sm-5">
-            <h2>{{ product.title }}{% if user.is_staff %}&nbsp;&nbsp;&nbsp;<a class=" small text-muted text-lowercase" href="{% url "dashboard:catalogue-product" product.pk %}"><i class="fa fa-pencil"></i> {% trans "Change" %}</a>{% endif %}</h2>
+            <h2>{{ product.title }}{% if user.is_staff %}&nbsp;&nbsp;&nbsp;<a rel="nofollow" class=" small text-muted text-lowercase" href="{% url "dashboard:catalogue-product" product.pk %}"><i class="fa fa-pencil"></i> {% trans "Change" %}</a>{% endif %}</h2>
             <p>{{ product.description|truncatewords:20 }}</p>
             {% if available %}
             {% include "catalogue/partials/add_to_basket_form.html" %}

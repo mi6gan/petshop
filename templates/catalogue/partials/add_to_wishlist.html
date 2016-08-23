@@ -8,12 +8,12 @@
         {% if wishlists %}
 
             <div class="btn-group btn-wishlist">
-                <a class="btn btn-lg dropdown-toggle" data-toggle="dropdown" href="#">{% trans "Add to wish list" %} <span class="caret"></span></a>
+                <a rel="nofollow" class="btn btn-lg dropdown-toggle" data-toggle="dropdown" href="#">{% trans "Add to wish list" %} <span class="caret"></span></a>
                 <ul class="dropdown-menu pull-right">
                     {% for wishlist in wishlists %}
                         {% if wishlist not in product_wishlists %}
                             <li>
-                                    <a href="{% url 'customer:wishlists-add-product' key=wishlist.key product_pk=product.pk %}">
+                                    <a rel="nofollow" href="{% url 'customer:wishlists-add-product' key=wishlist.key product_pk=product.pk %}">
                                         {% blocktrans with name=wishlist.name %}
                                             Add to '{{ name }}' wish list
                                         {% endblocktrans %}
@@ -21,7 +21,7 @@
                             </li>
                         {% endif %}
                     {% endfor %}
-                    <li><a href="{% url 'customer:wishlists-create-with-product' product_pk=product.pk %}">{% trans 'Create a new wishlist' %}</a></li>
+                    <li><a rel="nofollow" href="{% url 'customer:wishlists-create-with-product' product_pk=product.pk %}">{% trans 'Create a new wishlist' %}</a></li>
                 </ul>
             </div>
         {% else %}
@@ -36,7 +36,7 @@
             <form action="{% url 'customer:wishlists-remove-product' key=wishlist.key product_pk=product.id %}" method="post">
                 {% csrf_token %}
                 {% blocktrans with name=wishlist.name url=wishlist.get_absolute_url %}
-                    <span class="pull-left">Product is in <a href="{{ url }}">'{{ name }}'</a> wishlist.</span>
+                    <span class="pull-left">Product is in <a rel="nofollow" href="{{ url }}">'{{ name }}'</a> wishlist.</span>
                 {% endblocktrans %}
                 <button type="submit" class="btn btn-sm pull-right" data-loading-text="{% trans 'Removing...' %}">{% trans "Remove" %}</button>
             </form>

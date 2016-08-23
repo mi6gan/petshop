@@ -22,11 +22,11 @@
                         <td>
                             {% if product %}
                                 <p>
-                                    <a href="{{ product.get_absolute_url }}">{{ line.description }}</a>
+                                    <a rel="nofollow" href="{{ product.get_absolute_url }}">{{ line.description }}</a>
                                 </p>
                                 {% iffeature "reviews" %}
                                     {% if product|is_review_permitted:user %}
-                                        <a class="btn btn-default" href="{% url 'catalogue:reviews-add' product_slug=product.slug product_pk=product.id %}#addreview">{% trans 'Write a review' %}</a>
+                                        <a rel="nofollow" class="btn btn-default" href="{% url 'catalogue:reviews-add' product_slug=product.slug product_pk=product.id %}#addreview">{% trans 'Write a review' %}</a>
                                     {% endif %}
                                 {% endiffeature %}
                             {% else %}
@@ -162,7 +162,7 @@
     <h2>{% trans 'Status' %}</h2>
     <p>{{ order.get_status_display }}
         {% if order.status != 'paid' %}
-            | <a href="{% url 'checkout:order_payment' order.number %}">{% trans "Pay now" %} &gt;&nbsp;</a>
+            | <a rel="nofollow" href="{% url 'checkout:order_payment' order.number %}">{% trans "Pay now" %} &gt;&nbsp;</a>
         {% endif %}
     </p>
 

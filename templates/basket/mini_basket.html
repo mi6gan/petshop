@@ -38,7 +38,7 @@
             {% purchase_info_for_line request line as session %}
                 <tr>
                     <td class="text-center">
-                        <a href="{{ product.get_absolute_url }}"><img src="{{ product.tiny_thumb }}" alt="{{ product.get_title }}"></a>
+                        <a rel="nofollow" href="{{ product.get_absolute_url }}"><img src="{{ product.tiny_thumb }}" alt="{{ product.get_title }}"></a>
                     </td>
                     <td class="text-center">
                         <b>{% with title=line.description|wordwrap:20 %}{{ title|linebreaksbr }}{% endwith %}</b>
@@ -67,7 +67,7 @@
             <div class="row">
                 <div class="col-xs-12 text-right">
                     <br/>
-                    <a href="{% url 'basket:summary' %}"><b>{% trans 'Purchase the order' %} &gt;</b></a>
+                    <a rel="nofollow" href="{% url 'basket:summary' %}"><b>{% trans 'Purchase the order' %} &gt;</b></a>
                 </div>
             </div>
             </div>

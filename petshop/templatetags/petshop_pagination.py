@@ -21,6 +21,7 @@ def render_pagination_page(page, page_obj, url):
         a_attrs = {
             'href': '%s?page=%s' % (url, page)
         }
+    a_attrs.update(rel="nofollow")
     return format_html(
             u'<li{}><a{}>{}</a></li>\n',
             flatatt(li_attrs), flatatt(a_attrs), page)

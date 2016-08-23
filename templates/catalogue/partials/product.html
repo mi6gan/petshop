@@ -4,7 +4,7 @@
 {% block product %}
 {% purchase_info_for_product request product as session %}
 {% with available=session.availability.is_available_to_buy %}
-<a href="{{ product.get_absolute_url }}"><img src="{{ product.medium_thumb }}" alt="" /></a>
+<a rel="nofollow" href="{{ product.get_absolute_url }}"><img src="{{ product.medium_thumb }}" alt="" /></a>
 {% with wrapped_title=product.get_title|wordwrap:20 %}
 <h5 class="text-center" title="{{ product.title }}">
     {% spaceless %}
@@ -29,11 +29,11 @@
     </div>
     {% if not product.children.exists %}
         <div class="add-cart">                                
-            <h4><a data-target="#miniBasket" data-url="{% url "basket:ajax_add" product.pk %}" href="#">{% trans "Add to basket" %}</a></h4>
+            <h4><a rel="nofollow" data-target="#miniBasket" data-url="{% url "basket:ajax_add" product.pk %}" href="#">{% trans "Add to basket" %}</a></h4>
         </div>
     {% else %}
         <div class="add-cart">                                
-            <h4><a href="{{ product.get_absolute_url }}">{% trans "More details..." %}</a></h4>
+            <h4><a rel="nofollow" href="{{ product.get_absolute_url }}">{% trans "More details..." %}</a></h4>
         </div>
     {% endif %}
     {% else %}

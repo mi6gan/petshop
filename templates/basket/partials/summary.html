@@ -7,7 +7,7 @@
 
 <p>
     {% trans "Your basket is empty" %}.
-    <a href="{% url 'pages-root' %}">{% trans "Go to the main page" %}</a>
+    <a rel="nofollow" href="{% url 'pages-root' %}">{% trans "Go to the main page" %}</a>
 </p>
 
 {% else %}
@@ -44,11 +44,11 @@
         {{ product.upc }}
     </div>
     <div class="col-xs-1">
-        <a href="{{ product.get_absolute_url }}">
+        <a rel="nofollow" href="{{ product.get_absolute_url }}">
             <img class="responsive" src="{{ product.tiny_thumb }}" />
         </a>
     </div>
-    <div class="col-xs-3"><a href="{{ product.get_absolute_url }}">{{ product }}</a></div>
+    <div class="col-xs-3"><a rel="nofollow" href="{{ product.get_absolute_url }}">{{ product }}</a></div>
     <div class="col-xs-2">
         <div style="display:none;">
         {% for field in form.hidden_fields %}
