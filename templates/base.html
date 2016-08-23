@@ -70,20 +70,20 @@
         <noindex>
             {% include "partials/alert_messages.html" %}
         </noindex>
-        {% if not request.sitemap_node.include %}<noindex>{% endif %}
+        {% if not sitemap_node.include %}<noindex>{% endif %}
         {% block "top-content-index" %}
             {% block "top-content" %}{% endblock %}
         {% endblock %}
-        {% if not request.sitemap_node.include %}</noindex>{% endif %}
+        {% if not sitemap_node.include %}</noindex>{% endif %}
    </div>
  <div class="main">
     <div class="{% block content-class %}content{% endblock %}">
-        {% if not request.sitemap_node.include %}<noindex>{% endif %}
+        {% if not sitemap_node.include %}<noindex>{% endif %}
         {% block index_content %}
             {% block content %}{% endblock %}
         </noindex>
         {% endblock %}
-        {% if not request.sitemap_node.include %}</noindex>{% endif %}
+        {% if not sitemap_node.include %}</noindex>{% endif %}
     </div>
  </div>
 </div>
