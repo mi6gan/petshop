@@ -2,7 +2,7 @@
 
 {% for child in children %}
 <li class="child{% if child.selected %} selected{% endif %}{% if child.ancestor %} ancestor{% endif %}{% if child.sibling %} sibling{% endif %}{% if child.descendant %} descendant{% endif %}">
-    {% if child.children %}<a class="toggle-children" data-toggle-target="parent" data-toggle-on="click" data-toggle-class="selected" role="button"></a>{% endif %}{% if not node.attr.sitemap_included %} <a rel="nofollow"{% endif %} href="{{ child.attr.redirect_url|default:child.get_absolute_url }}">{{ child.get_menu_title }}</a>
+    {% if child.children %}<a class="toggle-children" data-toggle-target="parent" data-toggle-on="click" data-toggle-class="selected" role="button"></a>{% endif %}{% if not child.attr.sitemap_included %} <a rel="nofollow"{% endif %} href="{{ child.attr.redirect_url|default:child.get_absolute_url }}">{{ child.get_menu_title }}</a>
     <hr/>
 	{% if child.children %}
 	<ul>

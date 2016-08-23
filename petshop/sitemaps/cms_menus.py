@@ -13,8 +13,8 @@ class SitemapNodeModifier(Modifier):
             if node.attr.get("is_page"):
                 try:
                     node.attr["sitemap_included"] = (
-                        PageSitemapNode.objects.get(page__id=node.id).include
-                        )
+                        PageSitemapNode.objects.get(
+                            page__id=node.id).include)
                 except PageSitemapNode.DoesNotExist:
                     pass
             elif node.attr.get("is_category"):
