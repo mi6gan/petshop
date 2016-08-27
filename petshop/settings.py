@@ -21,6 +21,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 import os
 
 ALLOWED_HOSTS = ['pets.mi6gan.space', 'pet-zakupki.ru']
+INTERNAL_IPS = ['127.0.0.1']
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 

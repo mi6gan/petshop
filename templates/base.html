@@ -13,7 +13,7 @@
 {% block "media" %}{% endblock %}
 <script type="text/javascript" src="{% url 'javascript_catalog' %}"></script>
 </head>
-<body>{% cms_toolbar %}
+<body{% if debug %} class="debug"{% endif %}>{% cms_toolbar %}
   <div class="wrap">
     <div class="header">
         <div class="headertop_desc">
