@@ -23,7 +23,7 @@ $(function toggleClass() {
     });
 });
 $(function yandexMetrika() {
-    if($(body).hasClass('debug')) {
+    if($('body').hasClass('debug')) {
         return;
     }
     (function (d, w, c) {
