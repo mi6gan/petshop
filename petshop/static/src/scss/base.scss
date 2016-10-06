@@ -251,3 +251,33 @@ hr.transparent {
         padding-right: $grid-gutter-width/2;
     }
 }
+@media only screen and (max-width: 680px) {
+    .menu {
+        float: none;
+        width: 100%;
+        > ul {
+            > li {
+                display: block;
+                float: none;
+                width: 100%;
+                text-align: center;
+                > a {
+                    border-right: none;
+                }
+                &:first-child {
+                    > a {
+                        border-radius: 6px 6px 0px 0px !important;
+                    }
+                }
+                &:last-child {
+                    > a {
+                        border-radius: 0px 0px 6px 6px !important;
+                    }
+                }
+                &:not(:first-child) {
+                    border-top: 2px solid #333;
+                }
+            }
+        }
+    }
+}

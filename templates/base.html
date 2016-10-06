@@ -3,7 +3,7 @@
 <head>
 <title>{{ request.site.name }} | {% block "title" %}{% page_attribute "page_title" %}{% endblock %}</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scal=1.0, maximum-scale=2.0">
 <meta name="yandex-verification" content="fc3aa681a256f850" />
 <meta name="google-site-verification" content="t13M8pFVmds8p2iNdONeMGMx4ny-9fgxEQAOuWT47bg" />
 <link rel="icon" href="{{ request.site.settings.favicon.thumb.url }}">
@@ -54,8 +54,8 @@
              <div class="menu">
                  <ul>
                     {% show_menu 0 0 %}
-                    <div class="clear"></div>
                  </ul>
+                 <div class="clear"></div>
              </div>
              {% comment %}
              <div class="search_box">

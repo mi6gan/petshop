@@ -194,6 +194,7 @@ class AddToBasketForm(OscarAddToBasketForm):
             choices.append((child.id, summary))
         self.fields['child_id'] = forms.ChoiceField(
             choices=tuple(choices), label=_("Variant"),
+            initial=choices[-1][0],
             widget=ParentProductSelect(disabled_values=disabled_values,
                                        choices_extra=choices_extra))
 
