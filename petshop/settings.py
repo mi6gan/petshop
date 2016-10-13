@@ -353,6 +353,8 @@ DJANGOCMS_FEEDBACK_TYPES = [
     },
 ]
 
+APPEND_SLASH = False
+
 try:
     from protected_settings import *
 except ImportError: 

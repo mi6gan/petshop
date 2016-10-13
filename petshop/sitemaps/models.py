@@ -15,7 +15,8 @@ Product = get_model('catalogue', 'Product')
 @python_2_unicode_compatible
 class PageSitemapNode(SitemapNode):
 
-    page = models.OneToOneField(Page, related_name='sitemap_node')
+    page = models.OneToOneField(
+            Page, verbose_name=_('Page'), related_name='sitemap_node')
 
     @property
     def has_changes(self):
@@ -25,14 +26,15 @@ class PageSitemapNode(SitemapNode):
         return self.page.get_title()
 
     class Meta:
-        verbose_name = (_('CMS page sitemap options'))
-        verbose_name_plural = (_('CMS page sitemap options'))
+        verbose_name = (_('CMS page SEO options'))
+        verbose_name_plural = (_('CMS page SEO options'))
 
 
 @python_2_unicode_compatible
 class CategorySitemapNode(SitemapNode):
 
-    category = models.OneToOneField(Category, related_name='sitemap_node')
+    category = models.OneToOneField(
+            Category, verbose_name=_('Category'), related_name='sitemap_node')
 
     @property
     def has_changes(self):
@@ -44,5 +46,19 @@ class CategorySitemapNode(SitemapNode):
         return self.category.name
 
     class Meta:
-        verbose_name = (_('Catalogue category sitemap options'))
-        verbose_name_plural = (_('Catalogue category sitemap options'))
+        verbose_name = (_('catalogue category SEO options'))
+        verbose_name_plural = (_('catalogue category SEO options'))
+
+
+@python_2_unicode_compatible
+class CustomSitemapNode(SitemapNode):
+
+    has_changes = True
+
+    def __str__(self):
+        return self.location
+
+    class Meta:
+        verbose_name = (_('custom SEO entry'))
+        verbose_name_plural = (_('custom SEO entries'))
+        ordering = ['location']

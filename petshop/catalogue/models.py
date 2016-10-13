@@ -3,6 +3,7 @@ from oscar.apps.catalogue.abstract_models import AbstractProduct, AbstractCatego
 from easy_thumbnails.alias import aliases
 from easy_thumbnails.templatetags.thumbnail import thumbnail_url
 
+from django.db import models
 from django.db.models import Q
 
 
@@ -62,6 +63,7 @@ class Product(AbstractProduct):
 
 class Category(AbstractCategory):
     node_order_by = ['name']
+    meta_description = models.TextField(default='')
 
 
 from oscar.apps.catalogue.models import *  # noqa
