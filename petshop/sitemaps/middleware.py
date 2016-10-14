@@ -17,7 +17,7 @@ class SitemapNodeMiddleware(object):
             request.sitemap_node = current_page.sitemap_node
 
     def process_template_response(self, request, response):
-        ctx = response.context_data
+        ctx = getattr(response, 'context_data', None)
         if ctx:
             sitemap_node = getattr(request, 'sitemap_node', None)
             if sitemap_node:

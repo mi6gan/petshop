@@ -5,16 +5,17 @@ EMAIL_PORT=1025
 DEFAULT_FROM_EMAIL = 'localhost'
 
 CMS_CACHE_DURATIONS = {
-    'content': 30,
-    'menus': 30,
+    'content': 600,
+    'menus': 600,
     'permissions': 0
 }
-
+'''
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.dummy.DummyCache'
     }
 }
+'''
 
 DATABASES = {
     'default': {

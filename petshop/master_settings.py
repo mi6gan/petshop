@@ -42,7 +42,7 @@ STATICFILES_DIRS = (
 )
 
 CMS_CACHE_DURATIONS = {
-    'content': 0,
-    'menus': 0,
+    'content': 300,
+    'menus': 300,
     'permissions': 0
 }
