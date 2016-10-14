@@ -17,5 +17,6 @@ from cms.toolbar.items import LinkItem, SubMenu, URL_CHANGE
 class SEOToolbar(CMSToolbar):
 
     def populate(self):
-        user = self.request.user
-        menu = self.toolbar.get_or_create_menu(ADMIN_MENU_IDENTIFIER, 'SEO')
+        pass
+        # user = self.request.user
+        # menu = self.toolbar.get_or_create_menu('seo', 'SEO')

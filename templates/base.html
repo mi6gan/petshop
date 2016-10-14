@@ -1,11 +1,13 @@
 <!DOCTYPE HTML>
 <html>{% load i18n cms_tags sekizai_tags petshop_tags static menu_tags %}
 <head>
-<title>{{ request.site.name }} | {% block "title" %}{% page_attribute "page_title" %}{% endblock %}</title>
+<title>{% block title %}{% if sitemap_node and sitemap_node.page_title %}{{ sitemap_node.page_title }}{% else %}{{ request.site.name }}{% endif %}{% endblock %}</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scal=1.0, maximum-scale=2.0">
 <meta name="yandex-verification" content="fc3aa681a256f850" />
 <meta name="google-site-verification" content="t13M8pFVmds8p2iNdONeMGMx4ny-9fgxEQAOuWT47bg" />
+{% if sitemap_node %}{% if sitemap_node.meta_description %}<meta name="description" content="{{ sitemap_node.meta_description }}" />
+{% endif %}{% if sitemap_node.meta_keywords %}<meta name="keywords" content="{{ sitemap_node.meta_keywords }}" />{% endif %}{% endif %}
 <link rel="icon" href="{{ request.site.settings.favicon.thumb.url }}">
 <link href='https://fonts.googleapis.com/css?family=Roboto:400,700,400italic,700italic&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
 {% get_base_media as base_media %}{% render_block 'css' %}{% extend_media_block 'css' base_media %}

@@ -17,6 +17,19 @@ class PageSitemapNode(SitemapNode):
 
     page = models.OneToOneField(
             Page, verbose_name=_('Page'), related_name='sitemap_node')
+    meta_keywords = models.TextField(max_length=100, blank=True, null=True)
+
+    @property
+    def page_title(self):
+        title = self.page.title_set.first()
+        if title:
+            return title.page_title
+
+    @property
+    def meta_description(self):
+        title = self.page.title_set.first()
+        if title:
+            return title.meta_description
 
     @property
     def has_changes(self):
@@ -35,6 +48,18 @@ class CategorySitemapNode(SitemapNode):
 
     category = models.OneToOneField(
             Category, verbose_name=_('Category'), related_name='sitemap_node')
+
+    @property
+    def page_title(self):
+        return self.category.page_title
+
+    @property
+    def meta_description(self):
+        return self.category.meta_description
+
+    @property
+    def meta_keywords(self):
+        return self.category.meta_keywords
 
     @property
     def has_changes(self):

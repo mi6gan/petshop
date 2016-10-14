@@ -63,7 +63,9 @@ class Product(AbstractProduct):
 
 class Category(AbstractCategory):
     node_order_by = ['name']
-    meta_description = models.TextField(default='')
+    meta_description = models.TextField(max_length=100, blank=True, null=True)
+    meta_keywords = models.TextField(max_length=100, blank=True, null=True)
+    page_title = models.CharField(max_length=255, blank=True, null=True)
 
 
 from oscar.apps.catalogue.models import *  # noqa

@@ -2,6 +2,7 @@ Disallow: /accounts
 Disallow: /admin
 Disallow: /basket
 Disallow: /checkout
+Disallow: /catalogue/category/
 Disallow: /dashboard
 Disallow: /feedback
 Disallow: /jsi18n
