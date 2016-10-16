@@ -360,6 +360,8 @@ try:
 except ImportError: 
     from protected_settings_sample import *
 
+'''
 if DEBUG:
     INSTALLED_APPS += ['debug_toolbar']
     MIDDLEWARE_CLASSES += 'debug_toolbar.middleware.DebugToolbarMiddleware',
+'''

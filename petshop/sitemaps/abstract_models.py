@@ -1,4 +1,5 @@
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
@@ -34,6 +35,13 @@ class SitemapNode(models.Model):
                 MinValueValidator(D('0.0')), MaxValueValidator(D('1.0'))],
             default=D('0.8'))
     include = models.BooleanField(default=True)
+
+    def get_edit_url(self):
+        name = self.__class__.__name__.lower()
+        if self.pk:
+            return reverse('admin:sitemaps_%s_change' % name, args=[self.pk])
+        else:
+            return reverse('admin:sitemaps_%s_create' % name)
 
     @property
     def has_changes(self):
