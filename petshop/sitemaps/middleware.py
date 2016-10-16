@@ -26,7 +26,9 @@ class SitemapNodeMiddleware(object):
             request.sitemap_node, __ = (
                 PageSitemapNode.objects.get_or_create(
                     page=current_page,
-                    location=current_page.get_absolute_url()))
+                    defaults={
+                        'location': current_page.get_absolute_url()
+                    }))
             request.sitemap_node = current_page.sitemap_node
 
     def process_template_response(self, request, response):
