@@ -18,7 +18,7 @@ from cms.toolbar.items import LinkItem, SubMenu, URL_CHANGE
 class SEOToolbar(CMSToolbar):
 
     def populate(self):
-        sitemap_node = self.request.sitemap_node
+        sitemap_node = getattr(self.request, 'sitemap_node', None)
         if sitemap_node:
             url = sitemap_node.get_edit_url()
             if url:
