@@ -8,7 +8,6 @@ from oscar.core.loading import get_class
 
 from .cms_menus import CatalogueMenu
 
-
 app = get_class('catalogue.app', 'application')
 
 
